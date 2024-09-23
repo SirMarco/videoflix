@@ -49,7 +49,6 @@ class RegisterView(APIView):
             'token': account_activation_token.make_token(user),
         })
         send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
-
         return Response({'message': 'Überprüfe deine E-Mail, um deinen Account zu aktivieren.'}, status=status.HTTP_201_CREATED)
 
 
