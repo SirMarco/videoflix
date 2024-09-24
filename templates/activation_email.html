@@ -9,7 +9,7 @@
 <body>
   <p>Hallo {{ user.username }},</p>
   <p>Bitte klicke auf den unten stehenden Link, um deinen Account zu aktivieren:</p>
-  <p><a href="http://{{ domain }}/activate/{{ uid }}/{{ token }}">Aktiviere deinen Account</a></p>
+  <p><a href="{{activation_link}}">Aktiviere deinen Account</a></p>
   <p>Wenn du den Account nicht erstellt hast, ignoriere bitte diese E-Mail.</p>
 </body>
 

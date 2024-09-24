@@ -40,13 +40,12 @@ class RegisterView(APIView):
         user = User.objects.create_user(username=email, email=email, password=password)
         user.is_active = False
         user.save()
-        current_site = get_current_site(request)
+        activation_link = f"http://localhost:4200/activate/{user.pk}/{account_activation_token.make_token(user)}"
+
         mail_subject = 'Aktiviere deinen Account'
         message = render_to_string('activation_email.html', {
             'user': user,
-            'domain': current_site.domain,
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            'token': account_activation_token.make_token(user),
+            'activation_link': activation_link,  # Angular Link hier einfügen
         })
         send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
         return Response({'message': 'Überprüfe deine E-Mail, um deinen Account zu aktivieren.'}, status=status.HTTP_201_CREATED)
@@ -56,11 +55,10 @@ class RegisterView(APIView):
         # return Response({'token': token.key, 'user_id': user.pk, 'email': user.email, 'message': 'Benutzer erfolgreich registriert'}, status=status.HTTP_201_CREATED)    
     
 class ActivateView(APIView):
-    def get(self, request, uidb64, token):
+    def get(self, request, id, token):
         try:
             # Benutzer-ID dekodieren
-            uid = force_str(urlsafe_base64_decode(uidb64))
-            user = User.objects.get(pk=uid)
+            user = User.objects.get(pk=id)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
 
