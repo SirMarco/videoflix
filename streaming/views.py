@@ -83,6 +83,7 @@ class PasswordResetRequestView(APIView):
         token_generator = PasswordResetTokenGenerator()
 
         reset_link = f"http://localhost:4200/password-reset/{user.pk}/{token_generator.make_token(user)}"
+
         mail_subject = 'Passwort zurücksetzen'
         message = render_to_string('password_reset_email.html', {
             'user': user,
@@ -94,13 +95,13 @@ class PasswordResetRequestView(APIView):
     
 class PasswordResetConfirmView(APIView):
     def post(self, request, *args, **kwargs):
-        uidb64 = request.data.get('uid')
+        id = request.data.get('id')
         token = request.data.get('token')
         new_password = request.data.get('new_password')
 
         try:
             # uid = force_str(urlsafe_base64_decode(uidb64))
-            user = User.objects.get(user.pk)
+            user = User.objects.get(pk=id)
         except (User.DoesNotExist, ValueError, TypeError, OverflowError):
             return Response({'error': 'Ungültiger Benutzer.'}, status=status.HTTP_400_BAD_REQUEST)
 
