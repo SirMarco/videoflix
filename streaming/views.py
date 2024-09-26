@@ -16,6 +16,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from .tokens import account_activation_token
 from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 
 # Create your views here.
@@ -31,6 +32,7 @@ class LoginView(ObtainAuthToken):
             'user_id': user.pk,
             'email': user.email
         })
+    
 class RegisterView(APIView):
     def post(self, request, *args, **kwargs):
         email = request.data.get('email')
@@ -45,11 +47,15 @@ class RegisterView(APIView):
         activation_link = f"http://localhost:4200/activate/{user.pk}/{account_activation_token.make_token(user)}"
 
         mail_subject = 'Aktiviere deinen Account'
-        message = render_to_string('activation_email.html', {
+        text_content = f"Hallo {user.username},\n\nBitte klicke auf den unten stehenden Link, um deinen Account zu aktivieren:\n\n{activation_link}\n\nWenn du den Account nicht erstellt hast, ignoriere bitte diese E-Mail."
+
+        html_content = render_to_string('activation_email.html', {
             'user': user,
-            'activation_link': activation_link,  # Angular Link hier einfügen
+            'activation_link': activation_link, 
         })
-        send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+        msg = EmailMultiAlternatives(mail_subject, text_content, settings.DEFAULT_FROM_EMAIL, [email])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
         return Response({'message': 'Überprüfe deine E-Mail, um deinen Account zu aktivieren.'}, status=status.HTTP_201_CREATED)
 
 
@@ -85,11 +91,14 @@ class PasswordResetRequestView(APIView):
         reset_link = f"http://localhost:4200/password-reset/{user.pk}/{token_generator.make_token(user)}"
 
         mail_subject = 'Passwort zurücksetzen'
-        message = render_to_string('password_reset_email.html', {
+        text_content = f"Hallo {user.username},\n\nDu hast eine Anfrage zum Zurücksetzen deines Passworts gestellt. Klicke auf den folgenden Link, um dein Passwort zurückzusetzen:\n\n{reset_link}\n\nWenn du diese Anfrage nicht gestellt hast, ignoriere bitte diese E-Mail."
+        html_content  = render_to_string('password_reset_email.html', {
             'user': user,
             'reset_link': reset_link,
         })
-        send_mail(mail_subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+        msg = EmailMultiAlternatives(mail_subject, text_content, settings.DEFAULT_FROM_EMAIL, [email])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
 
         return Response({'message': 'Überprüfe deine E-Mail, um dein Passwort zurückzusetzen.'}, status=status.HTTP_200_OK)     
     
