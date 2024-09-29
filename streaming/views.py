@@ -29,7 +29,6 @@ from .serializers import VideoSerializer
 CACHE_TTL =getattr(settings, 'CACHETTL', DEFAULT_TIMEOUT)
 
 # Create your views here.
-# @cache_page(CACHE_TTL)
 
 # @cache_page(CACHE_TTL)
 class VideosView(APIView):
