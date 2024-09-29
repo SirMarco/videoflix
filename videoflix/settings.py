@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,6 +31,7 @@ ALLOWED_HOSTS = [
 ]
 CORS_ALLOWED_ORIGINS = ['http://localhost:4200',]
 
+CACHE_TTL = 60 * 15
 
 # Application definition
 
@@ -40,13 +42,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'streaming',
+    # Import Singnals from ContentConfig
+    'streaming.apps.StreamingConfig',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -55,6 +60,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+]
+
+INTERNAL_IPS = [
+    "127.0.0.1",
 ]
 
 CACHES = {
@@ -85,6 +95,10 @@ TEMPLATES = [
         },
     },
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 
 WSGI_APPLICATION = 'videoflix.wsgi.application'
 
