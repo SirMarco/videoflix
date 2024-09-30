@@ -1,4 +1,4 @@
-from streaming.tasks import convert_480p
+from streaming.tasks import convert_480p, generate_video_thumbnail
 from .models import Video
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
@@ -10,8 +10,10 @@ def video_post_save(sender, instance, created, **kwargs):
     if created:
         # convert video
         convert_480p(instance.video_file.path)
-        print('new video created')
-
+        thumbnail_relative_path = generate_video_thumbnail(instance.video_file.path, instance.id)
+        instance.thumbnail = thumbnail_relative_path
+        instance.save()
+        
 @receiver(post_delete, sender=Video)
 def video_post_delete(sender, instance, **kwargs):
 

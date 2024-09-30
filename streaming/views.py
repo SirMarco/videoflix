@@ -43,6 +43,9 @@ class VideoDetailView(APIView):
         serializer = VideoSerializer(video)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+
+
 class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,
