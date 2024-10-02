@@ -155,6 +155,34 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+VIDEO_ENCODINGS = [
+    {
+        'name': '1080p',
+        'params': ['-vf', 'scale=w=1920:h=1080:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
+        'ext': 'mp4'
+    },
+    {
+        'name': '720p',
+        'params': ['-vf', 'scale=w=1280:h=720:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
+        'ext': 'mp4'
+    },
+    {
+        'name': '480p',
+        'params': ['-vf', 'scale=w=854:h=480:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
+        'ext': 'mp4'
+    },
+    {
+        'name': '360p',
+        'params': ['-vf', 'scale=w=640:h=360:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
+        'ext': 'mp4'
+    },
+    {
+        'name': 'HLS',
+        'params': ['-hls_time', '4', '-hls_playlist_type', 'vod'],
+        'ext': 'm3u8'
+    },
+]
+
 
 # Email Activation
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

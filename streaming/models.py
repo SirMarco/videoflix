@@ -11,7 +11,8 @@ class Category(models.Model):
 class Video(models.Model):
     title = models.CharField(max_length=80)
     description = models.CharField(max_length=500)
-    video_file = models.FileField(upload_to = 'videos', blank = True, null =True)
+    video_file = models.FileField(upload_to='videos', blank=True, null=True)  # Original-Video
+    hls_playlist = models.FileField(blank=True, null=True)
     thumbnail = models.FileField(upload_to = 'thumbnails', blank=True, null=True)
     created_at = models.DateField(default=date.today)
      # Verknüpfung zur Kategorie

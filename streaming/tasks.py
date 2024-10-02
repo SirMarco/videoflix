@@ -2,41 +2,87 @@ import subprocess
 import os
 from django.conf import settings
 
+import subprocess
+import os
+
 def convert_to_hls(source, output_dir):
     """
-    Konvertiert das Quellvideo in mehrere Auflösungen und erzeugt eine HLS-Playlist.
+    https://www.botreetechnologies.com/blog/video-audio-transmuxing-into-hls-using-ffmpeg-hls-muxer-in-django/
+    Konvertiert ein Video in HLS-Segmente in verschiedenen Auflösungen und erstellt eine Master-Playlist (M3U8).
     
     :param source: Pfad zur Originalvideodatei
     :param output_dir: Zielverzeichnis für die HLS-Dateien
     """
-    # Erstelle das Ausgabe-Verzeichnis, wenn es nicht existiert
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    # Pfade für die Ausgabe der verschiedenen Auflösungen
+    # HLS für 1080p, 720p und 480p erstellen
+    resolutions = [
+        ("1280x720", "720p", "2000k"),
+        ("854x480", "480p", "1000k"),
+        ("640x360", "360p", "500k"),
+    ]
+
+    for res, name, bitrate in resolutions:
+        output_path = os.path.join(output_dir, f'{name}.m3u8')
+        segment_path = os.path.join(output_dir, f'{name}_%03d.ts')
+
+
+        # FFmpeg-Befehl für jede Auflösung
+        cmd = [
+            'ffmpeg', '-i', source,
+            '-vf', f'scale={res}:force_original_aspect_ratio=decrease',
+            '-c:a', 'aac', '-ar', '48000', '-c:v', 'h264', '-profile:v', 'main', '-crf', '20',
+            '-g', '48', '-keyint_min', '48',
+            '-hls_time', '4', '-hls_playlist_type', 'vod',
+            '-b:v', bitrate, '-maxrate', bitrate, '-bufsize', f'{int(bitrate[:-1]) * 2}k',
+            '-hls_segment_filename', segment_path, output_path
+        ]
+
+        # Führe den FFmpeg-Prozess aus
+        try:
+            subprocess.run(cmd, check=True)
+            print(f"HLS für {name} erstellt: {output_path}")
+        except subprocess.CalledProcessError as e:
+            print(f"Fehler bei der Konvertierung von {name}: {e}")
+
+    # Master-Playlist erstellen
     master_playlist_path = os.path.join(output_dir, 'master.m3u8')
-
-    cmd = f"""
-    ffmpeg -i "{source}" \
-    -vf "scale=w=1280:h=720:force_original_aspect_ratio=decrease" -c:a aac -ar 48000 -c:v h264 -profile:v main -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -hls_time 4 -hls_playlist_type vod -b:v 2000k -maxrate 2000k -bufsize 4000k -b:a 192k -hls_segment_filename "{output_dir}/720p_%03d.ts" "{output_dir}/720p.m3u8" \
-    -vf "scale=w=854:h=480:force_original_aspect_ratio=decrease" -c:a aac -ar 48000 -c:v h264 -profile:v main -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -hls_time 4 -hls_playlist_type vod -b:v 1000k -maxrate 1000k -bufsize 2000k -b:a 128k -hls_segment_filename "{output_dir}/480p_%03d.ts" "{output_dir}/480p.m3u8" \
-    -vf "scale=w=640:h=360:force_original_aspect_ratio=decrease" -c:a aac -ar 48000 -c:v h264 -profile:v main -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -hls_time 4 -hls_playlist_type vod -b:v 500k -maxrate 500k -bufsize 1000k -b:a 128k -hls_segment_filename "{output_dir}/360p_%03d.ts" "{output_dir}/360p.m3u8"
-    """
-
-    # Führe den FFmpeg-Befehl aus, um das Video in HLS-Format zu konvertieren
-    subprocess.run(cmd, shell=True, check=True)
-
-    # Erstelle die Master-Playlist (master.m3u8)
     with open(master_playlist_path, 'w') as f:
         f.write("#EXTM3U\n")
-        f.write("#EXT-X-STREAM-INF:BANDWIDTH=2000000,RESOLUTION=1280x720\n")
-        f.write("720p.m3u8\n")
-        f.write("#EXT-X-STREAM-INF:BANDWIDTH=1000000,RESOLUTION=854x480\n")
-        f.write("480p.m3u8\n")
-        f.write("#EXT-X-STREAM-INF:BANDWIDTH=500000,RESOLUTION=640x360\n")
-        f.write("360p.m3u8\n")
+        for _, name, _ in resolutions:
+            f.write(f"#EXT-X-STREAM-INF:BANDWIDTH={bitrate},RESOLUTION={name}\n")
+            f.write(f"{name}.m3u8\n")
+
+    print(f"Master-Playlist erstellt: {master_playlist_path}")
+    return master_playlist_path
+
+
+
+def convert_video_resolutions(source):
+    """
+    Konvertiert das Quellvideo in 1280p, 720p und 480p Auflösungen.
     
-    print(f"HLS-Konvertierung abgeschlossen und in {output_dir} gespeichert.")
+    :param source: Pfad zur Originalvideodatei
+    """
+    # Definiere die verschiedenen Auflösungen und die Dateinamen
+    resolutions = {
+        '1280p': '1280x720',
+        '720p': '1280x720',
+        '480p': '854x480',
+    }
+
+    for name, resolution in resolutions.items():
+        target = f"{os.path.splitext(source)[0]}_{name}.mp4"
+        cmd = f'ffmpeg -i "{source}" -vf "scale={resolution}:force_original_aspect_ratio=decrease" -c:v libx264 -crf 23 -c:a aac -strict -2 "{target}"'
+        
+        # Führe den FFmpeg-Befehl aus
+        try:
+            print(f"Konvertiere {name} Auflösung...")
+            subprocess.run(cmd, shell=True, check=True)
+            print(f"Erfolgreich konvertiert: {target}")
+        except subprocess.CalledProcessError as e:
+            print(f"Fehler bei der Konvertierung von {name}: {e}")
 
 def generate_video_thumbnail(source, video_id):
     thumbnail_dir = os.path.join(settings.MEDIA_ROOT, 'thumbnails')

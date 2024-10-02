@@ -15,6 +15,8 @@ urlpatterns = [
     path('api/v1/password-reset/confirm/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('api/v1/videos/', VideosView.as_view(), name='videos'),
     path('api/v1/videos/<int:video_id>/', VideoDetailView.as_view(), name='video_detail'),
+    # path('api/v1/media/', VideosView.as_view(), name='videos'),
+    # path('api/v1/media/<int:video_id>/', VideoDetailView.as_view(), name='video_detail'),
 
 ]   + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
