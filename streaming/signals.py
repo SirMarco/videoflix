@@ -2,6 +2,7 @@ from streaming.tasks import convert_video_resolutions, generate_video_thumbnail,
 from .models import Video
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
+from django.conf import settings
 import os
 
 @receiver(post_save, sender=Video)
@@ -27,13 +28,21 @@ def video_post_save(sender, instance, created, **kwargs):
         source = instance.video_file.path
         
         # Zielordner für HLS-Dateien
-        output_dir = os.path.join('hls', str(instance.id))
+        output_dir = os.path.join(settings.MEDIA_ROOT, 'hls', str(instance.id))
         
         # Starte die Konvertierung zu HLS
         master_playlist = convert_to_hls(source, output_dir)
         
-        # Speichere den Pfad zur Master-Playlist im Model
-        instance.hls_playlist = master_playlist
+        # Pfad, der in der Datenbank gespeichert wird (relativ zu MEDIA_URL)
+        hls_playlist_url = os.path.join('hls', str(instance.id), 'master.m3u8')
+
+        # Logge den Pfad, bevor er gespeichert wird
+        print(f"Generated HLS playlist URL: {hls_playlist_url}")
+        print(f"MEDIA_URL is: {settings.MEDIA_URL}")
+
+
+        # In der Datenbank speichern
+        instance.hls_playlist = hls_playlist_url
         instance.save()
         
 @receiver(post_delete, sender=Video)

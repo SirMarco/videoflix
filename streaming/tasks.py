@@ -13,13 +13,17 @@ def convert_to_hls(source, output_dir):
     :param source: Pfad zur Originalvideodatei
     :param output_dir: Zielverzeichnis für die HLS-Dateien
     """
+    output_dir = os.path.join(settings.MEDIA_ROOT, output_dir)
+
+    print('der source dir:' + source)
+    print('der output dir:' + output_dir)
+
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
     # HLS für 1080p, 720p und 480p erstellen
     resolutions = [
         ("1280x720", "720p", "2000k"),
-        ("854x480", "480p", "1000k"),
         ("640x360", "360p", "500k"),
     ]
 
