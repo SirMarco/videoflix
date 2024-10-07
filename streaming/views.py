@@ -24,6 +24,8 @@ from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from .models import Video
 from .serializers import VideoSerializer
 
+from django.utils.decorators import method_decorator
+
 
 
 CACHE_TTL = getattr(settings, 'CACHETTL', DEFAULT_TIMEOUT)
@@ -32,6 +34,7 @@ CACHE_TTL = getattr(settings, 'CACHETTL', DEFAULT_TIMEOUT)
 
 # @cache_page(CACHE_TTL)
 class VideosView(APIView):
+    @method_decorator(cache_page(CACHE_TTL))
     def get(self, request, *args, **kwargs):
         videos = Video.objects.all()  # Alle Videos abfragen
         serializer = VideoSerializer(videos, many=True)  # Serialisieren der Daten
