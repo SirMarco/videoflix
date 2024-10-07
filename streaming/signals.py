@@ -43,6 +43,8 @@ def video_post_save(sender, instance, created, **kwargs):
 
         # In der Datenbank speichern
         instance.hls_playlist = hls_playlist_url
+        thumbnail_relative_path = generate_video_thumbnail(instance.video_file.path, instance.id)
+        instance.thumbnail = thumbnail_relative_path
         instance.save()
         
 @receiver(post_delete, sender=Video)

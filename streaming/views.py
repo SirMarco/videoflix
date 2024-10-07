@@ -18,15 +18,15 @@ from .tokens import account_activation_token
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
-from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.views.decorators.cache import cache_page
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
 
 from .models import Video
 from .serializers import VideoSerializer
 
 
 
-CACHE_TTL =getattr(settings, 'CACHETTL', DEFAULT_TIMEOUT)
+CACHE_TTL = getattr(settings, 'CACHETTL', DEFAULT_TIMEOUT)
 
 # Create your views here.
 
@@ -37,14 +37,12 @@ class VideosView(APIView):
         serializer = VideoSerializer(videos, many=True)  # Serialisieren der Daten
         return Response(serializer.data)  # JSON-Antwort zurückgeben
 
+# @cache_page(CACHE_TTL)
 class VideoDetailView(APIView):
     def get(self, request, video_id, *args, **kwargs):
         video = get_object_or_404(Video, id=video_id)  # Holt ein Video oder gibt 404 zurück
         serializer = VideoSerializer(video)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-
 
 class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
