@@ -1,9 +1,11 @@
-from streaming.tasks import convert_video_resolutions, generate_video_thumbnail, convert_to_hls
+from streaming.tasks import generate_video_thumbnail, convert_to_hls
 from .models import Video
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 from django.conf import settings
 import os
+from django_rq import enqueue
+import django_rq
 
 @receiver(post_save, sender=Video)
 # def video_post_save(sender, instance, created, **kwargs):
@@ -31,7 +33,9 @@ def video_post_save(sender, instance, created, **kwargs):
         output_dir = os.path.join(settings.MEDIA_ROOT, 'hls', str(instance.id))
         
         # Starte die Konvertierung zu HLS
-        master_playlist = convert_to_hls(source, output_dir)
+        queue = django_rq.get_queue('default', autocommit=True)
+        queue.enqueue(convert_to_hls, source, output_dir)
+        # master_playlist = convert_to_hls(source, output_dir)
         
         # Pfad, der in der Datenbank gespeichert wird (relativ zu MEDIA_URL)
         hls_playlist_url = os.path.join('hls', str(instance.id), 'master.m3u8')

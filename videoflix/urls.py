@@ -8,6 +8,7 @@ from streaming.views import LoginView, PasswordResetConfirmView, PasswordResetRe
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('django-rq/', include('django_rq.urls')),
     path('api/v1/login/', LoginView.as_view(), name='login'),
     path('api/v1/register/', RegisterView.as_view(), name='register'),
     path('api/v1/activate/<int:id>/<str:token>/', ActivateView.as_view(), name='activate'),

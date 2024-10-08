@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    "debug_toolbar",
+    'debug_toolbar',
+    'django_rq',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +75,16 @@ CACHES = {
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },
         "KEY_PREFIX": "videoflix"
+    }
+}
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+        'PASSWORD': 'foobared',
+        'DEFAULT_TIMEOUT': 360,
     }
 }
 
