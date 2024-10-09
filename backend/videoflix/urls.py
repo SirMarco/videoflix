@@ -3,7 +3,6 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 from debug_toolbar.toolbar import debug_toolbar_urls
-
 from streaming.views import LoginView, PasswordResetConfirmView, PasswordResetRequestView, RegisterView, ActivateView, VideosView, VideoDetailView
 
 urlpatterns = [
@@ -18,9 +17,8 @@ urlpatterns = [
     path('api/v1/videos/<int:video_id>/', VideoDetailView.as_view(), name='video_detail'),
     # path('api/v1/media/', VideosView.as_view(), name='videos'),
     # path('api/v1/media/<int:video_id>/', VideoDetailView.as_view(), name='video_detail'),
+]   + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) + debug_toolbar_urls()
 
-]   + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
-
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]
+# if settings.DEBUG:
+#     import debug_toolbar
+#     urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]

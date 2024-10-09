@@ -4,7 +4,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 from django.conf import settings
 import os
-from django_rq import enqueue
+# from django_rq import enqueue
 import django_rq
 
 @receiver(post_save, sender=Video)
@@ -35,7 +35,7 @@ def video_post_save(sender, instance, created, **kwargs):
         # Starte die Konvertierung zu HLS
         queue = django_rq.get_queue('default', autocommit=True)
         queue.enqueue(convert_to_hls, source, output_dir)
-        # master_playlist = convert_to_hls(source, output_dir)
+        #master_playlist = convert_to_hls(source, output_dir)
         
         # Pfad, der in der Datenbank gespeichert wird (relativ zu MEDIA_URL)
         hls_playlist_url = os.path.join('hls', str(instance.id), 'master.m3u8')

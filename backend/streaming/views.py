@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -7,28 +7,21 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-
-from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes
 from .tokens import account_activation_token
-from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
-from django.views.decorators.cache import cache_page
+
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 
 from .models import Video
 from .serializers import VideoSerializer
 
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
-
-
-CACHE_TTL = getattr(settings, 'CACHETTL', DEFAULT_TIMEOUT)
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 # Create your views here.
 
@@ -42,6 +35,7 @@ class VideosView(APIView):
 
 # @cache_page(CACHE_TTL)
 class VideoDetailView(APIView):
+    @method_decorator(cache_page(CACHE_TTL))
     def get(self, request, video_id, *args, **kwargs):
         video = get_object_or_404(Video, id=video_id)  # Holt ein Video oder gibt 404 zurück
         serializer = VideoSerializer(video)

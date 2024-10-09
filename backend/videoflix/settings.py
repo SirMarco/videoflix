@@ -28,9 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'http://192.168.2.197:4200']
+CORS_ALLOWED_ORIGINS = ['http://localhost:4200']
 
-CACHE_TTL = 60 * 15
+CACHE_TTL = 90 * 15
 
 # Application definition
 
@@ -65,25 +65,26 @@ MIDDLEWARE = [
 
 INTERNAL_IPS = [
     "127.0.0.1",
+    "localhost"
 ]
 
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://localhost:6379/1",
+        "LOCATION": "redis://@redis:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },
-        "KEY_PREFIX": "videoflix"
+        "KEY_PREFIX": "videoflix",
     }
 }
 
 RQ_QUEUES = {
     'default': {
-        'HOST': 'localhost',
+        'HOST': 'redis',
         'PORT': 6379,
         'DB': 0,
-        'PASSWORD': 'foobared',
+        # 'PASSWORD': 'foobared',
         'DEFAULT_TIMEOUT': 360,
     }
 }
@@ -159,6 +160,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
