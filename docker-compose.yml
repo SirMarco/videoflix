@@ -20,7 +20,9 @@ services:
     image: "redis:latest"
     container_name: redis
     volumes:
-      - C:/00_DEV/videoflic_backend/redis.conf:/usr/local/etc/redis/redis.conf
+      - type: bind
+        source: ./redis.conf
+        target: /usr/local/etc/redis/redis.conf
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
     ports:
       - "6379:6379"
