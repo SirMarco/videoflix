@@ -100,8 +100,23 @@ def generate_video_thumbnail(source, video_id):
     thumbnail_dir = os.path.join(settings.MEDIA_ROOT, 'thumbnails')
     if not os.path.exists(thumbnail_dir):
         os.makedirs(thumbnail_dir) 
+    
     thumbnail_path = os.path.join(thumbnail_dir, f'{video_id}.jpg')
-    cmd = f'ffmpeg -i "{source}" -ss 00:00:01.000 -vframes 1 "{thumbnail_path}"'
-    subprocess.run(cmd)
 
-    return os.path.join('thumbnails', f'{video_id}.jpg')  # Pfad zurückgeben, damit dieser in der Datenbank gespeichert werden kann
+    # ffmpeg-Befehl als Liste an subprocess.run übergeben
+    cmd = [
+        'ffmpeg', '-i', source, 
+        '-ss', '00:00:01.000', 
+        '-vframes', '1', 
+        thumbnail_path
+    ]
+    
+    # subprocess.run ausführen
+    result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    # Fehlerbehandlung hinzufügen, falls ffmpeg fehlschlägt
+    if result.returncode != 0:
+        print(f"Fehler beim Erstellen des Thumbnails: {result.stderr.decode('utf-8')}")
+        raise Exception(f"FFmpeg failed: {result.stderr.decode('utf-8')}")
+
+    return os.path.join('thumbnails', f'{video_id}.jpg')  # Relativen Pfad zurückgeben
