@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Aktivierung deines Accounts</title>
+</head>
+<style>
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+</style>
+
+<body>
+  <div class="wrapper">
+    <img src="https://videoflix.marco-engelhardt.ch/logo.png" alt="Videoflix Logo" width="200" />
+    <p>Hallo {{ user.username }},</p>
+    <p>Bitte klicke auf den unten stehenden Link, um deinen Account zu aktivieren:</p>
+    <p><a href="{{activation_link}}">Aktiviere deinen Account</a></p>
+    <p>Wenn du den Account nicht erstellt hast, ignoriere bitte diese E-Mail.</p>
+  </div>
+</body>
+
+</html>
