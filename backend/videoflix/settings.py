@@ -28,9 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:4200']
+CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'http://localhost']
 
-CACHE_TTL = 90 * 15
+CACHE_TTL = 60 * 15
 
 # Application definition
 
@@ -110,9 +110,20 @@ TEMPLATES = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.1/howto/static-files/
+
+STATIC_URL = '/static/'
+
+# Hier speicherst du die gesammelten statischen Dateien
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Hier befinden sich die Entwicklungsstatischen Dateien
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 WSGI_APPLICATION = 'videoflix.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -156,11 +167,8 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

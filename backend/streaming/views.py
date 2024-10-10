@@ -27,7 +27,7 @@ CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 # @cache_page(CACHE_TTL)
 class VideosView(APIView):
-    @method_decorator(cache_page(CACHE_TTL))
+    # @method_decorator(cache_page(CACHE_TTL))
     def get(self, request, *args, **kwargs):
         videos = Video.objects.all()  # Alle Videos abfragen
         serializer = VideoSerializer(videos, many=True)  # Serialisieren der Daten
@@ -35,7 +35,7 @@ class VideosView(APIView):
 
 # @cache_page(CACHE_TTL)
 class VideoDetailView(APIView):
-    @method_decorator(cache_page(CACHE_TTL))
+    # @method_decorator(cache_page(CACHE_TTL))
     def get(self, request, video_id, *args, **kwargs):
         video = get_object_or_404(Video, id=video_id)  # Holt ein Video oder gibt 404 zurück
         serializer = VideoSerializer(video)
