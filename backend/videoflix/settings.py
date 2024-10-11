@@ -114,14 +114,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
-# Hier speicherst du die gesammelten statischen Dateien
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# Hier befinden sich die Entwicklungsstatischen Dateien
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
 
 WSGI_APPLICATION = 'videoflix.wsgi.application'
 

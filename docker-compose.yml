@@ -2,14 +2,13 @@ version: "3"
 
 services:
   backend:
+    container_name: backend
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: backend
     volumes:
       - ./backend:/usr/src/app
       - ./backend/static:/usr/src/app/static
-      - ./backend/staticfiles:/usr/src/app/staticfiles
     working_dir: /usr/src/app
     ports:
       - "8000:8000"
@@ -19,7 +18,7 @@ services:
       - app-network
     environment:
       - DJANGO_SETTINGS_MODULE=videoflix.settings
-    command: bash -c "python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python manage.py migrate --no-input && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
 
   redis:
     image: "redis:latest"
@@ -55,7 +54,7 @@ services:
     volumes:
       - ./nginx-config/default.conf:/etc/nginx/conf.d/default.conf
       - ./frontend/dist/frontend_videoflix/browser:/usr/share/nginx/html # Kopiere das gebaute Angular-Frontend hierhin
-      - static:/usr/src/app/static
+      - ./backend/staticfiles:/usr/src/app/staticfiles
     ports:
       - "80:80"
     networks:
@@ -69,9 +68,6 @@ services:
     networks:
       - app-network
     # command: sh -c "npm install && npm run build"
-
-volumes:
-  static:
 
 networks:
   app-network:
