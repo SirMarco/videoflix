@@ -14,10 +14,13 @@ RUN npm install
 COPY . .
 
 # Baue das Angular-Projekt
-RUN npm run build
+RUN npm run build && echo "Build finished successfully."
+
+RUN sleep 100  # Fügt eine Pause von 10 Sekunden nach dem Build-Prozess ein
 
 # Nginx Image für die Bereitstellung der gebauten Angular-App
 FROM nginx:alpine
+
 
 # Leere das Nginx-HTML-Verzeichnis vor dem Kopieren
 RUN rm -rf /usr/share/nginx/html/*
