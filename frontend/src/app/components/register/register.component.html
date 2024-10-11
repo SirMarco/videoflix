@@ -1,0 +1,51 @@
+<div class="wrapper">
+    <span class="fs-48-700 purple">Sign Up</span>
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <div>
+            <input class="input-field purple" id="email" type="email" formControlName="email"
+                placeholder="EMail Address" />
+
+            <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                <small *ngIf="registerForm.get('email')?.hasError('invalidEmail')">Invalid Email adresse</small>
+            </div>
+        </div>
+        <div>
+            <div class="input-container">
+                <input class="input-field purple" id="password" [type]="showPassword ? 'text' : 'password'"
+                    formControlName="password" placeholder="Password" />
+                <div class="toggle-password" (click)="togglePasswordVisibility()"
+                    [ngClass]="showPassword ? 'close-eye' : 'open-eye'"></div>
+            </div>
+            <div>
+                <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                    <small *ngIf="registerForm.get('password')?.errors?.['required']">Passwort is required</small>
+                    <small *ngIf="registerForm.get('password')?.errors?.['minlength']">
+                        Password must be at least 6 characters long
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="input-container">
+                <input class="input-field purple" id="confirmPassword" [type]="showPassword ? 'text' : 'password'"
+                    formControlName="confirmPassword" placeholder="Confirm password" />
+                <div class="toggle-password" (click)="togglePasswordVisibility()"
+                    [ngClass]="showPassword ? 'close-eye' : 'open-eye'"></div>
+            </div>
+            <div>
+                <div
+                    *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
+                    <small *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Passwort is
+                        required</small>
+                    <small *ngIf="registerForm.get('confirmPassword')?.errors?.['minlength']">
+                        Password must be at least 6 characters long
+                    </small>
+                    <small *ngIf="registerForm.get('confirmPassword')?.errors?.['confirmPassword']">
+                        Passwords do not match
+                    </small>
+                </div>
+            </div>
+        </div>
+        <button class="button" type="submit" [disabled]="registerForm.invalid">Get Started</button>
+    </form>
+</div>

@@ -1,0 +1,39 @@
+<section>
+    <div class="intro" *ngIf="randomVideo" [ngStyle]="{'background': 'linear-gradient(180deg, #000000 -19.89%, rgba(0, 0, 0, 0.15) 40.46%, #000000 100%), url(' + getFullThumbnailUrl(randomVideo.thumbnail) + ')',
+                'background-size': 'cover',
+                'background-position': 'center',
+                'background-repeat': 'no-repeat',
+                'max-height': '45vh'}">
+        <div class="videoDescription">
+            <span class="fs-88-700 randomTitle white">{{ randomVideo.title }}</span>
+            <span class="fs-16 white">{{ randomVideo.description }}</span>
+            <button class="button" [routerLink]="['/video', randomVideo.id]">
+                <img src="../../../assets/img/play.svg" alt="Play icon" /> Play
+            </button>
+
+
+        </div>
+        <!-- <img [src]="getFullThumbnailUrl(randomVideo.thumbnail)" alt="{{ randomVideo.title }} thumbnail" /> -->
+    </div>
+    <div class="categoryOverview">
+        <div class="category">
+            <div *ngFor="let category of getCategories(); let i = index">
+                <div class="categoryName white">
+                    <h3>{{ category }}</h3>
+                </div>
+                <div class="catergoryMovies white"
+                    *ngIf="getVideosByCategory(category) && getVideosByCategory(category).length > 0">
+                    <div *ngFor="let video of getVideosByCategory(category); let j = index">
+                        <div class="catergoryMovies white">
+                            <a [routerLink]="['/video', video?.id]">
+                                <img [src]="getFullThumbnailUrl(video.thumbnail)" alt="video thumbnail">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-video-player *ngIf="showPlayer" class="border-red"
+        [videoSrc]="pictureUrl + randomVideo?.video_file"></app-video-player>
+</section>

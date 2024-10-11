@@ -1,0 +1,37 @@
+<div class="wrapper border-green">
+    <span class="fs-48-700 purple">Log In</span>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div>
+            <input class="input-field purple" id="email" type="email" formControlName="email"
+                placeholder="EMail Address" />
+            <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                <small *ngIf="loginForm.get('email')?.hasError('invalidEmail')">Invalid Email adresse</small>
+            </div>
+        </div>
+        <div>
+            <div class="input-container">
+                <input class="input-field purple" id="password" type="{{ showPassword ? 'text' : 'password' }}"
+                    formControlName="password" placeholder="Password" />
+                <div class="toggle-password" (click)="togglePasswordVisibility()"
+                    [ngClass]="showPassword ? 'close-eye' : 'open-eye'"></div>
+            </div>
+            <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                <small *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</small>
+                <small *ngIf="loginForm.get('password')?.errors?.['minlength']">
+                    Password must be at least 6 characters long
+                </small>
+            </div>
+        </div>
+        <div class="black">
+            <input type="checkbox" id="rememberMe" formControlName="rememberMe" />
+            Remember me
+        </div>
+        <button class="button" type="submit" [disabled]="loginForm.invalid"
+            [ngClass]="{'invalid-button': loginForm.invalid}">Login</button>
+    </form>
+    <span class="fs-18-700 purple link" routerLink="/resetpassword">Forgot password?</span>
+    <div class="signUp">
+        <span class="fs-18-700 black">New to Videoflix?</span>
+        <span class="fs-18-700 purple link" routerLink="/register">Sign Up now</span>
+    </div>
+</div>

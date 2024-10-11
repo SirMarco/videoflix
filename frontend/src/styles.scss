@@ -1,0 +1,182 @@
+@import "../src/mixins.scss";
+// regular style toast
+@import "ngx-toastr/toastr";
+@import "video.js/dist/video-js.css";
+
+// boostrap 5
+:root {
+  --white: #ffffff;
+  --purple: #2e3edf;
+  --lightpurple: #969fef;
+  --red: #ff002e;
+  --black: black;
+  --green: green;
+}
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "DM Sans";
+}
+
+// html,
+// body {
+//   height: 100%;
+// }
+
+@font-face {
+  font-display: swap;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/dm-sans-v15-latin-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/dm-sans-v15-latin-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/dm-sans-v15-latin-700.woff2") format("woff2");
+}
+
+.fs-18 {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.fs-18-500 {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.fs-18-700 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.fs-24 {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.fs-24-500 {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.fs-48 {
+  font-size: 48px;
+  font-weight: 400;
+}
+
+.fs-48-700 {
+  font-size: 48px;
+  font-weight: 700;
+}
+.fs-88-700 {
+  font-size: 88px;
+  font-weight: 700;
+}
+
+.purple {
+  color: var(--purple);
+}
+
+.black {
+  color: var(--black);
+}
+
+.white {
+  color: var(--white);
+}
+
+.green {
+  color: var(--green);
+}
+
+.red {
+  color: var(--red);
+}
+
+.button {
+  @include dFlex(center, center, row);
+  color: var(--white);
+  font-size: 18px;
+  font-weight: 700;
+  background-color: var(--purple);
+  border-radius: 40px;
+  border: unset;
+  padding: 12px 24px;
+  flex-shrink: 0;
+  outline: unset;
+  cursor: pointer;
+}
+
+.invalid-button {
+  background-color: var(--lightpurple);
+  color: white;
+}
+
+.link {
+  cursor: pointer;
+}
+
+.linkText {
+  color: var(--white);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--purple);
+  }
+
+  &.active {
+    color: var(--purple);
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 100%;
+      height: 2px;
+      background-color: var(--purple);
+    }
+  }
+}
+
+.border-blue {
+  border: 3spx solid blue;
+}
+.border-red {
+  border: 3px solid red;
+}
+.border-green {
+  border: 3px solid green;
+}
+.border-white {
+  border: 3px solid white;
+}
+
+.yourclass {
+  position: relative;
+  background-color: blue !important; // Hintergrundfarbe ändern
+  color: white !important; // Textfarbe ändern
+  border-radius: 8px !important; // Abgerundete Ecken
+  box-shadow: unset;
+}
+
+.yourclass .toast-close-button {
+  position: absolute;
+  top: 33%; /* Vertikal zentriert */
+  right: 10px; /* Von der linken Seite */
+}

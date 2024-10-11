@@ -1,0 +1,12 @@
+@mixin dFlex($jc, $ai, $fc, $g: 0px) {
+    display: flex;
+    justify-content: $jc;
+    align-items: $ai;
+    flex-direction: $fc;
+    gap: $g;
+}
+
+@mixin border($b, $c, $r) {
+    border: $b solid $c;
+    border-radius: $r;
+}

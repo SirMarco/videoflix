@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1080" height="1080" viewBox="0 0 1080 1080" xml:space="preserve">
+<g transform="matrix(1 0 0 1 540 540)" id="53471b9f-1a5d-498d-a4b7-c47520c640f5"  >
+<path style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-480, 487)" d="M 480 -120 L 422 -172 Q 321 -263 255 -329 Q 189 -395 150 -447.5 Q 111 -500 95.5 -544 Q 80 -588 80 -634 Q 80 -728 143 -791 Q 206 -854 300 -854 Q 352 -854 399 -832 Q 446 -810 480 -770 Q 514 -810 561 -832 Q 608 -854 660 -854 Q 754 -854 817 -791 Q 880 -728 880 -634 Q 880 -588 864.5 -544 Q 849 -500 810 -447.5 Q 771 -395 705 -329 Q 639 -263 538 -172 L 480 -120 Z M 480 -228 Q 576 -314 638 -375.5 Q 700 -437 736 -482.5 Q 772 -528 786 -563.5 Q 800 -599 800 -634 Q 800 -694 760 -734 Q 720 -774 660 -774 Q 613 -774 573 -747.5 Q 533 -721 518 -680 L 442 -680 Q 427 -721 387 -747.5 Q 347 -774 300 -774 Q 240 -774 200 -734 Q 160 -694 160 -634 Q 160 -599 174 -563.5 Q 188 -528 224 -482.5 Q 260 -437 322 -375.5 Q 384 -314 480 -228 Z M 480 -501 Z" stroke-linecap="round" />
+</g>
+<g transform="matrix(5.48 0 0 5.48 387.95 429.03)" id="bc79a5e0-d763-49a1-a14a-a6cca3a0c1f7"  >
+<circle style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  cx="0" cy="0" r="35" />
+</g>
+<g transform="matrix(5.48 0 0 5.48 712.77 429.06)" id="bc79a5e0-d763-49a1-a14a-a6cca3a0c1f7"  >
+<circle style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  cx="0" cy="0" r="35" />
+</g>
+<g transform="matrix(5.48 0 0 5.48 540 616.36)" id="bc79a5e0-d763-49a1-a14a-a6cca3a0c1f7"  >
+<circle style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  cx="0" cy="0" r="35" />
+</g>
+</svg>

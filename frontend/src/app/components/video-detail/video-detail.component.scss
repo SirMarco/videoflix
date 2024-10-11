@@ -1,0 +1,17 @@
+@import "../../../mixins.scss";
+
+.video-detail {
+  @include dFlex(center, center, column, 16px);
+}
+.title {
+  text-align: left;
+  padding: 0 16px;
+  width: 100%;
+}
+.description {
+  max-width: 990px;
+}
+
+media-player {
+  max-width: 990px;
+}

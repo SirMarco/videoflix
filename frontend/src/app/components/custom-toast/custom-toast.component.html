@@ -1,0 +1,5 @@
+<div class="toast" *ngIf="isVisible">
+  <div class="warn" [ngClass]="status"></div>
+  <span class="message">{{ message }}</span>
+  <button (click)="close()">X</button>
+</div>

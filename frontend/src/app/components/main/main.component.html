@@ -1,0 +1,12 @@
+<section>
+    <div class="headline white">
+        <span class="fs-48-700">Movies, TV shows, and more</span>
+        <span class="fs-24-500">Watch whenever you want wherever you want</span>
+        <span class="fs-18">Enter your email to create or restart your subscription.</span>
+    </div>
+    <div class="register">
+        <input class="fs-18 white" type="email" placeholder="Email Address" [(ngModel)]="email" name="email">
+        <div class="button fs-18" (click)="navigateToRegister()">Sign Up</div>
+    </div>
+    <small *ngIf="emailError" class="fs-18 error-message">{{ emailError }}</small>
+</section>

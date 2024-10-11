@@ -1,0 +1,45 @@
+@import "../../../mixins.scss";
+.toast {
+  position: fixed;
+  @include dFlex(space-between, center, row, 8px);
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--purple);
+  color: white;
+  border-radius: 8px;
+  width: 300px;
+  height: 60px;
+  overflow: hidden;
+  outline: unset;
+}
+
+.warn {
+  height: 100%;
+  width: 30px;
+  border-radius: 8px 0 0 8px;
+  background-color: red;
+}
+
+.message {
+}
+
+button {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.warn.error {
+  background-color: red;
+}
+
+.warn.success {
+  background-color: green;
+}
+
+.warn.info {
+  background-color: blue;
+}

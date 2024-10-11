@@ -1,0 +1,45 @@
+@import "../../../mixins.scss";
+section {
+  max-width: 650px;
+  margin: 0 auto;
+}
+.headline {
+  @include dFlex(center, center, column, 24px);
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.register {
+  @include dFlex(center, center, row, 16px);
+  margin-bottom: 8px;
+  > input {
+    @include border(1px, white, 40px);
+    width: 100%;
+    padding: 12px 24px;
+    background-color: transparent;
+    &::placeholder {
+      color: var(--white);
+      opacity: 1;
+    }
+    &::-webkit-input-placeholder {
+      color: var(--white);
+      opacity: 1;
+    }
+    &::-moz-placeholder {
+      color: var(--white);
+      opacity: 1;
+    }
+    &::-ms-input-placeholder {
+      color: var(--white);
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    @include dFlex(center, center, column, 16px);
+  }
+}
+
+.error-message {
+  color: red;
+}
