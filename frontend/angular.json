@@ -24,21 +24,13 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": [ "node_modules/video.js/dist/video-js.css","node_modules/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.css","src/styles.scss", "src/mixins.scss"],
-            "scripts": ["node_modules/video.js/dist/video.js", "node_modules/videojs-http-source-selector/dist/videojs-http-source-selector.js"],
-            "allowedCommonJsDependencies": [
-              "videojs-contrib-quality-levels",
-              "videojs-hls-quality-selector",
-              "global/window",
-              "global/document",
-              "@videojs/xhr",
-              "videojs-vtt.js",
-              "mux.js/lib/tools/parse-sidx",
-              "mux.js/lib/utils/clock",
-              "url-toolkit",
-              "@xmldom/xmldom"
-            ]
-
+            "styles": [
+              "src/styles.scss",
+              "src/mixins.scss",
+              "./node_modules/vidstack/player/styles/base.css",
+              "./node_modules/vidstack/player/styles/plyr/theme.css"
+            ],
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -95,8 +87,16 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": [ "node_modules/video.js/dist/video-js.css","node_modules/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.css","src/styles.scss", "src/mixins.scss"],
-            "scripts": ["node_modules/video.js/dist/video.js", "node_modules/videojs-http-source-selector/dist/videojs-http-source-selector.js"]
+            "styles": [
+              "node_modules/video.js/dist/video-js.css",
+              "node_modules/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.css",
+              "src/styles.scss",
+              "src/mixins.scss"
+            ],
+            "scripts": [
+              "node_modules/video.js/dist/video.js",
+              "node_modules/videojs-http-source-selector/dist/videojs-http-source-selector.js"
+            ]
           }
         }
       }
