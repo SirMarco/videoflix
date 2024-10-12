@@ -23,7 +23,7 @@ FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # Kopiere die gebauten Dateien in das Nginx-Verzeichnis
-# COPY --from=build /usr/src/app/dist/frontend_videoflix/browser /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/frontend_videoflix/browser /usr/share/nginx/html
 
 # Exponiere den Port
 EXPOSE 80

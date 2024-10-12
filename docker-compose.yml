@@ -15,10 +15,15 @@ services:
       - "8000:8000"
     depends_on:
       - redis
+      - postgres
     networks:
       - app-network
     environment:
       - DJANGO_SETTINGS_MODULE=videoflix.settings
+      - POSTGRES_DB=videoflix_db
+      - POSTGRES_USER=videoflix_user
+      - POSTGRES_PASSWORD=videoflix_password
+      - POSTGRES_HOST=postgres
     command: bash -c "python manage.py migrate --no-input && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
 
   redis:
@@ -27,6 +32,20 @@ services:
     command: ["redis-server"]
     ports:
       - "6379:6379"
+    networks:
+      - app-network
+
+  postgres:
+    image: "postgres:17"
+    container_name: postgres
+    environment:
+      POSTGRES_DB: videoflix_db
+      POSTGRES_USER: videoflix_user
+      POSTGRES_PASSWORD: videoflix_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     networks:
       - app-network
 
@@ -41,6 +60,7 @@ services:
     command: python manage.py rqworker default
     depends_on:
       - redis
+      - postgres
     networks:
       - app-network
     environment:
@@ -70,6 +90,10 @@ services:
   #   networks:
   #     - app-network
   #   # command: sh -c "npm install && npm run build"
+
+volumes:
+  postgres_data: # PostgreSQL-Datenvolumen für persistente Daten
+    driver: local
 
 networks:
   app-network:

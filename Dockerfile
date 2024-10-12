@@ -2,9 +2,9 @@ FROM python:3
 
 WORKDIR /usr/src/app
 
-RUN apt-get update && apt-get install -y ffmpeg
+RUN apt-get update && apt-get install -y ffmpeg && apt-get install build-dep python-psycopg2
 
-COPY requirements.txt ./
+COPY /backend/requirements.txt ./
 RUN /usr/local/bin/python -m pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 

@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  nginx-demo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nginx-demo
+    ports:
+      - "88:80"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
