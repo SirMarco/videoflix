@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild(VideoPlayerComponent) videoPlayer!: VideoPlayerComponent;
   player: any;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.getAllVideos();
@@ -68,7 +68,8 @@ export class DashboardComponent implements OnInit {
   }
 
   getFullThumbnailUrl(thumbnail: string): string {
-    return environment.pictureUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
+    // return environment.pictureUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
+    return thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
   }
 
   getVideosByCategory(category: string): Video[] {

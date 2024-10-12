@@ -26,7 +26,7 @@
                     <div *ngFor="let video of getVideosByCategory(category); let j = index">
                         <div class="catergoryMovies white">
                             <a [routerLink]="['/video', video?.id]">
-                                <img [src]="getFullThumbnailUrl(video.thumbnail)" alt="video thumbnail">
+                                <img [src]="video.thumbnail" alt="video thumbnail">
                             </a>
                         </div>
                     </div>

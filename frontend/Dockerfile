@@ -2,7 +2,7 @@
 FROM node:20 AS build
 
 # Setze das Arbeitsverzeichnis
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Kopiere package.json und package-lock.json ins Arbeitsverzeichnis
 COPY package*.json ./
@@ -16,17 +16,14 @@ COPY . .
 # Baue das Angular-Projekt
 RUN npm run build && echo "Build finished successfully."
 
-RUN sleep 100  # Fügt eine Pause von 10 Sekunden nach dem Build-Prozess ein
-
 # Nginx Image für die Bereitstellung der gebauten Angular-App
 FROM nginx:alpine
-
 
 # Leere das Nginx-HTML-Verzeichnis vor dem Kopieren
 RUN rm -rf /usr/share/nginx/html/*
 
 # Kopiere die gebauten Dateien in das Nginx-Verzeichnis
-COPY --from=build /app/dist/frontend_videoflix/browser /usr/share/nginx/html
+# COPY --from=build /usr/src/app/dist/frontend_videoflix/browser /usr/share/nginx/html
 
 # Exponiere den Port
 EXPOSE 80
