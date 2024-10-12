@@ -129,11 +129,11 @@ WSGI_APPLICATION = 'videoflix.wsgi.application'
 # }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'videoflix_db',
-        'USER': 'videoflix_user',
-        'PASSWORD': 'videoflix_password',
-        'HOST': 'postgres',  # Name des PostgreSQL-Containers im Compose-Setup
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'postgres',
         'PORT': '5432',
     }
 }
