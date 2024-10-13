@@ -6,4 +6,4 @@ class VideoSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Video
-        fields = ['id', 'title', 'slug', 'description', 'video_file', 'hls_playlist','thumbnail', 'created_at', 'categories', 'status']  # Felder, die du serialisieren möchtest
+        fields = ['id', 'title', 'slug', 'description', 'video_file', 'hls_playlist','thumbnail', 'created_at', 'categories', 'status', 'progress']  # Felder, die du serialisieren möchtest

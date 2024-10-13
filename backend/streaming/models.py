@@ -20,6 +20,7 @@ class Video(models.Model):
      # Verknüpfung zur Kategorie
     categories = models.ManyToManyField(Category, related_name='videos')
     status = models.CharField(max_length=10, default='pending')
+    progress = models.FloatField(default=0.0)  # Position in Sekunden
 
 
 
