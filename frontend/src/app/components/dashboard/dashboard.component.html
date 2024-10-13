@@ -25,8 +25,12 @@
                     *ngIf="getVideosByCategory(category) && getVideosByCategory(category).length > 0">
                     <div *ngFor="let video of getVideosByCategory(category); let j = index">
                         <div class="catergoryMovies white">
-                            <a [routerLink]="['/video', video?.id]">
-                                <img [src]="video.thumbnail" alt="video thumbnail">
+                            <p *ngIf="(uploadStatus | async)?.[j] === 'Uploading'" class="uploadStatus fs-18-700 white">
+                                Uploading...
+                            </p>
+                            <a [routerLink]="['/video', video?.slug]"
+                                [class.disabled]="(uploadStatus | async)?.[j] === 'Uploading'">
+                                <img [src]="mediaUrl + video.thumbnail" alt="video thumbnail">
                             </a>
                         </div>
                     </div>

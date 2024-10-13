@@ -4,6 +4,9 @@ import { Video } from '../../interfaces/video.interface';
 import { CommonModule } from '@angular/common';
 import { VideoPlayerComponent } from '../video-player/video-player.component';
 import { RouterLink } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -15,19 +18,24 @@ import { RouterLink } from '@angular/router';
 export class DashboardComponent implements OnInit {
   url = environment.baseUrl + '/videos';
   pictureUrl = environment.pictureUrl;
+  mediaUrl = environment.mediaUrl
   videos: Video[] = [];
   randomVideo: Video | null = null;
   groupedVideos: { [category: string]: Video[] } = {};
 
   showPlayer: boolean = false;
+  uploadStatus = new BehaviorSubject<string[]>([]);
+
 
   @ViewChild(VideoPlayerComponent) videoPlayer!: VideoPlayerComponent;
   player: any;
 
-  constructor() {}
+  constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.getAllVideos();
+    console.log(this.videos);
+
   }
 
   getAllVideos() {
@@ -37,10 +45,43 @@ export class DashboardComponent implements OnInit {
         this.videos = data;
         this.groupVideosByCategory();
         this.selectRandomVideo();
-        console.log(this.videos);
+        const initialStatus = this.videos.map(video => video.status || 'Uploading');
+        this.uploadStatus.next(initialStatus);
+        this.initializeWebSocket();
+
       })
       .catch((error) => console.error('Error' + error));
   }
+
+  initializeWebSocket() {
+    const socket = new WebSocket('ws://localhost/ws/conversion-status/');
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log("Nachricht vom WebSocket erhalten: ", data);
+      console.log("Empfangene Slug:", data.slug);
+      console.log("Nachricht vom WebSocket erhalten: ", data);
+      const videoIndex = this.videos.findIndex(video => video.slug === data.slug);
+      console.log("Video Index:", videoIndex);
+      if (videoIndex !== -1) {
+        console.log('yes, video found');
+        const currentStatus = this.uploadStatus.value;
+        currentStatus[videoIndex] = data.status;
+        this.uploadStatus.next(currentStatus);
+      } else {
+        console.log('no, video not found');
+      }
+
+    };
+
+    socket.onerror = (error) => {
+      console.error('WebSocket Fehler:', error);
+    };
+
+    socket.onclose = (event) => {
+      console.log('WebSocket Verbindung geschlossen:', event);
+    };
+  }
+
 
   // Funktion, um Videos nach Kategorien zu gruppieren
   groupVideosByCategory() {
@@ -52,7 +93,6 @@ export class DashboardComponent implements OnInit {
         this.groupedVideos[category].push(video);
       });
     });
-    console.log(this.groupedVideos); // Prüfe die gruppierten Videos
   }
 
   selectRandomVideo() {
@@ -69,7 +109,7 @@ export class DashboardComponent implements OnInit {
 
   getFullThumbnailUrl(thumbnail: string): string {
     // return environment.pictureUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
-    return thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
+    return this.mediaUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
   }
 
   getVideosByCategory(category: string): Video[] {

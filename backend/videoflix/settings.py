@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'debug_toolbar',
     'django_rq',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -78,6 +79,16 @@ CACHES = {
         "KEY_PREFIX": "videoflix",
     }
 }
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('redis', 6379)],
+        },
+    },
+}
+
 
 RQ_QUEUES = {
     'default': {
@@ -117,6 +128,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
 
 WSGI_APPLICATION = 'videoflix.wsgi.application'
+ASGI_APPLICATION = 'videoflix.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

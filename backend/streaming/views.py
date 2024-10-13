@@ -36,8 +36,8 @@ class VideosView(APIView):
 # @cache_page(CACHE_TTL)
 class VideoDetailView(APIView):
     #@method_decorator(cache_page(CACHE_TTL))
-    def get(self, request, video_id, *args, **kwargs):
-        video = get_object_or_404(Video, id=video_id)  # Holt ein Video oder gibt 404 zurück
+    def get(self, request, video_slug, *args, **kwargs):
+        video = get_object_or_404(Video, slug=video_slug)  # Holt ein Video oder gibt 404 zurück
         serializer = VideoSerializer(video)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

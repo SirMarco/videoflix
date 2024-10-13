@@ -1,11 +1,6 @@
 @import "../mixins.scss";
 section {
-  background: linear-gradient(
-      180deg,
-      #000000 -19.89%,
-      rgba(0, 0, 0, 0.55) 40.46%,
-      #000000 100%
-    ),
+  background: linear-gradient(180deg, #000000 -19.89%, rgba(0, 0, 0, 0.55) 40.46%, #000000 100%),
     url("../assets/img/bg_landing.png");
   background-repeat: no-repeat;
   background-position: center top;

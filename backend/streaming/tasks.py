@@ -1,8 +1,11 @@
 import subprocess
 import os
 from django.conf import settings
+from .models import Video
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
-def convert_to_hls(source, output_dir):
+def convert_to_hls(source, output_dir, video_id):
     """
     Konvertiert ein Video in HLS-Segmente in verschiedenen Auflösungen und erstellt eine Master-Playlist (M3U8).
     
@@ -10,10 +13,6 @@ def convert_to_hls(source, output_dir):
     :param output_dir: Zielverzeichnis für die HLS-Dateien
     """
     output_dir = os.path.join(settings.MEDIA_ROOT, output_dir)
-
-    print('der source dir:' + source)
-    print('der output dir:' + output_dir)
-
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
@@ -50,7 +49,7 @@ def convert_to_hls(source, output_dir):
                 '-hls_segment_filename', segment_path, output_path
             ]
 
-        # Führe den FFmpeg-Prozess aus
+
         try:
             subprocess.run(cmd, check=True)
             print(f"HLS für {name} erstellt: {output_path}")
@@ -65,7 +64,20 @@ def convert_to_hls(source, output_dir):
             f.write(f"#EXT-X-STREAM-INF:BANDWIDTH={bitrate},RESOLUTION={res}\n")
             f.write(f"{name}.m3u8\n")
 
-    print(f"Master-Playlist erstellt: {master_playlist_path}")
+    video = Video.objects.get(id=video_id)
+    video.status = 'Done'
+    video.save(update_fields=['status'])
+    # Sende eine WebSocket-Nachricht, um den Status zu aktualisieren
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        "broadcast",
+        {
+            "type": "video.status_update",
+            "slug": video.slug,
+            "status": video.status,
+        }
+    )
+    
     return master_playlist_path
 
 

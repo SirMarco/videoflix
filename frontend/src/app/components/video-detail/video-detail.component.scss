@@ -2,6 +2,8 @@
 
 .video-detail {
   @include dFlex(center, center, column, 16px);
+  max-width: 1920px;
+  margin: 0 auto;
 }
 .title {
   text-align: left;
