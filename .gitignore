@@ -5,3 +5,6 @@
 /Scripts
 # /node_modules
 /node_modules
+
+/staticfiles
+/static
