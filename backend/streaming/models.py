@@ -17,10 +17,9 @@ class Video(models.Model):
     hls_playlist = models.FileField(blank=True, null=True)
     thumbnail = models.FileField(upload_to = 'thumbnails', blank=True, null=True)
     created_at = models.DateField(default=date.today)
-     # Verknüpfung zur Kategorie
     categories = models.ManyToManyField(Category, related_name='videos')
     status = models.CharField(max_length=10, default='pending')
-    # progress = models.FloatField(default=0.0)  # Position in Sekunden
+    progress = models.FloatField(default=0.0)
 
 
 
