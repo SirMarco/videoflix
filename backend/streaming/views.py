@@ -15,7 +15,7 @@ from django.conf import settings
 
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 
-from .models import Video
+from .models import PlaybackProgress, Video
 from .serializers import VideoSerializer
 
 from django.utils.decorators import method_decorator
@@ -40,6 +40,27 @@ class VideoDetailView(APIView):
         video = get_object_or_404(Video, slug=video_slug)  # Holt ein Video oder gibt 404 zurück
         serializer = VideoSerializer(video)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class SavePlaybackProgress(APIView):
+
+    def post(self, request):
+        video_id = request.data.get("video_id")
+        progress = request.data.get("progress")
+        video = Video.objects.get(id=video_id)
+        
+        # Fortschritt speichern oder aktualisieren
+        progress_record, created = PlaybackProgress.objects.get_or_create(user=request.user, video=video)
+        progress_record.progress = progress
+        
+        # Video als "gesehen" markieren, wenn 90% angesehen
+        video_duration = video.duration_in_seconds  # Feld für die Videodauer
+        if progress >= 0.9 * video_duration:
+            progress_record.seen = True
+        
+        progress_record.save()
+        return Response({"message": "Progress saved successfully"})
+
 
 class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):

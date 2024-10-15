@@ -1,6 +1,7 @@
 from datetime import date
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Category(models.Model):
@@ -30,4 +31,12 @@ class Video(models.Model):
 
     def __str__(self):
         return self.title
+
+class PlaybackProgress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    progress = models.FloatField(default=0.0)  # Fortschritt in Sekunden
+    seen = models.BooleanField(default=False)  # Ob das Video gesehen wurde
+    updated_at = models.DateTimeField(auto_now=True)
+
     

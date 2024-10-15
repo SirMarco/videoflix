@@ -2,13 +2,16 @@
   <div class="title">
     <h1 class="fs-48-700">{{ videoData.title }}</h1>
   </div>
-  <media-player title="{{ videoData.title }}" src="{{videoData.hls_playlist}}" stream-type="on-demand"
-    poster="{{ videoData.thumbnail }}" load="play">
+  <video id="player" playsinline controls>
+    <source [src]="videoSrc" type="video/mp4">
+  </video>
 
+  <!-- <media-player title="{{ videoData.title }}" src="{{videoData.hls_playlist}}" stream-type="on-demand"
+    poster="{{ videoData.thumbnail }}" load="play" storage-key="video-progress-{{ videoData.id }}">
     <media-provider>
     </media-provider>
     <media-plyr-layout></media-plyr-layout>
-  </media-player>
+  </media-player> -->
   <!-- <div>Evtl kann ich hier noch liken</div> -->
   <p class="description fs-18">{{ videoData.description }}</p>
 </div>

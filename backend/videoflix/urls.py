@@ -3,7 +3,7 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 from debug_toolbar.toolbar import debug_toolbar_urls
-from streaming.views import LoginView, PasswordResetConfirmView, PasswordResetRequestView, RegisterView, ActivateView, VideosView, VideoDetailView
+from streaming.views import LoginView, PasswordResetConfirmView, PasswordResetRequestView, RegisterView, ActivateView, VideosView, VideoDetailView, SavePlaybackProgress
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -15,6 +15,7 @@ urlpatterns = [
     path('api/v1/password-reset/confirm/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('api/v1/videos/', VideosView.as_view(), name='videos'),
     path('api/v1/videos/<slug:video_slug>/', VideoDetailView.as_view(), name='video_detail'),
+    path('api/v1/save-progress/', SavePlaybackProgress.as_view(), name='save-progress'),
     # path('api/v1/media/', VideosView.as_view(), name='videos'),
     # path('api/v1/media/<int:video_id>/', VideoDetailView.as_view(), name='video_detail'),
 ]   + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) + debug_toolbar_urls()
