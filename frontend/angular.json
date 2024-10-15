@@ -31,7 +31,8 @@
               "src/styles.scss",
               "src/mixins.scss",
               "./node_modules/vidstack/player/styles/base.css",
-              "./node_modules/vidstack/player/styles/plyr/theme.css"
+              "./node_modules/vidstack/player/styles/plyr/theme.css",
+              "./node_modules/ngx-spinner/animations/ball-scale-multiple.css"
             ],
             "scripts": []
           },

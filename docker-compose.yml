@@ -19,6 +19,7 @@ services:
       - app-network
     environment:
       - DJANGO_SETTINGS_MODULE=videoflix.settings
+    command: ["bash", "/usr/src/app/start_service.sh"]
 
   web:
     image: nginx:latest

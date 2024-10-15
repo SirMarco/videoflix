@@ -13,11 +13,13 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CustomToastService } from '../../services/custom-toast.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NgxSpinnerModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -29,7 +31,8 @@ export class LoginComponent implements OnInit {
     private as: AuthService,
     private fb: FormBuilder,
     private router: Router,
-    private customToastService: CustomToastService
+    private customToastService: CustomToastService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -53,17 +56,20 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const email = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
+      this.spinner.show();
       try {
         let resp: any = await this.as.loginWithUsernameAndPassword(
           email,
           password
         );
         localStorage.setItem('token', resp['token']);
+        this.spinner.hide();
         this.showToast('Login successfully', 'success');
         setTimeout(() => {
           this.router.navigateByUrl('/dashboard');
-        }, 3000);
+        }, 1000);
       } catch (error) {
+        this.spinner.hide();
         this.showToast('EMail or password wrong', 'error');
       }
     }

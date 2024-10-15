@@ -21,6 +21,7 @@
     "@vidstack/player": "^0.13.3",
     "hls.js": "^1.5.15",
     "ngx-device-detector": "^7.0.0",
+    "ngx-spinner": "^17.0.0",
     "ngx-toastr": "^19.0.0",
     "normalize.css": "^8.0.1",
     "plyr": "^3.7.8",

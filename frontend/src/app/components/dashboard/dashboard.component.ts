@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Video } from '../../interfaces/video.interface';
 import { CommonModule } from '@angular/common';
@@ -7,11 +7,12 @@ import { RouterLink } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, VideoPlayerComponent, RouterLink],
+  imports: [CommonModule, VideoPlayerComponent, RouterLink, NgxSpinnerModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -29,7 +30,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild(VideoPlayerComponent) videoPlayer!: VideoPlayerComponent;
   player: any;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.getAllVideos();
@@ -37,6 +38,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getAllVideos() {
+    this.spinner.show();
     fetch(this.url)
       .then((response) => response.json())
       .then((data) => {
@@ -48,8 +50,9 @@ export class DashboardComponent implements OnInit {
         );
         this.uploadStatus.next(initialStatus);
         this.initializeWebSocket();
+        this.spinner.hide();
       })
-      .catch((error) => console.error('Error' + error));
+      .catch((error) => console.error('Error fetch' + error));
   }
 
   initializeWebSocket() {

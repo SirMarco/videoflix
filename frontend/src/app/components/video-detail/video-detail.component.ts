@@ -11,6 +11,8 @@ import { Video } from '../../interfaces/video.interface';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerModule } from "ngx-spinner";
 // DEFAULT LAYOUT
 // import 'vidstack/player/styles/default/theme.css';
 // import 'vidstack/player/styles/default/layouts/video.css';
@@ -32,7 +34,7 @@ import Hls from 'hls.js';
 @Component({
   selector: 'app-video-detail',
   standalone: true,
-  imports: [VideoPlayerComponent, CommonModule],
+  imports: [VideoPlayerComponent, CommonModule, NgxSpinnerModule],
   templateUrl: './video-detail.component.html',
   styleUrls: ['./video-detail.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -49,36 +51,26 @@ export class VideoDetailComponent implements OnInit {
   @ViewChild(VideoPlayerComponent) videoPlayer!: VideoPlayerComponent;
   player: any;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) { }
+  constructor(private route: ActivatedRoute, private http: HttpClient, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.videoId = this.route.snapshot.paramMap.get('id');
     this.getSingleVideo();
-
   }
 
   getSingleVideo() {
+    this.spinner.show();
     this.http.get<Video>(this.url + this.videoId).subscribe(
       (data: Video) => {
         this.videoData = data;
         console.log(data);
-
-        // setTimeout(() => {
-        //   this.initializePlayer();
-        // }, 100);
+        this.spinner.hide();
       },
       (error) => {
         console.error('Fehler beim Laden des Videos:', error);
       }
     );
   }
-
-  // initializePlayer() {
-  //   if (this.videoPlayer) {
-  //     this.videoPlayer.initializePlayer();
-  //   }
-  // }
-
   public eventFired(event: string): void {
     this.events.push(event);
   }

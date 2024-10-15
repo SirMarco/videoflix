@@ -12,4 +12,4 @@ RUN chmod +x /usr/src/app/start_service.sh
 
 EXPOSE 8000
 
-CMD ["/usr/src/app/start_service.sh"]
+# CMD ["/usr/src/app/start_service.sh"]

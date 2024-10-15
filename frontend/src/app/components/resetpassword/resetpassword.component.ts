@@ -13,11 +13,13 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { CustomToastService } from '../../services/custom-toast.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @Component({
   selector: 'app-resetpassword',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NgxSpinnerModule],
   templateUrl: './resetpassword.component.html',
   styleUrl: './resetpassword.component.scss',
 })
@@ -26,7 +28,7 @@ export class ResetpasswordComponent {
   emailSent = false;
   errorMessage = '';
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private customToastService: CustomToastService) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private customToastService: CustomToastService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.resetPassword = this.fb.group({
@@ -46,6 +48,7 @@ export class ResetpasswordComponent {
   reset(): void {
     if (this.resetPassword.valid) {
       let email = this.resetPassword.value.email;
+      this.spinner.show();
       this.http
         .post(environment.baseUrl + '/password-reset/', { email: email })
         .subscribe({
@@ -53,8 +56,10 @@ export class ResetpasswordComponent {
             this.emailSent = true;
             this.showToast('Please check your emails', 'success')
             this.resetPassword.reset();
+            this.spinner.hide();
           },
           error: () => {
+            this.spinner.hide();
             this.showToast('Email is not registered', 'error')
           },
         });

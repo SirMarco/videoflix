@@ -13,11 +13,13 @@ import {
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CustomToastService } from '../../services/custom-toast.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NgxSpinnerModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
@@ -30,8 +32,9 @@ export class RegisterComponent {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private customToastService: CustomToastService
-  ) {}
+    private customToastService: CustomToastService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit(): void {
     this.registerForm = this.fb.group(
@@ -85,17 +88,21 @@ export class RegisterComponent {
 
   register(): void {
     if (this.registerForm.valid) {
+      this.spinner.show();
       const { email, password } = this.registerForm.value;
       this.authService
         .registerNewUser(email, password)
         .then(() => {
+          this.spinner.hide();
           this.showToast('You are registered. Check your emails', 'success');
           this.router.navigate(['/login']);
         })
         .catch(() => {
+          this.spinner.hide();
           this.showToast('Email already registered', 'error');
         });
     } else {
+      this.spinner.hide();
       console.log('Form is invalid');
     }
   }
