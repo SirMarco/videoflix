@@ -12,7 +12,11 @@ import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { VgCoreModule } from '@videogular/ngx-videogular/core';
+import { VgControlsModule } from '@videogular/ngx-videogular/controls';
+import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
+import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
 // DEFAULT LAYOUT
 // import 'vidstack/player/styles/default/theme.css';
 // import 'vidstack/player/styles/default/layouts/video.css';
@@ -35,7 +39,15 @@ import Hls from 'hls.js';
 @Component({
   selector: 'app-video-detail',
   standalone: true,
-  imports: [VideoPlayerComponent, CommonModule, NgxSpinnerModule],
+  imports: [
+    VideoPlayerComponent,
+    CommonModule,
+    NgxSpinnerModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule,
+  ],
   templateUrl: './video-detail.component.html',
   styleUrls: ['./video-detail.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -52,9 +64,14 @@ export class VideoDetailComponent implements OnInit, AfterViewInit {
   @ViewChild(VideoPlayerComponent) videoPlayer!: VideoPlayerComponent;
   // player: any;
 
-  videoSrc = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4';
+  videoSrc =
+    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4';
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private spinner: NgxSpinnerService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit(): void {
     this.videoId = this.route.snapshot.paramMap.get('id');

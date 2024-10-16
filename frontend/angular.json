@@ -28,6 +28,7 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
+              "./node_modules/@videogular/ngx-videogular/fonts/videogular.css",
               "src/styles.scss",
               "src/mixins.scss",
               "./node_modules/vidstack/player/styles/base.css",
