@@ -1,14 +1,7 @@
 <header class="">
-    @if (isDesktop) {
-    <img class="logo link" src="../../../assets/img/logo.svg" alt="Logo">
-    } @else {
-    <img class="logo link" src="../../../assets/img/logo_small.svg" alt="Logo">
-    }
-    <span *ngIf="isLoggedIn" class="button" (click)="logout()">Logout</span>
-    <span *ngIf="!isLoggedIn" class="button" routerLink="/login">Log in</span>
-    <!-- @if (showLoginButton) {
-    <span class="button" routerLink="/login">Log in</span>
-    }@else {
-    <img src="../../../assets/img/arrow_back.svg" class="link backButton" (click)="goBack()">
-    } -->
+    <img *ngIf="isDesktop" class="logo link" src="../../../assets/img/logo.svg" alt="Logo">
+    <img *ngIf="!isDesktop" class="logo link" src="../../../assets/img/logo_small.svg" alt="Logo">
+    <img *ngIf="showBackButton" src="../../../assets/img/arrow_back.svg" class="link backButton" (click)="goBack()">
+    <span *ngIf="!showBackButton && isLoggedIn" class="button" (click)="logout()">Logout</span>
+    <span *ngIf="!showBackButton && !isLoggedIn" class="button" routerLink="/login">Log in</span>
 </header>

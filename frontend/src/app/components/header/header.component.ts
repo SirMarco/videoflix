@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DeviceService } from '../../services/device.service';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 
@@ -13,8 +13,9 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HeaderComponent implements OnInit {
   isDesktop: boolean = false;
-  showLoginButton: boolean = true;
+  showBackButton: boolean = false;
   isLoggedIn: boolean = false;
+
 
   constructor(
     private deviceService: DeviceService,
@@ -22,19 +23,16 @@ export class HeaderComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService
   ) {
-    this.router.events.subscribe(() => {
-      let currentRoute = this.router.url;
-      if (currentRoute === '/imprint' || currentRoute === '/privacy') {
-        this.showLoginButton = false;
-      } else {
-        this.showLoginButton = true;
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const currentRoute = this.router.url;
+        this.showBackButton = currentRoute === '/imprint' || currentRoute === '/privacy';
       }
     });
   }
 
   ngOnInit() {
     this.isDesktop = this.deviceService.isDesktop;
-
     this.authService.isLoggedIn().subscribe((status) => {
       this.isLoggedIn = status;
     });
@@ -42,6 +40,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   goBack() {

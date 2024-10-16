@@ -18,8 +18,7 @@
     "@angular/platform-browser": "^17.0.0",
     "@angular/platform-browser-dynamic": "^17.0.0",
     "@angular/router": "^17.0.0",
-    "@videogular/ngx-videogular": "^10.0.1",
-    "@vidstack/player": "^0.13.3",
+    "@types/core-js": "^2.5.8",
     "hls.js": "^1.5.15",
     "ngx-device-detector": "^7.0.0",
     "ngx-spinner": "^17.0.0",
@@ -28,11 +27,6 @@
     "plyr": "^3.7.8",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "videojs-contrib-quality-levels": "^4.1.0",
-    "videojs-hls-quality-selector": "^2.0.0",
-    "videojs-http-source-selector": "^1.1.6",
-    "videojs-seek-buttons": "^4.0.3",
-    "vidstack": "^1.12.11",
     "zone.js": "~0.14.2"
   },
   "devDependencies": {
@@ -41,14 +35,12 @@
     "@angular/compiler-cli": "^17.0.0",
     "@types/core-js": "^2.5.8",
     "@types/jasmine": "~5.1.0",
-    "@types/video.js": "^7.3.58",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.2.2",
-    "video.js": "^8.18.1"
+    "typescript": "~5.2.2"
   }
 }
