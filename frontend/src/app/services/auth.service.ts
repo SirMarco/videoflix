@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   private userId: number | null = null;
-  private loggedIn = new BehaviorSubject<boolean>(this.hasToken()); // Überwacht den Login-Status
+  private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -22,7 +22,7 @@ export class AuthService {
     return lastValueFrom(this.http.post(url, body)).then((response: any) => {
       this.userId = response.user_id;
       localStorage.setItem('userId', response.user_id);
-      localStorage.setItem('Token', response.token);
+      localStorage.setItem('token', response.token);
       this.loggedIn.next(true);
       return response;
     });
@@ -35,7 +35,7 @@ export class AuthService {
   }
 
   public logout(): void {
-    localStorage.removeItem('Token');
+    localStorage.removeItem('token');
     localStorage.removeItem('userId');
     this.userId = null;
     this.loggedIn.next(false);
@@ -43,7 +43,7 @@ export class AuthService {
   }
 
   private hasToken(): boolean {
-    return !!localStorage.getItem('Token');
+    return !!localStorage.getItem('token');
   }
 
   public getUserId(): number | null {

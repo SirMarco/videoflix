@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
 
   getAllVideos() {
     this.spinner.show();
-    const token = localStorage.getItem('Token');  // Hole den Token aus dem LocalStorage  
+    const token = localStorage.getItem('token');  // Hole den Token aus dem LocalStorage  
     console.log(token);
 
     fetch(this.url, {

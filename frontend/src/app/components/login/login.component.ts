@@ -71,6 +71,8 @@ export class LoginComponent implements OnInit {
       } catch (error) {
         this.spinner.hide();
         this.showToast('EMail or password wrong', 'error');
+        console.log(error);
+
       }
     }
   }

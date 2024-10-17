@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'http://localhost']
+CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'http://localhost', 'https://videoflix.marco-engelhardt.ch']
 
 CACHE_TTL = 60 * 15
 
@@ -186,11 +186,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # Token-basierte Authentifizierung
-        'rest_framework.authentication.SessionAuthentication',  # Session-basierte Authentifizierung (für Web)
+        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',  # Nur authentifizierte Benutzer
+        'rest_framework.permissions.IsAuthenticated',
     ],
 }
 
@@ -245,8 +245,8 @@ VIDEO_ENCODINGS = [
 
 
 # Email Activation
-EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
