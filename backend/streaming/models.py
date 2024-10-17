@@ -21,9 +21,7 @@ class Video(models.Model):
     categories = models.ManyToManyField(Category, related_name='videos')
     status = models.CharField(max_length=10, default='pending')
     progress = models.FloatField(default=0.0)
-
-
-
+    
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)  # Slug aus dem Titel generieren

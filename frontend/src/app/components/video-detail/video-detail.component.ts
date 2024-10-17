@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Video } from '../../interfaces/video.interface';
 import { environment } from '../../../environments/environment';
@@ -6,14 +6,14 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { VideoPlayerComponent } from "../video-player/video-player.component";
 
 @Component({
   selector: 'app-video-detail',
   standalone: true,
-  imports: [CommonModule, NgxSpinnerModule],
+  imports: [CommonModule, NgxSpinnerModule, VideoPlayerComponent],
   templateUrl: './video-detail.component.html',
   styleUrls: ['./video-detail.component.scss'],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class VideoDetailComponent implements OnInit {
   videoId: string | null = null;

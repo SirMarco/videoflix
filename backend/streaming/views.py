@@ -5,6 +5,9 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
+
 
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import force_str
@@ -20,10 +23,9 @@ from .serializers import VideoSerializer
 
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.views.decorators.csrf import csrf_exempt
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
-
-# Create your views here.
 
 # @cache_page(CACHE_TTL)
 class VideosView(APIView):
@@ -41,23 +43,49 @@ class VideoDetailView(APIView):
         serializer = VideoSerializer(video)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class GetPlaybackProgress(APIView):
+    permission_classes = [IsAuthenticated]  # Nur authentifizierte Benutzer können den Fortschritt abrufen
+
+    def get(self, request, video_slug):
+        try:
+            # Hole das Video anhand des Slugs
+            video = Video.objects.get(slug=video_slug)
+        except Video.DoesNotExist:
+            return Response({"error": "Video not found"}, status=404)
+
+        try:
+            # Suche den Fortschritt für den Benutzer und das Video
+            progress_record = PlaybackProgress.objects.get(user=request.user, video=video)
+            return Response({"progress": progress_record.progress})
+        except PlaybackProgress.DoesNotExist:
+            # Wenn kein Fortschritt vorhanden ist, bei 0 beginnen
+            return Response({"progress": 0.0})
 
 class SavePlaybackProgress(APIView):
+    permission_classes = [IsAuthenticated]  # Stellt sicher, dass nur authentifizierte Benutzer speichern können
 
     def post(self, request):
-        video_id = request.data.get("video_id")
-        progress = request.data.get("progress")
-        video = Video.objects.get(id=video_id)
-        
-        # Fortschritt speichern oder aktualisieren
-        progress_record, created = PlaybackProgress.objects.get_or_create(user=request.user, video=video)
+        video_slug = request.data.get("video_slug")
+        progress = request.data.get("progress")  # Fortschritt in Sekunden
+        seen = request.data.get('seen', False)
+        print(f"Video Slug: {video_slug}, Progress: {progress}")
+
+        try:
+            # Hole das Video anhand des Slugs
+            video = Video.objects.get(slug=video_slug)
+        except Video.DoesNotExist:
+            return Response({"error": "Video not found"}, status=404)
+
+        # Der Benutzer wird durch request.user ermittelt
+        user = request.user
+
+        # Speichere oder aktualisiere den Fortschritt für den Benutzer und das Video
+        progress_record, created = PlaybackProgress.objects.get_or_create(user=user, video=video)
         progress_record.progress = progress
-        
-        # Video als "gesehen" markieren, wenn 90% angesehen
-        video_duration = video.duration_in_seconds  # Feld für die Videodauer
-        if progress >= 0.9 * video_duration:
+
+        if seen:  # Setze das Video als vollständig gesehen
             progress_record.seen = True
-        
+         
         progress_record.save()
         return Response({"message": "Progress saved successfully"})
 
@@ -76,17 +104,18 @@ class LoginView(ObtainAuthToken):
         })
     
 class RegisterView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request, *args, **kwargs):
         email = request.data.get('email')
         password = request.data.get('password')
 
-        if User.objects.filter(username=email).exists():
-            return Response({'error': 'Email ist bereits registriert'}, status=status.HTTP_400_BAD_REQUEST)
+        if User.objects.filter(username=email).exists() or User.objects.filter(email=email).exists():
+            return Response({'error': 'Diese E-Mail ist bereits registriert'}, status=status.HTTP_400_BAD_REQUEST)
         
         user = User.objects.create_user(username=email, email=email, password=password)
         user.is_active = False
         user.save()
-        activation_link = f"http://localhost:4200/activate/{user.pk}/{account_activation_token.make_token(user)}"
+        activation_link = f"http://localhost/activate/{user.pk}/{account_activation_token.make_token(user)}"
 
         mail_subject = 'Aktiviere deinen Account'
         text_content = f"Hallo {user.username},\n\nBitte klicke auf den unten stehenden Link, um deinen Account zu aktivieren:\n\n{activation_link}\n\nWenn du den Account nicht erstellt hast, ignoriere bitte diese E-Mail."

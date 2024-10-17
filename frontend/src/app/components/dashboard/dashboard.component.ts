@@ -4,7 +4,6 @@ import { Video } from '../../interfaces/video.interface';
 import { CommonModule } from '@angular/common';
 import { VideoPlayerComponent } from '../video-player/video-player.component';
 import { RouterLink } from '@angular/router';
-import { ChangeDetectorRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgxSpinnerModule } from "ngx-spinner";
@@ -30,7 +29,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild(VideoPlayerComponent) videoPlayer!: VideoPlayerComponent;
   player: any;
 
-  constructor(private cdr: ChangeDetectorRef, private spinner: NgxSpinnerService) { }
+  constructor(private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.getAllVideos();
@@ -39,7 +38,16 @@ export class DashboardComponent implements OnInit {
 
   getAllVideos() {
     this.spinner.show();
-    fetch(this.url)
+    const token = localStorage.getItem('Token');  // Hole den Token aus dem LocalStorage  
+    console.log(token);
+
+    fetch(this.url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${token}`  // Füge den Token im Authorization-Header hinzu
+      }
+    })
       .then((response) => response.json())
       .then((data) => {
         this.videos = data;
@@ -52,8 +60,12 @@ export class DashboardComponent implements OnInit {
         this.initializeWebSocket();
         this.spinner.hide();
       })
-      .catch((error) => console.error('Error fetch' + error));
+      .catch((error) => {
+        console.error('Error fetching videos:', error);
+        this.spinner.hide();
+      });
   }
+
 
   initializeWebSocket() {
     const socket = new WebSocket('ws://localhost/ws/conversion-status/');

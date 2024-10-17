@@ -30,9 +30,12 @@
             "styles": [
               "src/styles.scss",
               "src/mixins.scss",
-              "./node_modules/ngx-spinner/animations/ball-scale-multiple.css"
+              "node_modules/@videogular/ngx-videogular/fonts/videogular.css",
+              "./node_modules/ngx-spinner/animations/ball-scale-multiple.css",
+              "./node_modules/video.js/dist/video-js.css",
+              "./node_modules/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.css"
             ],
-            "scripts": []
+            "scripts": ["node_modules/hls.js/dist/hls.min.js"]
           },
           "configurations": {
             "production": {

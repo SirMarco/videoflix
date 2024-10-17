@@ -3,6 +3,7 @@
 .video-detail {
   @include dFlex(center, center, column, 16px);
   max-width: 1920px;
+  width: 100%;
   margin: 0 auto;
 }
 .title {
@@ -14,6 +15,34 @@
   max-width: 990px;
 }
 
-media-player {
-  max-width: 990px;
+.wrapper {
+  width: 980px;
+  width: 100%;
+  margin: 0 auto; /* Zentriert den Player auf der Seite */
+  position: relative;
+}
+
+.video-js {
+  width: 100% !important; /* Stellt sicher, dass das Video 100% des Wrappers einnimmt */
+  height: auto !important; /* Stellt sicher, dass die Höhe proportional zur Breite bleibt */
+}
+
+.quality-selector {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.quality-selector label {
+  margin-right: 5px;
+  color: white;
+}
+
+.quality-selector select {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 4px;
 }

@@ -11,7 +11,7 @@ export class AuthService {
   private userId: number | null = null;
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken()); // Überwacht den Login-Status
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
   public loginWithUsernameAndPassword(username: string, password: string) {
     const url = environment.baseUrl + '/login/';
@@ -22,7 +22,7 @@ export class AuthService {
     return lastValueFrom(this.http.post(url, body)).then((response: any) => {
       this.userId = response.user_id;
       localStorage.setItem('userId', response.user_id);
-      localStorage.setItem('token', response.token);
+      localStorage.setItem('Token', response.token);
       this.loggedIn.next(true);
       return response;
     });
@@ -35,7 +35,7 @@ export class AuthService {
   }
 
   public logout(): void {
-    localStorage.removeItem('token');
+    localStorage.removeItem('Token');
     localStorage.removeItem('userId');
     this.userId = null;
     this.loggedIn.next(false);
@@ -43,7 +43,7 @@ export class AuthService {
   }
 
   private hasToken(): boolean {
-    return !!localStorage.getItem('token');
+    return !!localStorage.getItem('Token');
   }
 
   public getUserId(): number | null {

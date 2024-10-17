@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -59,11 +59,25 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+ ]
+
+
+CSRF_TRUSTED_ORIGINS = [
+  'http://127.0.0.1',
+  'http://localhost',
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+
+
+CORS_ALLOWED_ORIGINS = [
+  'http://127.0.0.1',
+  'http://localhost',
 ]
 
 INTERNAL_IPS = [
@@ -169,6 +183,16 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # Token-basierte Authentifizierung
+        'rest_framework.authentication.SessionAuthentication',  # Session-basierte Authentifizierung (für Web)
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # Nur authentifizierte Benutzer
+    ],
+}
 
 
 # Internationalization
