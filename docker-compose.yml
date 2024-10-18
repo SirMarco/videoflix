@@ -91,7 +91,7 @@ services:
 
   rqworker:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     container_name: rq_worker
     volumes:
