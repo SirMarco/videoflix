@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'videoflix.marco-engelhardt.ch']
+ALLOWED_HOSTS = ['localhost', 'backend', 'videoflix.marco-engelhardt.ch']
 
 CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'http://localhost:8000', 'https://videoflix.marco-engelhardt.ch']
 
