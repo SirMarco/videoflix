@@ -40,7 +40,6 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 redis==5.0.8
 rq==1.16.2
-rq-win @ git+https://github.com/michaelbrooks/rq-win.git@c6e65e38f8a6ca99a0c8e0dd6fe35f9b92837cca
 service-identity==24.1.0
 setuptools==75.1.0
 six==1.16.0

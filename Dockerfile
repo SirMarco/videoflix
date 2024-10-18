@@ -1,5 +1,4 @@
-FROM python:3.12.3
-ENV PIP_DISABLE_PIP_VERSION_CHECK 1
+FROM python:3.12.3 as build
 
 WORKDIR /usr/src/app
 COPY /backend/requirements.txt /usr/src/app

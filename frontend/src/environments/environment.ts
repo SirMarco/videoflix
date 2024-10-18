@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  baseUrl: 'http://localhost/api/v1',
-  pictureUrl: 'http://localhost',
-  hlsUrl: 'http://localhost/api/v1',
-  mediaUrl: 'http://localhost/',
+  baseUrl: 'https://videoflix.marco-engelhardt.ch/api/v1',
+  pictureUrl: 'https://videoflix.marco-engelhardt.ch',
+  hlsUrl: 'https://videoflix.marco-engelhardt.ch/api/v1',
+  mediaUrl: 'https://videoflix.marco-engelhardt.ch/',
 };
