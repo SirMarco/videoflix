@@ -7,7 +7,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./certs:/etc/nginx/certs
-      - ./html:/usr/share/nginx/html
+      - ./html:/usr/share/nginx/acme-challenge
     environment:
       - DEFAULT_EMAIL=marco.engelhardt@reussnet.ch
       - NGINX_PROXY_CONTAINER=nginx-proxy
