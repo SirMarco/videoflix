@@ -27,7 +27,7 @@ services:
       - ./certs:/etc/nginx/certs:ro
       - ./vhost.d:/etc/nginx/vhost.d
       # - ./html:/usr/share/nginx/html
-      - ./frontend/dist/frontend_videoflix/browser:/usr/share/nginx/html
+      - ./frontend/dist/frontend_videoflix/browser:/usr/share/nginx/frontend
       - ./default.conf:/etc/nginx/conf.d
       - ./backend/staticfiles:/usr/src/app/staticfiles
       - ./backend/media:/usr/src/app/media

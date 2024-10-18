@@ -68,7 +68,7 @@ export class DashboardComponent implements OnInit {
 
 
   initializeWebSocket() {
-    const socket = new WebSocket('ws://localhost/ws/conversion-status/');
+    const socket = new WebSocket('wss://videoflix.marco-engelhardt.ch/ws/conversion-status/');
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       console.log('Nachricht vom WebSocket erhalten: ', data);
