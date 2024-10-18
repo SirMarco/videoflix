@@ -13,4 +13,12 @@ section {
   flex-grow: 1;
   @include dFlex(start, stretch, column, 0px);
   margin: 0 16px;
+
+  &.start {
+    @include dFlex(start, stretch, column, 0px);
+  }
+
+  &.center {
+    @include dFlex(center, stretch, column, 0px);
+  }
 }

@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MainComponent } from './components/main/main.component';
@@ -26,11 +26,24 @@ import { CustomToastService } from './services/custom-toast.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'frontend_videoflix';
+  layoutClass: string = 'start';
   @ViewChild(CustomToastComponent) toast: CustomToastComponent | undefined;
 
-  constructor(private customToastService: CustomToastService) {}
+  constructor(private customToastService: CustomToastService, private router: Router) { }
+
+  ngOnInit(): void {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        if (this.router.url.startsWith('/video')) {
+          this.layoutClass = 'start';
+        } else {
+          this.layoutClass = 'center';
+        }
+      }
+    });
+  }
 
   ngAfterViewInit() {
     if (this.toast) {

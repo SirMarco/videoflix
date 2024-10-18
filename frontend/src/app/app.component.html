@@ -1,6 +1,6 @@
 <section>
   <app-header></app-header>
-  <div class="main">
+  <div [ngClass]="layoutClass" class="main">
     <router-outlet></router-outlet>
   </div>
   <app-footer></app-footer>
