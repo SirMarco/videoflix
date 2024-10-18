@@ -176,6 +176,7 @@ class PasswordResetRequestView(APIView):
         return Response({'message': 'Überprüfe deine E-Mail, um dein Passwort zurückzusetzen.'}, status=status.HTTP_200_OK)     
     
 class PasswordResetConfirmView(APIView):
+    permission_classes = []
     def post(self, request, *args, **kwargs):
         id = request.data.get('id')
         token = request.data.get('token')
