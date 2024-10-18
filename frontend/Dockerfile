@@ -1,12 +1,13 @@
+# Stage 1: Build Angular app
 FROM node:20 AS build
 
 WORKDIR /usr/src/app
 
+# Kopiere das gesamte Frontend-Projekt
 COPY . .
 
-RUN npm install
+# Installiere die Dependencies und baue die Angular-App
+RUN npm install && npm run build
 
-RUN npm run build && echo "Build finished successfully."
-
-# Kopiere die gebauten Dateien in das Nginx-Verzeichnis
-COPY /dist/frontend_videoflix/browser /usr/share/nginx/html
+# Am Ende dieses Dockerfiles brauchst du keinen Nginx mehr.
+# Die gebauten Dateien können direkt im "nginx-proxy"-Container verwendet werden.
