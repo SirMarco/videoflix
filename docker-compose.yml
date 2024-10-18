@@ -7,7 +7,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./certs:/etc/nginx/certs
-      - ./html:/usr/share/nginx/acme-challenge
+      - ./html:/usr/share/nginx/html
     environment:
       - DEFAULT_EMAIL=marco.engelhardt@reussnet.ch
       - NGINX_PROXY_CONTAINER=nginx-proxy
@@ -26,9 +26,17 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./certs:/etc/nginx/certs:ro
       - ./vhost.d:/etc/nginx/vhost.d
-      - ./html:/usr/share/nginx/acme-challenge
-      - ./frontend/dist/frontend_videoflix/browser:/usr/share/nginx/html
+      - ./html:/usr/share/nginx/html
       - ./default.conf:/etc/nginx/conf.d
+    networks:
+      - webproxy
+      - app-network
+      
+  web:
+    image: nginx:alpine
+    container_name: web
+    volumes:
+      - ./frontend/dist/frontend_videoflix/browser:/usr/share/nginx/html
       - ./backend/staticfiles:/usr/src/app/staticfiles
       - ./backend/media:/usr/src/app/media
     environment:
@@ -36,18 +44,7 @@ services:
       - LETSENCRYPT_HOST=videoflix.marco-engelhardt.ch
       - LETSENCRYPT_EMAIL=marco.engelhardt@reussnet.ch
     networks:
-      - webproxy
       - app-network
-      
-  # web:
-  #   image: nginx:alpine
-  #   container_name: web
-  #   volumes:
-  #     - ./frontend/dist/frontend_videoflix/browser:/usr/share/nginx/html
-  #     - ./backend/staticfiles:/usr/src/app/staticfiles
-  #     - ./backend/media:/usr/src/app/media
-  #   networks:
-  #     - app-network
   
   backend:
     build:
