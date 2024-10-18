@@ -30,6 +30,7 @@ services:
       - ./default.conf:/etc/nginx/conf.d
     networks:
       - webproxy
+      - app-network
       
   web:
     image: nginx:alpine
