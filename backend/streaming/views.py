@@ -115,7 +115,7 @@ class RegisterView(APIView):
         user = User.objects.create_user(username=email, email=email, password=password)
         user.is_active = False
         user.save()
-        activation_link = f"http://localhost/activate/{user.pk}/{account_activation_token.make_token(user)}"
+        activation_link = f"http://videoflix.marco-engelhardt.ch/activate/{user.pk}/{account_activation_token.make_token(user)}"
 
         mail_subject = 'Aktiviere deinen Account'
         text_content = f"Hallo {user.username},\n\nBitte klicke auf den unten stehenden Link, um deinen Account zu aktivieren:\n\n{activation_link}\n\nWenn du den Account nicht erstellt hast, ignoriere bitte diese E-Mail."
