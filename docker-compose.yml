@@ -30,27 +30,23 @@ services:
       - ./default.conf:/etc/nginx/conf.d
       - ./backend/staticfiles:/usr/src/app/staticfiles
       - ./backend/media:/usr/src/app/media
+    networks:
+      - webproxy
+      - app-network
+      
+  web:
+    image: nginx:alpine
+    container_name: web
+    volumes:
+      - ./frontend/dist/frontend_videoflix/browser:/usr/share/nginx/html
+      - ./backend/staticfiles:/usr/src/app/staticfiles
+      - ./backend/media:/usr/src/app/media
     environment:
       - VIRTUAL_HOST=videoflix.marco-engelhardt.ch
       - LETSENCRYPT_HOST=videoflix.marco-engelhardt.ch
       - LETSENCRYPT_EMAIL=marco.engelhardt@reussnet.ch
     networks:
-      - webproxy
       - app-network
-      
-  # web:
-  #   image: nginx:alpine
-  #   container_name: web
-  #   volumes:
-  #     - ./frontend/dist/frontend_videoflix/browser:/usr/share/nginx/html
-  #     - ./backend/staticfiles:/usr/src/app/staticfiles
-  #     - ./backend/media:/usr/src/app/media
-  #   environment:
-  #     - VIRTUAL_HOST=videoflix.marco-engelhardt.ch
-  #     - LETSENCRYPT_HOST=videoflix.marco-engelhardt.ch
-  #     - LETSENCRYPT_EMAIL=marco.engelhardt@reussnet.ch
-  #   networks:
-  #     - app-network
   
   backend:
     build:
