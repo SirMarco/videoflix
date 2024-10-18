@@ -26,7 +26,7 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./certs:/etc/nginx/certs:ro
       - ./vhost.d:/etc/nginx/vhost.d
-      # - ./html:/usr/share/nginx/html
+      - ./html:/usr/share/nginx/html
       - ./frontend/dist/frontend_videoflix/browser:/usr/share/nginx/frontend
       - ./default.conf:/etc/nginx/conf.d
       - ./backend/staticfiles:/usr/src/app/staticfiles
