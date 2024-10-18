@@ -151,6 +151,7 @@ class ActivateView(APIView):
             return Response({'error': 'Ungültiger oder abgelaufener Link'}, status=status.HTTP_400_BAD_REQUEST)
         
 class PasswordResetRequestView(APIView):
+    permission_classes = []
     def post(self, request, *args, **kwargs):
         email = request.data.get('email')
         try:
