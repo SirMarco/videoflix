@@ -3,6 +3,7 @@ import { DeviceService } from '../../services/device.service';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -21,7 +22,8 @@ export class HeaderComponent implements OnInit {
     private deviceService: DeviceService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private location: Location
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -44,6 +46,6 @@ export class HeaderComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/']);
+    this.location.back();
   }
 }

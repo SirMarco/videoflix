@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ActivateComponent implements OnInit {
   activationStatus: string = ''; // Um den Status der Aktivierung zu speichern
+  progress: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,7 +34,16 @@ export class ActivateComponent implements OnInit {
     this.http.get(environment.baseUrl + `/activate/${id}/${token}/`).subscribe({
       next: (response: any) => {
         this.activationStatus = 'Account erfolgreich aktiviert.';
-        console.log('Aktivierung erfolgreich:', response);
+
+        // Start der Progress-Bar und Weiterleitung nach 2 Sekunden
+        this.progress = 0; // Reset Fortschritt
+        const interval = setInterval(() => {
+          this.progress += 1;
+          if (this.progress >= 100) {
+            clearInterval(interval);
+            this.router.navigate(['/login']); // Weiterleitung nach 2 Sekunden
+          }
+        }, 20); // 20ms Intervalle = 2 Sekunden für 100%
       },
       error: (error) => {
         this.activationStatus = 'Die Aktivierung ist fehlgeschlagen oder der Link ist ungültig.';
@@ -41,5 +51,4 @@ export class ActivateComponent implements OnInit {
       },
     });
   }
-
 }

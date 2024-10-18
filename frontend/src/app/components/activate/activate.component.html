@@ -1,4 +1,8 @@
 <div *ngIf="activationStatus">
+  <div class="progress-line-container">
+    <!-- Fortschrittslinie -->
+    <div class="progress-line" [style.width]="progress + '%'"></div>
+  </div>
   <div class="container">
     <p class="fs-24 purple">{{ activationStatus }}</p>
   </div>
