@@ -18,7 +18,7 @@ export class ActivateComponent implements OnInit {
     private route: ActivatedRoute,
     private http: HttpClient,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const uid = this.route.snapshot.paramMap.get('id');
@@ -30,16 +30,16 @@ export class ActivateComponent implements OnInit {
   }
 
   activateAccount(id: string, token: string): void {
-    // Sende Aktivierungsdaten an das Django-Backend
     this.http.get(environment.baseUrl + `/activate/${id}/${token}/`).subscribe({
       next: (response: any) => {
         this.activationStatus = 'Account erfolgreich aktiviert.';
+        console.log('Aktivierung erfolgreich:', response);
       },
       error: (error) => {
-        this.activationStatus =
-          'Die Aktivierung ist fehlgeschlagen oder der Link ist ungültig.';
-        console.log(error.error.error);
+        this.activationStatus = 'Die Aktivierung ist fehlgeschlagen oder der Link ist ungültig.';
+        console.error('Aktivierungsfehler:', error);
       },
     });
   }
+
 }

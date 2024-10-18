@@ -134,6 +134,7 @@ class RegisterView(APIView):
         # return Response({'token': token.key, 'user_id': user.pk, 'email': user.email, 'message': 'Benutzer erfolgreich registriert'}, status=status.HTTP_201_CREATED)    
     
 class ActivateView(APIView):
+    permission_classes = []
     def get(self, request, id, token):
         try:
             # Benutzer-ID dekodieren
