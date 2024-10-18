@@ -115,7 +115,7 @@ class RegisterView(APIView):
         user = User.objects.create_user(username=email, email=email, password=password)
         user.is_active = False
         user.save()
-        activation_link = f"http://videoflix.marco-engelhardt.ch/activate/{user.pk}/{account_activation_token.make_token(user)}"
+        activation_link = f"https://videoflix.marco-engelhardt.ch/activate/{user.pk}/{account_activation_token.make_token(user)}"
 
         mail_subject = 'Aktiviere deinen Account'
         text_content = f"Hallo {user.username},\n\nBitte klicke auf den unten stehenden Link, um deinen Account zu aktivieren:\n\n{activation_link}\n\nWenn du den Account nicht erstellt hast, ignoriere bitte diese E-Mail."
@@ -159,7 +159,7 @@ class PasswordResetRequestView(APIView):
 
         token_generator = PasswordResetTokenGenerator()
 
-        reset_link = f"http://localhost:4200/password-reset/{user.pk}/{token_generator.make_token(user)}"
+        reset_link = f"https://videoflix.marco-engelhardt.ch/password-reset/{user.pk}/{token_generator.make_token(user)}"
 
         mail_subject = 'Passwort zurücksetzen'
         text_content = f"Hallo {user.username},\n\nDu hast eine Anfrage zum Zurücksetzen deines Passworts gestellt. Klicke auf den folgenden Link, um dein Passwort zurückzusetzen:\n\n{reset_link}\n\nWenn du diese Anfrage nicht gestellt hast, ignoriere bitte diese E-Mail."

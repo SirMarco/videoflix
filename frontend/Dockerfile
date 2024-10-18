@@ -3,11 +3,10 @@ FROM node:20 AS build
 
 WORKDIR /usr/src/app
 
-# Kopiere das gesamte Frontend-Projekt
+# Kopiere das Angular-Projekt in den Container
 COPY . .
 
 # Installiere die Dependencies und baue die Angular-App
 RUN npm install && npm run build
 
-# Am Ende dieses Dockerfiles brauchst du keinen Nginx mehr.
-# Die gebauten Dateien können direkt im "nginx-proxy"-Container verwendet werden.
+# Der Build-Output wird nach /usr/src/app/dist kopiert

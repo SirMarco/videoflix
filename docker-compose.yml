@@ -44,25 +44,11 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: frontend
-    depends_on:
-      - nginx-proxy
+    volumes:
+      - ./frontend/dist:/usr/src/app/dist
+    command: ["sh", "-c", "npm install && npm run build"]
     networks:
       - app-network
-
-      
-  # web:
-  #   image: nginx:alpine
-  #   container_name: web
-  #   volumes:
-  #     - ./frontend/dist/frontend_videoflix/browser:/usr/share/nginx/html
-  #     - ./backend/staticfiles:/usr/src/app/staticfiles
-  #     - ./backend/media:/usr/src/app/media
-  #   environment:
-  #     - VIRTUAL_HOST=videoflix.marco-engelhardt.ch
-  #     - LETSENCRYPT_HOST=videoflix.marco-engelhardt.ch
-  #     - LETSENCRYPT_EMAIL=marco.engelhardt@reussnet.ch
-  #   networks:
-  #     - app-network
   
   backend:
     build:

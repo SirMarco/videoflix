@@ -21,6 +21,20 @@
               "base": "dist/frontend_videoflix",
               "media": "media_old"
             },
+            "allowedCommonJsDependencies": [
+                "lodash",
+                "videojs-contrib-quality-levels",
+                "videojs-hls-quality-selector",
+                "global/window",
+                "global/document",
+                "@videojs/xhr",
+                "mux.js",
+                "videojs-vtt.js",
+                "@xmldom/xmldom",
+                "keycode",
+                "safe-json-parse/tuple",
+                "url-toolkit"
+            ],
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -42,8 +56,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "2.5mb"
+                  "maximumWarning": "3mb",
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",

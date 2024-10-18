@@ -173,14 +173,14 @@
 
 .yourclass {
   position: relative;
-  background-color: blue !important; // Hintergrundfarbe ändern
-  color: white !important; // Textfarbe ändern
-  border-radius: 8px !important; // Abgerundete Ecken
+  background-color: blue !important;
+  color: white !important;
+  border-radius: 8px !important;
   box-shadow: unset;
 }
 
 .yourclass .toast-close-button {
   position: absolute;
-  top: 33%; /* Vertikal zentriert */
-  right: 10px; /* Von der linken Seite */
+  top: 33%;
+  right: 10px;
 }
