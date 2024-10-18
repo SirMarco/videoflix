@@ -1,8 +1,8 @@
 FROM python:3.12.3 as build
 
 WORKDIR /usr/src/app
-COPY /backend/requirements.txt /usr/src/app
-COPY /backend/start_service.sh /usr/src/app/start_service.sh
+COPY requirements.txt /usr/src/app
+COPY start_service.sh /usr/src/app/start_service.sh
 
 RUN apt-get update && apt-get install -y ffmpeg
 RUN /usr/local/bin/python -m pip install --upgrade pip
