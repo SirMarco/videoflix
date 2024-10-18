@@ -18,12 +18,12 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
   },
   {
     path: 'video/:id',
     component: VideoDetailComponent,
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
   },
   { path: 'register', component: RegisterComponent },
   { path: 'resetpassword', component: ResetpasswordComponent },
