@@ -46,7 +46,7 @@ services:
     container_name: frontend
     volumes:
       - ./frontend/dist:/usr/src/app/dist
-    command: ["sh", "-c", "npm run build"]
+    # command: ["sh", "-c", "npm run build"]
     # command: ["sh", "-c", "npm install && npm run build"]
     networks:
       - app-network
