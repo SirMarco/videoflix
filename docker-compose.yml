@@ -38,6 +38,7 @@ services:
       dockerfile: Dockerfile
     container_name: frontend
     volumes:
+      - ./frontend:/usr/src/app/dist/frontend_videoflix/browser
       - ./backend/staticfiles:/usr/src/app/staticfiles
       - ./backend/media:/usr/src/app/media
     environment:
