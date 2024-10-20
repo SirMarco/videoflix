@@ -28,9 +28,9 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', 'backend', 'videoflix.marco-engelhardt.ch']
+ALLOWED_HOSTS = ['localhost', 'backend', 'videoflix.marco-engelhardt.ch', 'api.videoflix.marco-engelhardt.ch']
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'http://localhost:8000', 'https://videoflix.marco-engelhardt.ch']
+CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'http://localhost:8000', 'https://videoflix.marco-engelhardt.ch', 'https://api.videoflix.marco-engelhardt.ch']
 
 CACHE_TTL = 60 * 15
 
@@ -69,16 +69,11 @@ MIDDLEWARE = [
 CSRF_TRUSTED_ORIGINS = [
   'http://127.0.0.1',
   'http://localhost',
-  'https://videoflix.marco-engelhardt.ch'
+  'https://videoflix.marco-engelhardt.ch',
+  'https://api.videoflix.marco-engelhardt.ch'
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
-
-CORS_ALLOWED_ORIGINS = [
-  'http://127.0.0.1',
-  'http://localhost',
-  'https://videoflix.marco-engelhardt.ch'
-]
+CORS_ALLOW_ALL_ORIGINS = False
 
 INTERNAL_IPS = [
     "127.0.0.1",
