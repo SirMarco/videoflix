@@ -1,8 +1,8 @@
 FROM python:3.12.3 as build
 
 WORKDIR /usr/src/app
-COPY requirements.txt /usr/src/app
-COPY start_service.sh /usr/src/app/start_service.sh
+
+COPY . .
 
 RUN apt-get update && apt-get install -y ffmpeg
 RUN /usr/local/bin/python -m pip install --upgrade pip
@@ -11,4 +11,4 @@ RUN chmod +x /usr/src/app/start_service.sh
 
 EXPOSE 8000
 
-# CMD ["/usr/src/app/start_service.sh"]
+CMD ["/usr/src/app/start_service.sh"]
