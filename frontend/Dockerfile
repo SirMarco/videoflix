@@ -2,9 +2,13 @@ FROM node:20 AS build
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package*.json .
 
-RUN npm install && npm run build
+RUN npm install
+
+COPY . .
+
+RUN npm run build
 
 FROM nginx:alpine
 
