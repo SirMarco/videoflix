@@ -38,14 +38,14 @@ export class DashboardComponent implements OnInit {
 
   getAllVideos() {
     this.spinner.show();
-    const token = localStorage.getItem('token');  // Hole den Token aus dem LocalStorage  
+    const token = localStorage.getItem('token');
     console.log(token);
 
     fetch(this.url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Token ${token}`  // Füge den Token im Authorization-Header hinzu
+        'Authorization': `Token ${token}`
       }
     })
       .then((response) => response.json())
@@ -68,18 +68,14 @@ export class DashboardComponent implements OnInit {
 
 
   initializeWebSocket() {
-    const socket = new WebSocket('wss://videoflix.marco-engelhardt.ch/ws/conversion-status/');
+    const socket = new WebSocket('wss://api.videoflix.marco-engelhardt.ch/ws/conversion-status/');
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log('Nachricht vom WebSocket erhalten: ', data);
-      console.log('Empfangene Slug:', data.slug);
-      console.log('Nachricht vom WebSocket erhalten: ', data);
       const videoIndex = this.videos.findIndex(
         (video) => video.slug === data.slug
       );
       console.log('Video Index:', videoIndex);
       if (videoIndex !== -1) {
-        console.log('yes, video found');
         const currentStatus = this.uploadStatus.value;
         currentStatus[videoIndex] = data.status;
         this.uploadStatus.next(currentStatus);
@@ -97,7 +93,6 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  // Funktion, um Videos nach Kategorien zu gruppieren
   groupVideosByCategory() {
     this.videos.forEach((video) => {
       video.categories.forEach((category) => {

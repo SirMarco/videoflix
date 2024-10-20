@@ -9,4 +9,5 @@ export interface Video {
   created_at: string;
   categories: string[];
   status: string;
+  progress: string;
 }

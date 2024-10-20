@@ -3,5 +3,5 @@ export const environment = {
   baseUrl: 'https://api.videoflix.marco-engelhardt.ch/api/v1',
   pictureUrl: 'https://api.videoflix.marco-engelhardt.ch',
   hlsUrl: 'https://api.videoflix.marco-engelhardt.ch/api/v1',
-  mediaUrl: 'https://api.videoflix.marco-engelhardt.ch/',
+  mediaUrl: 'https://videoflix.marco-engelhardt.ch',
 };

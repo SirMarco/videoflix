@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './activate.component.scss',
 })
 export class ActivateComponent implements OnInit {
-  activationStatus: string = ''; // Um den Status der Aktivierung zu speichern
+  activationStatus: string = '';
   progress: number = 0;
 
   constructor(
@@ -31,6 +31,7 @@ export class ActivateComponent implements OnInit {
   }
 
   activateAccount(id: string, token: string): void {
+    console.log(environment.baseUrl);
     this.http.get(environment.baseUrl + `/activate/${id}/${token}/`).subscribe({
       next: (response: any) => {
         this.activationStatus = 'Account erfolgreich aktiviert.';

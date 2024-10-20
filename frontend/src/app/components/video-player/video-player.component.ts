@@ -6,6 +6,8 @@ import 'videojs-http-source-selector';
 import 'videojs-hls-quality-selector';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/environment';
+import { Video } from '../../interfaces/video.interface';
 
 interface CustomPlayer extends Player {
   hlsQualitySelector: (options?: any) => void;
@@ -45,31 +47,27 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
       }]
     }) as CustomPlayer;
 
-    // Verwende das hlsQualitySelector Plugin, wenn es verfügbar ist
     if (this.player.hlsQualitySelector) {
       this.player.hlsQualitySelector();
     }
 
-    // Hole den gespeicherten Fortschritt
-    this.http.get<any>(`/api/v1/get-progress/${this.videoId}`).subscribe(response => {
+    this.http.get<Video>(environment.baseUrl + `/get-progress/${this.videoId}`).subscribe(response => {
       this.savedTime = parseFloat(response.progress) || 0;
       if (this.savedTime > 0) {
-        this.showResumeButton = true;  // Zeige den Resume-Button
-        this.player.currentTime(this.savedTime);  // Setze die Video-Zeit auf die gespeicherte Position
+        this.showResumeButton = true;
+        this.player.currentTime(this.savedTime);
       }
     });
 
-    // Starte das Speichern des Fortschritts bei 'play'
     this.player.on('play', () => {
       this.startSaveProgressInterval();
     });
 
-    // Stoppe das Speichern bei 'pause'
+
     this.player.on('pause', () => {
       this.stopSaveProgressInterval();
     });
 
-    // Markiere das Video als gesehen bei 'ended'
     this.player.on('ended', () => {
       this.markAsSeen();
       this.stopSaveProgressInterval();
@@ -77,8 +75,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
   }
 
   markAsSeen() {
-    // Setze den Status "vollständig gesehen" im Backend
-    this.http.post('/api/v1/save-progress/', {
+    this.http.post(environment.baseUrl + '/save-progress/', {
       video_slug: this.videoId,
       progress: this.player.duration(),
       seen: true
@@ -106,7 +103,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
   }
 
   saveProgress(currentTime: number) {
-    this.http.post('/api/v1/save-progress/', {
+    this.http.post(environment.baseUrl + '/save-progress/', {
       video_slug: this.videoId,
       progress: currentTime
     }).subscribe(response => {
@@ -115,9 +112,9 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
   }
 
   resumeVideo() {
-    this.player.currentTime(this.savedTime);  // Setze die Video-Zeit auf die gespeicherte Position
-    this.showResumeButton = false;  // Verberge den Button
-    this.player.play();  // Starte das Video
+    this.player.currentTime(this.savedTime);
+    this.showResumeButton = false;
+    this.player.play();
   }
 
   ngOnDestroy() {
