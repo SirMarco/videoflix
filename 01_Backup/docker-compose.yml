@@ -17,24 +17,22 @@ services:
   #     - webproxy
 
   nginx-proxy:
-  restart: always
-  image: jwilder/nginx-proxy
-  container_name: nginx-proxy
-  ports:
-    - "80:80"
-    - "443:443"
-  volumes:
-    - /var/run/docker.sock:/tmp/docker.sock:ro
-    - ./certs:/etc/nginx/certs:ro
-    - ./vhost.d:/etc/nginx/vhost.d
-    - ./html:/usr/share/nginx/html
-    - ./default.conf:/etc/nginx/conf.d
-  networks:
-    - webproxy
-    - app-network
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./certs:/etc/nginx/certs:ro
+      - ./vhost.d:/etc/nginx/vhost.d
+      - ./html:/usr/share/nginx/html
+      - ./default.conf:/etc/nginx/conf.d
+    networks:
+      - webproxy
+      - app-network
 
   frontend:
-    restart: unless-stopped
     image: nginx:latest
     container_name: frontend
     volumes:
@@ -49,15 +47,14 @@ services:
       - app-network
 
   backend:
-    restart: unless-stopped
     build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: backend
     volumes:
-      - ./backend/static:/app/static
-      - ./backend/media:/app/media
-    working_dir: /app
+      - ./backend/static:/usr/src/app/static
+      - ./backend/media:/usr/src/app/media
+    working_dir: /usr/src/app
     depends_on:
       - redis
       - postgres
@@ -66,12 +63,17 @@ services:
       - VIRTUAL_HOST=api.videoflix.marco-engelhardt.ch
       - LETSENCRYPT_HOST=api.videoflix.marco-engelhardt.ch
       - LETSENCRYPT_EMAIL=marco.engelhardt@reussnet.ch
-    command: ./compose/run_backend.sh
+    networks:
+      - app-network
+
+  redis:
+    image: "redis:latest"
+    container_name: redis
+    command: ["redis-server"]
     networks:
       - app-network
 
   postgres:
-    restart: unless-stopped
     image: "postgres:latest"
     container_name: postgres
     volumes:
@@ -80,34 +82,27 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: CFfRdzBewPEGG
-    expose:
-      - 5432
-    networks:
-      - app-network
-
-  redis:
-    restart: unless-stopped
-    image: "redis:latest"
-    container_name: redis
-    expose:
-      - 6379
     networks:
       - app-network
 
   rqworker:
-    restart: unless-stopped
     build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: rq_worker
     volumes:
-      - ./backend:/app
-    working_dir: /app
-    environment:
-      - DJANGO_SETTINGS_MODULE=videoflix.settings
-    command: ./compose/run_rq.sh
+      - ./backend:/usr/src/app
+    working_dir: /usr/src/app
+    command: python manage.py rqworker default
+    depends_on:
+      - backend
     networks:
       - app-network
+    environment:
+      - DJANGO_SETTINGS_MODULE=videoflix.settings
+
+volumes:
+  postgres_data:
 
 networks:
   webproxy:
