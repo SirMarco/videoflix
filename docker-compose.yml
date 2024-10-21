@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   # acme-companion:
@@ -22,11 +22,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    depends_on:
-        - redis
-        - postgres
-        - backend
-        - frontend
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./certs:/etc/nginx/certs:ro
@@ -50,7 +45,7 @@ services:
       - LETSENCRYPT_EMAIL=marco.engelhardt@reussnet.ch
     networks:
       - app-network
-  
+
   backend:
     build:
       context: ./backend
@@ -100,8 +95,7 @@ services:
     working_dir: /usr/src/app
     command: python manage.py rqworker default
     depends_on:
-      - redis
-      - postgres
+      - backend
     networks:
       - app-network
     environment:
@@ -115,4 +109,3 @@ networks:
     external: true
   app-network:
     driver: bridge
-
