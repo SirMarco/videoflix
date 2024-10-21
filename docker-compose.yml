@@ -17,21 +17,21 @@ services:
   #     - webproxy
 
   nginx-proxy:
-  restart: always
-  image: jwilder/nginx-proxy
-  container_name: nginx-proxy
-  ports:
-    - "80:80"
-    - "443:443"
-  volumes:
-    - /var/run/docker.sock:/tmp/docker.sock:ro
-    - ./certs:/etc/nginx/certs:ro
-    - ./vhost.d:/etc/nginx/vhost.d
-    - ./html:/usr/share/nginx/html
-    - ./default.conf:/etc/nginx/conf.d
-  networks:
-    - webproxy
-    - app-network
+    restart: always
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./certs:/etc/nginx/certs:ro
+      - ./vhost.d:/etc/nginx/vhost.d
+      - ./html:/usr/share/nginx/html
+      - ./default.conf:/etc/nginx/conf.d
+    networks:
+      - webproxy
+      - app-network
 
   frontend:
     restart: unless-stopped
@@ -57,6 +57,7 @@ services:
     volumes:
       - ./backend/static:/app/static
       - ./backend/media:/app/media
+      - .:/app
     working_dir: /app
     depends_on:
       - redis
@@ -101,13 +102,17 @@ services:
       dockerfile: Dockerfile
     container_name: rq_worker
     volumes:
-      - ./backend:/app
+      # - ./backend:/app
+      - ./compose:/app
     working_dir: /app
     environment:
       - DJANGO_SETTINGS_MODULE=videoflix.settings
     command: ./compose/run_rq.sh
     networks:
       - app-network
+
+volumes:
+  postgres_data:
 
 networks:
   webproxy:

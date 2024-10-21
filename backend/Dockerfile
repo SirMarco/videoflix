@@ -10,8 +10,4 @@ RUN /usr/local/bin/python -m pip install --upgrade pip
 
 RUN pip install -r requirements.txt
 
-RUN chmod +x /usr/src/app/start_service.sh
-
-RUN ls -la /usr/src/app/start_service.sh
-
 EXPOSE 8000
