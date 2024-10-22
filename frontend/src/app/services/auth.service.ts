@@ -11,18 +11,28 @@ export class AuthService {
   private userId: number | null = null;
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
-  public loginWithUsernameAndPassword(username: string, password: string) {
+  public loginWithUsernameAndPassword(
+    username: string,
+    password: string,
+    rememberMe: boolean
+  ) {
     const url = environment.baseUrl + '/login/';
     const body = {
       username: username,
       password: password,
+      remember_me: rememberMe, // Dies sendet die Info an das Backend
     };
     return lastValueFrom(this.http.post(url, body)).then((response: any) => {
       this.userId = response.user_id;
       localStorage.setItem('userId', response.user_id);
-      localStorage.setItem('token', response.token);
+
+      if (rememberMe) {
+        localStorage.setItem('token', response.token);
+      } else {
+        sessionStorage.setItem('token', response.token);
+      }
       this.loggedIn.next(true);
       return response;
     });

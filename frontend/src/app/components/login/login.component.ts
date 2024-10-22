@@ -14,12 +14,18 @@ import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CustomToastService } from '../../services/custom-toast.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NgxSpinnerModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+    NgxSpinnerModule,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -33,7 +39,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private customToastService: CustomToastService,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -48,7 +54,7 @@ export class LoginComponent implements OnInit {
       const email = control.value;
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
       const valid = emailRegex.test(email);
-      return valid ? null : { 'invalidEmail': true };
+      return valid ? null : { invalidEmail: true };
     };
   }
 
@@ -56,11 +62,13 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const email = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
+      const rememberMe = this.loginForm.get('rememberMe')?.value;
       this.spinner.show();
       try {
         let resp: any = await this.as.loginWithUsernameAndPassword(
           email,
-          password
+          password,
+          rememberMe
         );
         localStorage.setItem('token', resp['token']);
         this.spinner.hide();
@@ -72,7 +80,6 @@ export class LoginComponent implements OnInit {
         this.spinner.hide();
         this.showToast('EMail or password wrong', 'error');
         console.log(error);
-
       }
     }
   }

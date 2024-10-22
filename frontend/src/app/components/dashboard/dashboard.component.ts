@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Video } from '../../interfaces/video.interface';
 import { CommonModule } from '@angular/common';
@@ -15,7 +21,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   url = environment.baseUrl + '/videos';
   pictureUrl = environment.pictureUrl;
   mediaUrl = environment.mediaUrl;
@@ -27,6 +33,7 @@ export class DashboardComponent implements OnInit {
   uploadStatus = new BehaviorSubject<string[]>([]);
 
   @ViewChild(VideoPlayerComponent) videoPlayer!: VideoPlayerComponent;
+  @ViewChild('backgroundVideo') backgroundVideo!: ElementRef;
   player: any;
 
   constructor(private spinner: NgxSpinnerService) {}
@@ -34,6 +41,19 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getAllVideos();
     console.log(this.videos);
+  }
+
+  ngAfterViewInit() {
+    // Warte einen Moment, um sicherzustellen, dass das Video-Element gerendert wurde
+    setTimeout(() => {
+      if (this.backgroundVideo) {
+        const videoElement = this.backgroundVideo.nativeElement;
+        videoElement.muted = true; // Sicherstellen, dass es stumm ist
+        videoElement.play().catch((error: any) => {
+          console.log('Autoplay prevented:', error);
+        });
+      }
+    }, 0); // Kleine Verzögerung zum Warten auf das DOM-Rendering
   }
 
   getAllVideos() {
