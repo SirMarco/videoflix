@@ -6,7 +6,7 @@ import { VideoPlayerComponent } from '../video-player/video-player.component';
 import { RouterLink } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild(VideoPlayerComponent) videoPlayer!: VideoPlayerComponent;
   player: any;
 
-  constructor(private spinner: NgxSpinnerService) { }
+  constructor(private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
     this.getAllVideos();
@@ -45,8 +45,8 @@ export class DashboardComponent implements OnInit {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Token ${token}`
-      }
+        Authorization: `Token ${token}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => {
@@ -66,9 +66,10 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-
   initializeWebSocket() {
-    const socket = new WebSocket('wss://api.videoflix.marco-engelhardt.ch/ws/conversion-status/');
+    const socket = new WebSocket(
+      'wss://api.videoflix.marco-engelhardt.ch/ws/conversion-status/'
+    );
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       const videoIndex = this.videos.findIndex(
@@ -119,6 +120,10 @@ export class DashboardComponent implements OnInit {
   getFullThumbnailUrl(thumbnail: string): string {
     // return environment.pictureUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
     return this.mediaUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
+  }
+  getFullVideoUrl(video_file: string): string {
+    // return environment.pictureUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
+    return this.mediaUrl + video_file; // Füge die Base URL zur Thumbnail-URL hinzu
   }
 
   getVideosByCategory(category: string): Video[] {

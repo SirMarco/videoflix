@@ -1,5 +1,21 @@
 <section>
-    <div class="intro" *ngIf="randomVideo" [ngStyle]="{'background': 'linear-gradient(180deg, #000000 -19.89%, rgba(0, 0, 0, 0.15) 40.46%, #000000 100%), url(' + getFullThumbnailUrl(randomVideo.thumbnail) + ')',
+    <div class="intro" *ngIf="randomVideo" style="position: relative; max-height: 45vh; overflow: hidden;">
+        <!-- Video als Hintergrund -->
+        <video autoplay muted loop playsinline class="background-video">
+            <source [src]="getFullVideoUrl(randomVideo.video_file)" type="video/mp4">
+        </video>
+
+        <!-- Inhalt über dem Video -->
+        <div class="videoDescription">
+            <span class="fs-88-700 randomTitle white">{{ randomVideo.title }}</span>
+            <span class="fs-16 white">{{ randomVideo.description }}</span>
+            <button class="button" [routerLink]="['/video', randomVideo.slug]">
+                <img src="../../../assets/img/play.svg" alt="Play icon" /> Play
+            </button>
+        </div>
+    </div>
+
+    <!-- <div class="intro" *ngIf="randomVideo" [ngStyle]="{'background': 'linear-gradient(180deg, #000000 -19.89%, rgba(0, 0, 0, 0.15) 40.46%, #000000 100%), url(' + getFullThumbnailUrl(randomVideo.thumbnail) + ')',
                 'background-size': 'cover',
                 'background-position': 'center',
                 'background-repeat': 'no-repeat',
@@ -7,14 +23,11 @@
         <div class="videoDescription">
             <span class="fs-88-700 randomTitle white">{{ randomVideo.title }}</span>
             <span class="fs-16 white">{{ randomVideo.description }}</span>
-            <button class="button" [routerLink]="['/video', randomVideo.id]">
+            <button class="button" [routerLink]="['/video', randomVideo.slug]">
                 <img src="../../../assets/img/play.svg" alt="Play icon" /> Play
             </button>
-
-
         </div>
-        <!-- <img [src]="getFullThumbnailUrl(randomVideo.thumbnail)" alt="{{ randomVideo.title }} thumbnail" /> -->
-    </div>
+    </div> -->
     <div class="categoryOverview">
         <div class="category">
             <div *ngFor="let category of getCategories(); let i = index">
