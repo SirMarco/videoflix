@@ -13,7 +13,7 @@ import { VideoDetailComponent } from './components/video-detail/video-detail.com
 
 export const routes: Routes = [
   { path: '', component: MainComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  // { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   {
     path: 'dashboard',

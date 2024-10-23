@@ -16,8 +16,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,6 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
+
+ALLOWED_HOSTS = ['localhost', 'backend', 'videoflix.marco-engelhardt.ch', 'api.videoflix.marco-engelhardt.ch']
+
+CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'http://localhost:8000', 'https://videoflix.marco-engelhardt.ch', 'https://api.videoflix.marco-engelhardt.ch']
 
 CACHE_TTL = 60 * 15
 
@@ -49,8 +54,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -60,21 +65,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
  ]
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'backend', 'videoflix.marco-engelhardt.ch', 'api.videoflix.marco-engelhardt.ch']
-
-CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'http://localhost:8081', 'https://videoflix.marco-engelhardt.ch', 'https://api.videoflix.marco-engelhardt.ch']
 
 CSRF_TRUSTED_ORIGINS = [
-  'http://127.0.0.1:4200',
+  'http://127.0.0.1',
   'http://localhost',
-  'http://localhost:4200',
   'https://videoflix.marco-engelhardt.ch',
   'https://api.videoflix.marco-engelhardt.ch'
 ]
 
-CORS_ALLOW_HEADERS = ['*']
-
-
+CORS_ALLOW_ALL_ORIGINS = False
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -201,6 +200,10 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

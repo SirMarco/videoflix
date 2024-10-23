@@ -141,7 +141,7 @@ class ActivateView(APIView):
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
         if user is not None and account_activation_token.check_token(user, token):
-            user.is_active = True  # Benutzer aktivieren
+            user.is_active = True
             user.save()
             return Response({'message': 'Account erfolgreich aktiviert'}, status=status.HTTP_200_OK)
         else:
