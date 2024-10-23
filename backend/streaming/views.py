@@ -137,12 +137,9 @@ class ActivateView(APIView):
     permission_classes = []
     def get(self, request, id, token):
         try:
-            # Benutzer-ID dekodieren
             user = User.objects.get(pk=id)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
-
-        # Überprüfen, ob das Token gültig ist
         if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True  # Benutzer aktivieren
             user.save()
