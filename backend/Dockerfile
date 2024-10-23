@@ -10,7 +10,7 @@ RUN /usr/local/bin/python -m pip install --upgrade pip
 
 RUN pip install -r requirements.txt
 
-RUN ls -al /app && sleep 10
+RUN ls -al /app
 
 # RUN chmod +x /app/compose/run-rq.sh
 

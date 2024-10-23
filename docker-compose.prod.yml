@@ -1,0 +1,60 @@
+services:
+  # acme-companion:
+  #   image: nginxproxy/acme-companion
+  #   container_name: acme-companion
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - ./certs:/etc/nginx/certs
+  #     - ./html:/usr/share/nginx/html
+  #   environment:
+  #     - DEFAULT_EMAIL=marco.engelhardt@reussnet.ch
+  #     - NGINX_PROXY_CONTAINER=nginx-proxy
+  #   depends_on:
+  #     - nginx-proxy
+  #   networks:
+  #     - webproxy
+
+  nginx-proxy:
+  restart: always
+  image: jwilder/nginx-proxy
+  container_name: nginx-proxy
+  ports:
+    - "80:80"
+    - "443:443"
+  volumes:
+    - /var/run/docker.sock:/tmp/docker.sock:ro
+    - ./certs:/etc/nginx/certs:ro
+    - ./vhost.d:/etc/nginx/vhost.d
+    - ./html:/usr/share/nginx/html
+    # - ./default.conf:/etc/nginx/conf.d
+  environment:
+    - TRUST_DOWNSTREAM_PROXY=false
+  networks:
+    - webproxy
+    - app-network
+
+  backend:
+    environment:
+      - DJANGO_SETTINGS_MODULE=videoflix.settings
+      - VIRTUAL_HOST=api.videoflix.marco-engelhardt.ch
+      - LETSENCRYPT_HOST=api.videoflix.marco-engelhardt.ch
+      - LETSENCRYPT_EMAIL=marco.engelhardt@reussnet.ch
+    command: /app/compose/run-backend.sh
+
+  frontend:
+    volumes:
+      - ./frontend_html:/usr/share/nginx/html
+      - ./backend/media:/usr/share/nginx/html/media
+      - ./nginx-config:/etc/nginx/conf.d
+    environment:
+      - VIRTUAL_HOST=videoflix.marco-engelhardt.ch
+      - LETSENCRYPT_HOST=videoflix.marco-engelhardt.ch
+      - LETSENCRYPT_EMAIL=marco.engelhardt@reussnet.ch
+    networks:
+      - app-network
+
+networks:
+  webproxy:
+    external: true
+  app-network:
+    driver: bridge

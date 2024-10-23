@@ -30,7 +30,7 @@ def convert_to_hls(source, output_dir, video_id):
         # FFmpeg-Befehl für jede Auflösung, angepasst für 480p
         if name == "480p":
             cmd = [
-                'ffmpeg', '-i', source,
+                '/usr/bin/ffmpeg', '-i', source,
                 '-vf', f'scale=trunc(oh*a/2)*2:480',
                 '-c:a', 'aac', '-ar', '48000', '-c:v', 'h264', '-profile:v', 'main', '-crf', '20',
                 '-g', '48', '-keyint_min', '48',
@@ -40,7 +40,7 @@ def convert_to_hls(source, output_dir, video_id):
             ]
         else:
             cmd = [
-                'ffmpeg', '-i', source,
+                '/usr/bin/ffmpeg', '-i', source,
                 '-vf', f'scale={res}:force_original_aspect_ratio=decrease',
                 '-c:a', 'aac', '-ar', '48000', '-c:v', 'h264', '-profile:v', 'main', '-crf', '20',
                 '-g', '48', '-keyint_min', '48',
@@ -117,7 +117,7 @@ def generate_video_thumbnail(source, video_id):
 
     # ffmpeg-Befehl als Liste an subprocess.run übergeben
     cmd = [
-        'ffmpeg', '-i', source, 
+        '/usr/bin/ffmpeg', '-i', source, 
         '-ss', '00:00:01.000', 
         '-vframes', '1', 
         thumbnail_path

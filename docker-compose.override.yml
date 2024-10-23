@@ -1,0 +1,43 @@
+# docker-compose.override.yml
+version: "3.8"
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev # Entwicklungs-Dockerfile verwenden
+    environment:
+      - DJANGO_SETTINGS_MODULE=videoflix.settings # Development Settings
+    volumes:
+      - ./backend:/app # Lokale Ordner für Live-Coding mounten
+    ports:
+      - "8000:8000" # Freigabe des Ports für den Entwicklungsserver
+
+  frontend:
+    build:
+      context: ./frontend # Pfad zu deinem Angular-Projekt
+      dockerfile: Dockerfile.dev # Verwende das Entwicklungs-Dockerfile
+    ports:
+      - "4200:4200" # Exponiere den Port 4200 für Angular
+    volumes:
+      - ./frontend:/usr/src/app # Binde das lokale Angular-Verzeichnis
+      - ./backend/media:/usr/src/app # Binde das lokale Angular-Verzeichnis
+      - node_modules:/usr/src/app/node_modules
+      # - /usr/src/app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true # Ermöglicht besseres Dateiwatching in Docker
+      - NGINX_HOST=localhost
+
+  postgres:
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: CFfRdzBewPEGG
+    ports:
+      - "5432:5432"
+
+  redis:
+    ports:
+      - 6379:6379
+
+volumes:
+  node_modules: # Definiert das named volume
