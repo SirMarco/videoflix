@@ -41,14 +41,13 @@ export class AppComponent implements OnInit, AfterViewInit {
   constructor(
     private customToastService: CustomToastService,
     private router: Router,
-    private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    if (this.authService.isLoggedIn()) {
-      // Wenn eingeloggt, auf Dashboard weiterleiten
-      this.router.navigate(['/dashboard']);
-    }
+    // if (this.authService.isLoggedIn()) {
+    //   // Wenn eingeloggt, auf Dashboard weiterleiten
+    //   this.router.navigate(['/dashboard']);
+    // }
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
