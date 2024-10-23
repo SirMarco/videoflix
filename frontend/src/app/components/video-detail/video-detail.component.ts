@@ -21,6 +21,7 @@ export class VideoDetailComponent implements OnInit {
   url = environment.baseUrl + '/videos/';
   hlsUrl = environment.hlsUrl;
   pictureUrl = environment.pictureUrl;
+  mediaUrl = environment.mediaUrl;
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private spinner: NgxSpinnerService) { }
 

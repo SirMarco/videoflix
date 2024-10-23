@@ -3,8 +3,8 @@
     <div class="title">
       <h1 class="fs-48-700">{{ videoData.title }}</h1>
     </div>
-    <app-video-player class="wrapper" [videoSrc]="videoData.hls_playlist" [videoId]="videoData.slug"
-      [thumbnail]="videoData.thumbnail"></app-video-player>
+    <app-video-player class="wrapper" [videoSrc]="mediaUrl + videoData.hls_playlist" [videoId]="videoData.slug"
+      [thumbnail]="mediaUrl + videoData.thumbnail"></app-video-player>
     <p class="description fs-18">{{ videoData.description }}</p>
   </div>
 </ng-container>
