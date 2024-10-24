@@ -21,69 +21,58 @@ from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from .models import PlaybackProgress, Video
 from .serializers import VideoSerializer
 
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
-from django.views.decorators.csrf import csrf_exempt
-
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 # @cache_page(CACHE_TTL)
 class VideosView(APIView):
     #method_decorator(cache_page(CACHE_TTL))
     def get(self, request, *args, **kwargs):
-        videos = Video.objects.all()  # Alle Videos abfragen
-        serializer = VideoSerializer(videos, many=True)  # Serialisieren der Daten
-        return Response(serializer.data)  # JSON-Antwort zurückgeben
+        videos = Video.objects.all()
+        serializer = VideoSerializer(videos, many=True)
+        return Response(serializer.data)
 
 # @cache_page(CACHE_TTL)
 class VideoDetailView(APIView):
     #@method_decorator(cache_page(CACHE_TTL))
     def get(self, request, video_slug, *args, **kwargs):
-        video = get_object_or_404(Video, slug=video_slug)  # Holt ein Video oder gibt 404 zurück
+        video = get_object_or_404(Video, slug=video_slug)
         serializer = VideoSerializer(video)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class GetPlaybackProgress(APIView):
-    permission_classes = [IsAuthenticated]  # Nur authentifizierte Benutzer können den Fortschritt abrufen
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, video_slug):
         try:
-            # Hole das Video anhand des Slugs
             video = Video.objects.get(slug=video_slug)
         except Video.DoesNotExist:
             return Response({"error": "Video not found"}, status=404)
 
         try:
-            # Suche den Fortschritt für den Benutzer und das Video
             progress_record = PlaybackProgress.objects.get(user=request.user, video=video)
             return Response({"progress": progress_record.progress})
         except PlaybackProgress.DoesNotExist:
-            # Wenn kein Fortschritt vorhanden ist, bei 0 beginnen
             return Response({"progress": 0.0})
 
 class SavePlaybackProgress(APIView):
-    permission_classes = [IsAuthenticated]  # Stellt sicher, dass nur authentifizierte Benutzer speichern können
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         video_slug = request.data.get("video_slug")
-        progress = request.data.get("progress")  # Fortschritt in Sekunden
+        progress = request.data.get("progress")
         seen = request.data.get('seen', False)
         print(f"Video Slug: {video_slug}, Progress: {progress}")
 
         try:
-            # Hole das Video anhand des Slugs
             video = Video.objects.get(slug=video_slug)
         except Video.DoesNotExist:
             return Response({"error": "Video not found"}, status=404)
-
-        # Der Benutzer wird durch request.user ermittelt
         user = request.user
 
-        # Speichere oder aktualisiere den Fortschritt für den Benutzer und das Video
         progress_record, created = PlaybackProgress.objects.get_or_create(user=user, video=video)
         progress_record.progress = progress
 
-        if seen:  # Setze das Video als vollständig gesehen
+        if seen:
             progress_record.seen = True
          
         progress_record.save()

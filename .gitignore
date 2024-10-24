@@ -9,4 +9,4 @@
 /staticfiles
 /static
 
-/00_Backup
+/backend/.env

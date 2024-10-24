@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'streaming.apps.StreamingConfig',
     'rest_framework',
     'rest_framework.authtoken',
+    'auth',
+    'streaming',
     'corsheaders',
     'debug_toolbar',
     'django_rq',

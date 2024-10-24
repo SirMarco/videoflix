@@ -8,22 +8,6 @@ import os
 import django_rq
 
 @receiver(post_save, sender=Video)
-# def video_post_save(sender, instance, created, **kwargs):
-#     print('Video wurde gespeichert')
-#     if created:
-#         source = instance.video_file.path
-        
-#     # Starte die Konvertierung in verschiedene Auflösungen
-#         resolutions = convert_video_resolutions(source)
-    
-#     # Speichere die Pfade zu den verschiedenen Auflösungen
-#         instance.video_1280p = f'videos/{os.path.basename(resolutions["1280p"])}'
-#         instance.video_720p = f'videos/{os.path.basename(resolutions["720p"])}'
-#         instance.video_480p = f'videos/{os.path.basename(resolutions["480p"])}'
-#         thumbnail_relative_path = generate_video_thumbnail(instance.video_file.path, instance.id)
-#         instance.thumbnail = thumbnail_relative_path
-#         instance.save()
-
 def video_post_save(sender, instance, created, **kwargs):
     if created:
         # Quellpfad des hochgeladenen Videos
@@ -48,10 +32,6 @@ def video_post_save(sender, instance, created, **kwargs):
         instance.hls_playlist = hls_playlist_url
         instance.thumbnail = thumbnail_relative_path
         instance.save(update_fields=['status','hls_playlist', 'thumbnail'])
-
-        # Logge wichtige Pfade zur Fehlersuche
-        print(f"Generated HLS playlist URL: {hls_playlist_url}")
-        print(f"MEDIA_URL is: {settings.MEDIA_URL}")
         
 @receiver(post_delete, sender=Video)
 def video_post_delete(sender, instance, **kwargs):
