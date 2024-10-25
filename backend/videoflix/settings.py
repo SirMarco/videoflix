@@ -44,10 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Import Singnals from ContentConfig
-    'streaming.apps.StreamingConfig',
+    # 'streaming.apps.StreamingConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    'auth',
+    'authapp',
     'streaming',
     'corsheaders',
     'debug_toolbar',

@@ -14,6 +14,24 @@
   outline: unset;
 }
 
+.timeout {
+  position: fixed;
+  top: 0;
+  height: 6px;
+  width: 100%;
+  animation: 3s in-out forwards;
+  background-color: var(--lightpurple);
+}
+
+@keyframes in-out {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}
+
 .warn {
   height: 100%;
   width: 30px;
