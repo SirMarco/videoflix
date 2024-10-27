@@ -62,8 +62,8 @@ export class PasswordResetComponent implements OnInit {
           }, 3000);
         },
         error: (error) => {
-          this.resetStatus = 'Password reset failed or the link is invalid.';
-          this.showToast('Password reset failed or the link is invalid.', 'error')
+          this.resetStatus = 'Reset fehlgeschalgen oder Link ist inaktiv';
+          this.showToast('Reset fehlgeschalgen oder Link ist inaktiv', 'error')
         }
       });
   }

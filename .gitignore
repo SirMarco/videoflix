@@ -10,3 +10,5 @@
 /static
 
 /backend/.env
+
+/backend/media

@@ -54,13 +54,13 @@ export class ResetpasswordComponent {
         .subscribe({
           next: () => {
             this.emailSent = true;
-            this.showToast('Please check your emails', 'success')
+            this.showToast('Bitte prüfe deine EMails', 'success')
             this.resetPassword.reset();
             this.spinner.hide();
           },
           error: () => {
             this.spinner.hide();
-            this.showToast('Email is not registered', 'error')
+            this.showToast('Email ist nicht registriert', 'error')
           },
         });
     } else {

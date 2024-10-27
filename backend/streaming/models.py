@@ -12,7 +12,7 @@ class Category(models.Model):
     
 class Video(models.Model):
     title = models.CharField(max_length=80)
-    slug = models.SlugField(max_length=100, unique=False, blank=True, null=True)
+    slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
     description = models.CharField(max_length=500)
     video_file = models.FileField(upload_to='videos', blank=True, null=True)
     hls_playlist = models.FileField(blank=True, null=True)
@@ -24,7 +24,13 @@ class Video(models.Model):
     
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            base_slug = slugify(self.title)
+            slug = base_slug
+            counter = 1
+            while Video.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
         super().save(*args, **kwargs)
 
     def __str__(self):

@@ -51,11 +51,13 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
       this.player.hlsQualitySelector();
     }
 
-    this.http.get<Video>(environment.baseUrl + `/get-progress/${this.videoId}`).subscribe(response => {
+    this.http.get<Video>(environment.baseUrl + `/progress/${this.videoId}`).subscribe(response => {
       this.savedTime = parseFloat(response.progress) || 0;
       if (this.savedTime > 0) {
         this.showResumeButton = true;
         this.player.currentTime(this.savedTime);
+        console.log(environment.baseUrl);
+
       }
     });
 
@@ -66,6 +68,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
 
     this.player.on('pause', () => {
       this.stopSaveProgressInterval();
+      console.log(this.savedTime);
     });
 
     this.player.on('ended', () => {
@@ -75,7 +78,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
   }
 
   markAsSeen() {
-    this.http.post(environment.baseUrl + '/save-progress/', {
+    this.http.post(environment.baseUrl + '/progress/', {
       video_slug: this.videoId,
       progress: this.player.duration(),
       seen: true
@@ -103,7 +106,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
   }
 
   saveProgress(currentTime: number) {
-    this.http.post(environment.baseUrl + '/save-progress/', {
+    this.http.post(environment.baseUrl + '/progress/', {
       video_slug: this.videoId,
       progress: currentTime
     }).subscribe(response => {

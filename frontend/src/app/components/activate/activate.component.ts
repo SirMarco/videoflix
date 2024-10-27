@@ -19,7 +19,7 @@ export class ActivateComponent implements OnInit {
     private route: ActivatedRoute,
     private http: HttpClient,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const uid = this.route.snapshot.paramMap.get('id');
@@ -34,14 +34,13 @@ export class ActivateComponent implements OnInit {
     this.http.get(environment.baseUrl + `/activate/${id}/${token}/`).subscribe({
       next: (response: any) => {
         this.activationStatus = 'Account erfolgreich aktiviert.';
-        // setTimeout(() => {
-        //   this.router.navigate(['/login']);
-        // }, 3000);
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 3000);
       },
       error: (error) => {
         this.activationStatus =
           'Die Aktivierung ist fehlgeschlagen oder der Link ist ungültig.';
-        console.error('Aktivierungsfehler:', error);
       },
     });
   }

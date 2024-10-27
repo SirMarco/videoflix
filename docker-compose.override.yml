@@ -28,15 +28,15 @@ services:
       - CHOKIDAR_USEPOLLING=true # Ermöglicht besseres Dateiwatching in Docker
       - NGINX_HOST=localhost
 
-  nginx-media:
-    image: nginx:latest
-    container_name: nginx-media
-    volumes:
-      - ./backend/media:/usr/share/nginx/html/media
-      - ./nginx-config/nginx-media.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - "8081:80"
-    restart: unless-stopped
+  # nginx-media:
+  #   restart: unless-stopped
+  #   image: nginx:latest
+  #   container_name: nginx-media
+  #   volumes:
+  #     # - ./backend/media:/usr/share/nginx/html/media
+  #     - ./nginx-config/nginx-media.conf:/etc/nginx/conf.d/default.conf
+  #   ports:
+  #     - "8081:4200"
 
   postgres:
     environment:

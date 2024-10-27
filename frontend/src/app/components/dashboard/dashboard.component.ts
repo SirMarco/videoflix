@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChild('backgroundVideo') backgroundVideo!: ElementRef;
   player: any;
 
-  constructor(private spinner: NgxSpinnerService) {}
+  constructor(private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.getAllVideos();
@@ -136,14 +136,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   getCategories(): string[] {
     return Object.keys(this.groupedVideos); // Rückgabe der Kategorienamen
   }
-
-  getFullThumbnailUrl(thumbnail: string): string {
-    // return environment.pictureUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
-    return this.mediaUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
-  }
+  /*
+    getFullThumbnailUrl(thumbnail: string): string {
+      // return environment.pictureUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
+      return this.mediaUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
+    }
+  */
   getFullVideoUrl(video_file: string): string {
     // return environment.pictureUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
-    return this.mediaUrl + video_file; // Füge die Base URL zur Thumbnail-URL hinzu
+    return video_file; // Füge die Base URL zur Thumbnail-URL hinzu
   }
 
   getVideosByCategory(category: string): Video[] {

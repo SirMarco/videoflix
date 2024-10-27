@@ -11,22 +11,3 @@
   position: relative;
   overflow: hidden;
 }
-
-.timeout {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 6px;
-  width: 100%;
-  animation: 3s in-out forwards;
-  background-color: var(--purple);
-}
-
-@keyframes in-out {
-  0% {
-    width: 100%;
-  }
-  100% {
-    width: 0%;
-  }
-}

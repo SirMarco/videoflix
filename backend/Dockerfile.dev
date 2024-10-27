@@ -9,6 +9,10 @@ RUN apt-get update && apt-get install -y ffmpeg
 
 RUN pip install -r requirements.txt
 
+# RUN chmod +x /app/compose/run-rq.sh
+
+#RUN chmod +x /app/compose/run-backend.sh
+
 CMD python manage.py runserver 0.0.0.0:8000
 
 EXPOSE 8000 

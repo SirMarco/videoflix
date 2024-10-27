@@ -189,3 +189,22 @@ a {
   color: var(--white);
   font-style: bold;
 }
+
+.timeout {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 6px;
+  width: 100%;
+  animation: 3s timeout forwards;
+  background-color: var(--purple);
+}
+
+@keyframes timeout {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}

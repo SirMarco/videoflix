@@ -94,12 +94,12 @@ export class RegisterComponent {
         .registerNewUser(email, password)
         .then(() => {
           this.spinner.hide();
-          this.showToast('You are registered. Check your emails', 'success');
+          this.showToast('Du bist registriert. Prüfe deine EMails', 'success');
           this.router.navigate(['/login']);
         })
         .catch(() => {
           this.spinner.hide();
-          this.showToast('Email already registered', 'error');
+          this.showToast('Du bist bereits registriert', 'error');
         });
     } else {
       this.spinner.hide();

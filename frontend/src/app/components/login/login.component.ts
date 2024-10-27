@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private customToastService: CustomToastService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
         }, 1000);
       } catch (error) {
         this.spinner.hide();
-        this.showToast('EMail or password wrong', 'error');
+        this.showToast('Prüfe deine Daten', 'error');
         console.log(error);
       }
     }
