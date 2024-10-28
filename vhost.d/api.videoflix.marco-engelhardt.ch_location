@@ -18,10 +18,11 @@ location /admin/ {
 }
 
 location /media/ {
-    alias /usr/src/app/media/;  # Pfad, in dem die Media-Dateien liegen
+    alias /app/media/;  # Pfad, in dem die Media-Dateien liegen
     access_log off;
     expires 30d;
 }
+
 location /static/ {
     alias /usr/src/app/staticfiles/;
     access_log off;
