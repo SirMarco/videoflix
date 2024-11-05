@@ -92,7 +92,7 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
         console.log('current saved time' + currentTime);
 
       }
-    }, 5000);
+    }, 2000);
   }
 
   // Intervall stoppen
