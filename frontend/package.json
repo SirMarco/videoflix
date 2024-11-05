@@ -22,7 +22,7 @@
     "@types/core-js": "^2.5.8",
     "@videogular/ngx-videogular": "^10.0.1",
     "@videojs/http-streaming": "^3.15.0",
-    "hls.js": "^1.5.16",
+    "hls.js": "^1.5.17",
     "ngx-device-detector": "^7.0.0",
     "ngx-spinner": "^17.0.0",
     "ngx-toastr": "^19.0.0",
@@ -33,6 +33,7 @@
     "videojs-contrib-quality-levels": "^4.1.0",
     "videojs-hls-quality-selector": "^2.0.0",
     "videojs-http-source-selector": "^1.1.6",
+    "vidstack": "^1.12.12",
     "zone.js": "~0.14.2"
   },
   "devDependencies": {

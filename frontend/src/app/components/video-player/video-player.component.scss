@@ -21,7 +21,7 @@
 .resume-btn {
     font-size: 16px;
     color: white;
-    background-color: #ff5722;
+    background-color: var(--purple);
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -29,7 +29,7 @@
 }
 
 .resume-btn:hover {
-    background-color: #e64a19;
+    background-color: var(--lightpurple);
 }
 
 ::ng-deep .vjs-big-play-button {
@@ -40,4 +40,12 @@
 
 ::ng-deep .vjs-volume-control {
     color: var(--purple) !important;
+}
+
+::ng-deep media-google-cast-button {
+    display: none;
+}
+
+::ng-deep .hide-overlay-play .plyr.plyr--video .plyr__control--overlaid {
+    display: none;
 }
