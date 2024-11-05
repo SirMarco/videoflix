@@ -44,16 +44,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Warte einen Moment, um sicherzustellen, dass das Video-Element gerendert wurde
     setTimeout(() => {
       if (this.backgroundVideo) {
         const videoElement = this.backgroundVideo.nativeElement;
-        videoElement.muted = true; // Sicherstellen, dass es stumm ist
+        videoElement.muted = true;
         videoElement.play().catch((error: any) => {
           console.log('Autoplay prevented:', error);
         });
       }
-    }, 0); // Kleine Verzögerung zum Warten auf das DOM-Rendering
+    }, 0);
   }
 
   getAllVideos() {
