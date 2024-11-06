@@ -95,7 +95,4 @@ def convert_to_hls(source, output_dir, video_id):
     master_playlist_path = write_master_playlist(output_dir, RESOLUTIONS)
     update_video_status(video_id)
 
-    # Generate thumbnail after HLS conversion
-    generate_video_thumbnail(source, video_id)
-
     return master_playlist_path

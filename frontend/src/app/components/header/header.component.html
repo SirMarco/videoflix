@@ -1,6 +1,7 @@
 <header class="">
-    <img *ngIf="isDesktop" class="logo link" src="../../../assets/img/logo.svg" alt="Logo" routerLink="/">
-    <img *ngIf="!isDesktop" class="logo link" src="../../../assets/img/logo_small.svg" alt="Logo" routerLink="/">
+    <img *ngIf="isDesktop" class="logo link" src="../../../assets/img/logo.svg" alt="Logo" routerLink="/dashboard">
+    <img *ngIf="!isDesktop" class="logo link" src="../../../assets/img/logo_small.svg" alt="Logo"
+        routerLink="/dashboard">
     <img *ngIf="showBackButton" src="../../../assets/img/arrow_back.svg" class="link backButton" (click)="goBack()">
     <span *ngIf="!showBackButton && isLoggedIn" class="button" (click)="logout()">Logout</span>
     <span *ngIf="!showBackButton && !isLoggedIn" class="button" routerLink="/login">Log in</span>

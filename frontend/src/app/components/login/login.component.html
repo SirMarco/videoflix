@@ -5,7 +5,7 @@
             <input class="input-field purple" id="email" type="email" formControlName="email"
                 placeholder="EMail Address" />
             <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-                <small *ngIf="loginForm.get('email')?.hasError('invalidEmail')">Invalid Email adresse</small>
+                <small *ngIf="loginForm.get('email')?.hasError('invalidEmail')">Please check your entries and try again.</small>
             </div>
         </div>
         <div>
@@ -16,9 +16,9 @@
                     [ngClass]="showPassword ? 'close-eye' : 'open-eye'"></div>
             </div>
             <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-                <small *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</small>
+                <small *ngIf="loginForm.get('password')?.errors?.['required']">Please check your entries and try again.</small>
                 <small *ngIf="loginForm.get('password')?.errors?.['minlength']">
-                    Password must be at least 6 characters long
+                    Please check your entries with at least 6 characters
                 </small>
             </div>
         </div>

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import sys
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -52,7 +53,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'debug_toolbar',
     'django_rq',
-    'channels'
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -104,12 +105,19 @@ CHANNEL_LAYERS = {
 
 
 RQ_QUEUES = {
-    'default': {
+    'low': {
         'HOST': 'redis',
         'PORT': 6379,
         'DB': 0,
         # 'PASSWORD': 'foobared',
-        'DEFAULT_TIMEOUT': 360,
+        'DEFAULT_TIMEOUT': 1200,
+    },
+    'high': {
+        'HOST': 'redis',
+        'PORT': 6379,
+        'DB': 0,
+        # 'PASSWORD': 'foobared',
+        'DEFAULT_TIMEOUT': 300,
     }
 }
 
@@ -131,8 +139,8 @@ TEMPLATES = [
     },
 ]
 
-#MEDIA_URL = '/media/'
-MEDIA_URL = 'https://videoflix.marco-engelhardt.ch/media/'
+MEDIA_URL = '/media/'
+# MEDIA_URL = 'https://videoflix.marco-engelhardt.ch/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Static files (CSS, JavaScript, Images)
@@ -147,22 +155,24 @@ ASGI_APPLICATION = 'videoflix.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'CFfRdzBewPEGG',
-        'HOST': 'postgres',
-        'PORT': '5432',
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'postgres', 
+            'USER': 'postgres',
+            'PASSWORD': 'CFfRdzBewPEGG',
+            'HOST': 'postgres',
+            'PORT': '5432',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -214,33 +224,33 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-VIDEO_ENCODINGS = [
-    {
-        'name': '1080p',
-        'params': ['-vf', 'scale=w=1920:h=1080:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
-        'ext': 'mp4'
-    },
-    {
-        'name': '720p',
-        'params': ['-vf', 'scale=w=1280:h=720:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
-        'ext': 'mp4'
-    },
-    {
-        'name': '480p',
-        'params': ['-vf', 'scale=w=854:h=480:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
-        'ext': 'mp4'
-    },
-    {
-        'name': '360p',
-        'params': ['-vf', 'scale=w=640:h=360:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
-        'ext': 'mp4'
-    },
-    {
-        'name': 'HLS',
-        'params': ['-hls_time', '4', '-hls_playlist_type', 'vod'],
-        'ext': 'm3u8'
-    },
-]
+# VIDEO_ENCODINGS = [
+#     {
+#         'name': '1080p',
+#         'params': ['-vf', 'scale=w=1920:h=1080:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
+#         'ext': 'mp4'
+#     },
+#     {
+#         'name': '720p',
+#         'params': ['-vf', 'scale=w=1280:h=720:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
+#         'ext': 'mp4'
+#     },
+#     {
+#         'name': '480p',
+#         'params': ['-vf', 'scale=w=854:h=480:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
+#         'ext': 'mp4'
+#     },
+#     {
+#         'name': '360p',
+#         'params': ['-vf', 'scale=w=640:h=360:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
+#         'ext': 'mp4'
+#     },
+#     {
+#         'name': 'HLS',
+#         'params': ['-hls_time', '4', '-hls_playlist_type', 'vod'],
+#         'ext': 'm3u8'
+#     },
+# ]
 
 
 # Email Activation

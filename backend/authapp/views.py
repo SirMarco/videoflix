@@ -14,6 +14,9 @@ from django.template.loader import render_to_string
 
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from .tokens import account_activation_token
+from .tasks import send_activation_email
+import django_rq
+
 
 class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
@@ -30,34 +33,27 @@ class LoginView(ObtainAuthToken):
     
 class RegisterView(APIView):
     permission_classes = [AllowAny]
+
     def post(self, request, *args, **kwargs):
         email = request.data.get('email')
         password = request.data.get('password')
 
+        # Überprüfe, ob der Benutzer bereits existiert
         if User.objects.filter(username=email).exists() or User.objects.filter(email=email).exists():
             return Response({'error': 'Diese E-Mail ist bereits registriert'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
+        # Erstelle den neuen Benutzer
         user = User.objects.create_user(username=email, email=email, password=password)
         user.is_active = False
         user.save()
-        activation_link = f"https://videoflix.marco-engelhardt.ch/activate/{user.pk}/{account_activation_token.make_token(user)}"
 
-        mail_subject = 'Aktiviere deinen Account'
-        text_content = f"Hallo {user.username},\n\nBitte klicke auf den unten stehenden Link, um deinen Account zu aktivieren:\n\n{activation_link}\n\nWenn du den Account nicht erstellt hast, ignoriere bitte diese E-Mail."
+        # Sende Aktivierungsmail asynchron über die 'high' Queue
+        high_queue = django_rq.get_queue('high', autocommit=True)
+        high_queue.enqueue(send_activation_email, user.pk)
 
-        html_content = render_to_string('activation_email.html', {
-            'user': user,
-            'activation_link': activation_link, 
-        })
-        msg = EmailMultiAlternatives(mail_subject, text_content, settings.DEFAULT_FROM_EMAIL, [email])
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+        # Sende Bestätigungsantwort zurück
         return Response({'message': 'Überprüfe deine E-Mail, um deinen Account zu aktivieren.'}, status=status.HTTP_201_CREATED)
-
-
-        # token, created = Token.objects.get_or_create(user=user)
-        # return Response({'token': token.key, 'user_id': user.pk, 'email': user.email, 'message': 'Benutzer erfolgreich registriert'}, status=status.HTTP_201_CREATED)    
-
+    
 class ActivateView(APIView):
     permission_classes = []
     def get(self, request, id, token):
