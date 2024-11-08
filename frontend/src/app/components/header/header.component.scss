@@ -1,9 +1,13 @@
 @import "../../../mixins.scss";
 header {
     @include dFlex(space-between, center, row, 0px);
+    position: relative;
+    z-index: 1;
     max-height: 108px;
     height: 108px;
+    max-width: 1920px;
     padding: 0 96px;
+    margin: 0 auto;
     > .logo {
         width: 200px;
     }

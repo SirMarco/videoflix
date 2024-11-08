@@ -11,6 +11,7 @@
   --red: #ff002e;
   --black: black;
   --green: green;
+  --backgroundDark: #050507;
 }
 
 * {
@@ -123,6 +124,10 @@
   flex-shrink: 0;
   outline: unset;
   cursor: pointer;
+
+  &:hover {
+    background-color: var(--lightpurple);
+  }
 }
 
 .invalid-button {

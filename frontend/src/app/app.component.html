@@ -1,4 +1,4 @@
-<section>
+<section [ngClass]="!isDashboard ? 'backgroundPicture' : 'background'">
   <app-header></app-header>
   <div [ngClass]="layoutClass" class="main">
     <router-outlet></router-outlet>

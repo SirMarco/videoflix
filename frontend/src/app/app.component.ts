@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   NavigationEnd,
@@ -34,8 +34,10 @@ import { AuthService } from './services/auth.service';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit, AfterViewInit {
+  authService = inject(AuthService);
   title = 'frontend_videoflix';
   layoutClass: string = 'start';
+  isDashboard: boolean = false;
   @ViewChild(CustomToastComponent) toast: CustomToastComponent | undefined;
 
   constructor(
@@ -45,16 +47,21 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // if (this.authService.isLoggedIn()) {
-    //   // Wenn eingeloggt, auf Dashboard weiterleiten
     //   this.router.navigate(['/dashboard']);
     // }
-
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         if (this.router.url.startsWith('/video')) {
           this.layoutClass = 'start';
         } else {
           this.layoutClass = 'center';
+        }
+      }
+    });
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        if (this.router.url.startsWith('/dashboard')) {
+          this.isDashboard = true;
         }
       }
     });

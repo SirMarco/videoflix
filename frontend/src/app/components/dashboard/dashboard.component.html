@@ -1,8 +1,10 @@
-<section>
+<section class="background">
     <div class="intro" *ngIf="randomVideo" style="position: relative; max-height: 45vh; overflow: hidden;">
-        <video autoplay="autoplay" muted loop playsinline class="background-video">
-            <source [src]="getFullVideoUrl(randomVideo.video_file)" type="video/mp4">
-        </video>
+        <div class=" border-green">
+            <video autoplay="autoplay" muted loop playsinline class="background-video">
+                <source [src]="getFullVideoUrl(randomVideo.video_file)" type="video/mp4">
+            </video>
+        </div>
         <div class="videoDescription">
             <span class="fs-88-700 randomTitle white">{{ randomVideo.title }}</span>
             <span class="fs-16 white">{{ randomVideo.description }}</span>
@@ -11,6 +13,7 @@
             </button>
         </div>
     </div>
+    <div class="video-overlay"></div>
     <div class="categoryOverview">
         <div class="category">
             <div *ngFor="let category of getCategories(); let i = index">
