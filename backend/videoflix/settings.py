@@ -19,6 +19,7 @@ load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -28,9 +29,11 @@ SECRET_KEY = 'django-insecure-l3#!b$kqxc9ocdia0)vko7q5*sz&06vn)&)tcuih&a)nc=@dxp
 # SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if ENVIRONMENT == "production":
+    DEBUG = False
+else:
+    DEBUG = True    
 
-ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
 ALLOWED_HOSTS = ['localhost', 'backend', 'videoflix.marco-engelhardt.ch', 'api.videoflix.marco-engelhardt.ch']
 

@@ -12,3 +12,5 @@
 /backend/.env
 
 /backend/media
+/backend/htmlcov
+
