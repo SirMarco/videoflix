@@ -24,10 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'django-insecure-l3#!b$kqxc9ocdia0)vko7q5*sz&06vn)&)tcuih&a)nc=@dxp'
+# SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
 ALLOWED_HOSTS = ['localhost', 'backend', 'videoflix.marco-engelhardt.ch', 'api.videoflix.marco-engelhardt.ch']
 
@@ -139,8 +142,11 @@ TEMPLATES = [
     },
 ]
 
-MEDIA_URL = '/media/'
-# MEDIA_URL = 'https://videoflix.marco-engelhardt.ch/media/'
+if ENVIRONMENT == "production":
+    MEDIA_URL = "https://videoflix.marco-engelhardt.ch/media/"
+else:
+    MEDIA_URL = "/media/"
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Static files (CSS, JavaScript, Images)

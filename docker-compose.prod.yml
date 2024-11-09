@@ -39,6 +39,7 @@ services:
       - VIRTUAL_HOST=api.videoflix.marco-engelhardt.ch
       - LETSENCRYPT_HOST=api.videoflix.marco-engelhardt.ch
       - LETSENCRYPT_EMAIL=marco.engelhardt@reussnet.ch
+      - ENVIRONMENT=production
     command: /app/compose/run-backend.sh
 
   frontend:

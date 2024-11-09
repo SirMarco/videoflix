@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   OnInit,
@@ -77,7 +76,7 @@ export class DashboardComponent implements OnInit {
           (video) => video.status || 'Uploading'
         );
         this.uploadStatus.next(initialStatus);
-        this.initializeWebSocket();
+        // this.initializeWebSocket();
         this.spinner.hide();
         console.log(this.videos);
       })
@@ -122,12 +121,14 @@ export class DashboardComponent implements OnInit {
 
   groupVideosByCategory() {
     this.videos.forEach((video) => {
-      video.categories.forEach((category) => {
-        if (!this.groupedVideos[category]) {
-          this.groupedVideos[category] = [];
-        }
-        this.groupedVideos[category].push(video);
-      });
+      if (video.status === "Done") {
+        video.categories.forEach((category) => {
+          if (!this.groupedVideos[category]) {
+            this.groupedVideos[category] = [];
+          }
+          this.groupedVideos[category].push(video);
+        });
+      }
     });
   }
 
