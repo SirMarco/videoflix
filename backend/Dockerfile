@@ -10,9 +10,9 @@ RUN /usr/local/bin/python -m pip install --upgrade pip
 
 RUN pip install -r requirements.txt
 
-# RUN chmod +x /app/compose/run-rq.sh
+RUN chmod +x /app/compose/run-rq.sh
 
-# RUN chmod +x /app/compose/run-backend.sh
+RUN chmod +x /app/compose/run-backend.sh
 
 CMD [ "/app/compose/run-backend.sh" ]
 
