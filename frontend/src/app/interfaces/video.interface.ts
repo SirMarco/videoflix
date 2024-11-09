@@ -4,6 +4,7 @@ export interface Video {
   slug: string;
   description: string;
   video_file: string;
+  teaser_file: string;
   hls_playlist: string;
   thumbnail: string;
   created_at: string;

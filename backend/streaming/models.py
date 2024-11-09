@@ -1,7 +1,9 @@
 from datetime import date
+from django import forms
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+from django.forms import ModelForm, Textarea
 
 # Create your models here.
 class Category(models.Model):
@@ -13,8 +15,9 @@ class Category(models.Model):
 class Video(models.Model):
     title = models.CharField(max_length=80)
     slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
-    description = models.CharField(max_length=500)
+    description = models.TextField(max_length=500,)
     video_file = models.FileField(upload_to='videos', blank=True, null=True)
+    teaser_file = models.FileField(upload_to='teasers', blank=True, null=True)
     hls_playlist = models.FileField(blank=True, null=True)
     thumbnail = models.FileField(upload_to = 'thumbnails', blank=True, null=True)
     created_at = models.DateField(default=date.today)

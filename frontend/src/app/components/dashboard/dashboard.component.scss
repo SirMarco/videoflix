@@ -62,7 +62,7 @@ section {
 
 .videoDescription {
   @include dFlex(center, flex-start, column, 16px);
-  max-width: 440px;
+  max-width: 580px;
   height: 100%;
   position: relative;
   z-index: 2;

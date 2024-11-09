@@ -21,7 +21,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit {
   url = environment.baseUrl + '/videos';
   pictureUrl = environment.pictureUrl;
   mediaUrl = environment.mediaUrl;
@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   groupedVideos: { [category: string]: Video[] } = {};
 
   showPlayer: boolean = false;
+  autoplay: boolean = true
   uploadStatus = new BehaviorSubject<string[]>([]);
 
   @ViewChild(VideoPlayerComponent) videoPlayer!: VideoPlayerComponent;
@@ -40,20 +41,20 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getAllVideos();
-    console.log(this.videos);
+
   }
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      if (this.backgroundVideo) {
-        const videoElement = this.backgroundVideo.nativeElement;
-        videoElement.muted = true;
-        videoElement.play().catch((error: any) => {
-          console.log('Autoplay prevented:', error);
-        });
-      }
-    }, 0);
-  }
+  // ngAfterViewInit() {
+  //   setTimeout(() => {
+  //     if (this.backgroundVideo) {
+  //       const videoElement = this.backgroundVideo.nativeElement;
+  //       videoElement.muted = true;
+  //       videoElement.play().catch((error: any) => {
+  //         console.log('Autoplay prevented:', error);
+  //       });
+  //     }
+  //   }, 0);
+  // }
 
   getAllVideos() {
     this.spinner.show();
@@ -78,6 +79,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.uploadStatus.next(initialStatus);
         this.initializeWebSocket();
         this.spinner.hide();
+        console.log(this.videos);
       })
       .catch((error) => {
         console.error('Error fetching videos:', error);
@@ -91,6 +93,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     );
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
+      console.log(data);
+
+      if (data.type === "video.status_update") {
+        console.log("Status Update:", data.status);
+      }
       const videoIndex = this.videos.findIndex(
         (video) => video.slug === data.slug
       );
@@ -135,12 +142,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   getCategories(): string[] {
     return Object.keys(this.groupedVideos); // Rückgabe der Kategorienamen
   }
-  /*
-    getFullThumbnailUrl(thumbnail: string): string {
-      // return environment.pictureUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
-      return this.mediaUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
-    }
-  */
+
   getFullVideoUrl(video_file: string): string {
     // return environment.pictureUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
     return video_file; // Füge die Base URL zur Thumbnail-URL hinzu

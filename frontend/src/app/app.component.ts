@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   NavigationEnd,
@@ -43,26 +43,25 @@ export class AppComponent implements OnInit, AfterViewInit {
   constructor(
     private customToastService: CustomToastService,
     private router: Router,
+    private cdRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    // if (this.authService.isLoggedIn()) {
-    //   this.router.navigate(['/dashboard']);
-    // }
+    // Konsolidiere alle Router-Events in einem einzigen subscribe
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
+        // Aktualisiere die `layoutClass` abhängig von der aktuellen URL
         if (this.router.url.startsWith('/video')) {
           this.layoutClass = 'start';
         } else {
           this.layoutClass = 'center';
         }
-      }
-    });
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        if (this.router.url.startsWith('/dashboard')) {
-          this.isDashboard = true;
-        }
+
+        // Aktualisiere die `isDashboard` Variable abhängig von der aktuellen URL
+        this.isDashboard = this.router.url.startsWith('/dashboard');
+
+        // Stelle sicher, dass die View aktualisiert wird
+        this.cdRef.detectChanges();
       }
     });
   }

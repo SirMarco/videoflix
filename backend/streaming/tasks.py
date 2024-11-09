@@ -93,6 +93,33 @@ def convert_to_hls(source, output_dir, video_id):
             continue
 
     master_playlist_path = write_master_playlist(output_dir, RESOLUTIONS)
-    update_video_status(video_id)
+    # update_video_status(video_id)
 
     return master_playlist_path
+
+
+def generate_video_teaser(source, video_id):
+    teaser_dir = os.path.join(settings.MEDIA_ROOT, 'teasers')
+    os.makedirs(teaser_dir, exist_ok=True)
+
+    teaser_path = os.path.join(teaser_dir, f'{video_id}_teaser.mp4')
+
+    # ffmpeg command to generate 10-second teaser without audio
+    cmd = [
+        FFMPEG_PATH, '-i', source,
+        '-t', '10',  # Duration of 10 seconds
+        '-an',  # Remove audio
+        '-c:v', 'libx264', '-crf', '28', '-preset', 'veryfast',  # Increase CRF to reduce file size
+        '-b:v', '500k',  # Limit bitrate to reduce file size
+        teaser_path
+    ]
+
+    # Execute the command
+    result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    # Error handling if ffmpeg fails
+    if result.returncode != 0:
+        print(f"Error generating teaser: {result.stderr.decode('utf-8')}")
+        raise Exception(f"FFmpeg failed: {result.stderr.decode('utf-8')}")
+
+    return os.path.join('teasers', f'{video_id}_teaser.mp4')  # Return relative path
