@@ -1,6 +1,6 @@
 <section class="background">
     <div class="intro" *ngIf="randomVideo" style="position: relative; max-height: 45vh; overflow: hidden;">
-        <div class="border-green">
+        <div>
             <video [autoplay]="autoplay" [muted]="true" playsinline [loop]="true" class="background-video">
                 <source [src]="getFullVideoUrl(randomVideo.teaser_file)" type="video/mp4">
             </video>
@@ -15,8 +15,8 @@
     </div>
     <div class="video-overlay"></div>
     <div class="categoryOverview">
-        <div class="category">
-            <div *ngFor="let category of getCategories(); let i = index">
+        <div class="categorys">
+            <div class="category" *ngFor="let category of getCategories(); let i = index">
                 <div class="categoryName white">
                     <h3>{{ category }}</h3>
                 </div>
@@ -38,4 +38,4 @@
         </div>
     </div>
 </section>
-<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+<ngx-spinner color="var(--purple)" type="ball-scale-multiple"></ngx-spinner>

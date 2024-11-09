@@ -2,4 +2,5 @@
 footer {
     @include dFlex(center, center, row, 16px);
     height: 108px;
+    position: relative;
 }

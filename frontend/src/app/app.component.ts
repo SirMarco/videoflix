@@ -47,7 +47,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    // Konsolidiere alle Router-Events in einem einzigen subscribe
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         // Aktualisiere die `layoutClass` abhängig von der aktuellen URL
@@ -56,14 +55,23 @@ export class AppComponent implements OnInit, AfterViewInit {
         } else {
           this.layoutClass = 'center';
         }
-
-        // Aktualisiere die `isDashboard` Variable abhängig von der aktuellen URL
-        this.isDashboard = this.router.url.startsWith('/dashboard');
-
-        // Stelle sicher, dass die View aktualisiert wird
         this.cdRef.detectChanges();
       }
     });
+  }
+
+  getPageClass(): string {
+    if (this.router.url.startsWith('/dashboard')) {
+      return 'background';
+    } else if (this.router.url.startsWith('/imprint')) {
+      return 'background';
+    } else if (this.router.url.startsWith('/privacy')) {
+      return 'background';
+    } else if (this.router.url.startsWith('/video')) {
+      return 'backgroundPicture';
+    } else {
+      return 'backgroundPicture';
+    }
   }
 
   ngAfterViewInit() {

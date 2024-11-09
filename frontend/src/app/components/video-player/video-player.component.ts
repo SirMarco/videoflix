@@ -55,7 +55,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
     } if (eventName == 'pause') {
       this.stopSaveProgressInterval()
     }
-    console.log(`Event triggered: ${eventName}`);
   }
 
   saveProgress(currentTime: number) {
@@ -63,9 +62,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
     this.http.post(url, {
       progress: currentTime,
     }).subscribe(
-      response => {
-        console.log('Fortschritt erfolgreich gespeichert:', response);
-      },
       error => {
         console.error('Fehler beim Speichern des Fortschritts:', error);
       }
@@ -77,25 +73,19 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
       video_slug: this.videoId,
       progress: this.player.duration(),
       seen: true
-    }).subscribe(response => {
-      console.log('Video vollständig gesehen:', response);
-    });
+    })
   }
 
   startSaveProgressInterval() {
-    if (this.saveInterval) return; // Intervall nur einmal starten
+    if (this.saveInterval) return;
 
     this.saveInterval = setInterval(() => {
       const currentTime = this.player.currentTime;
       if (typeof currentTime === 'number') {
         this.saveProgress(currentTime);
-        console.log('current saved time' + currentTime);
-
       }
-    }, 2000);
+    }, 5000);
   }
-
-  // Intervall stoppen
   stopSaveProgressInterval() {
     if (this.saveInterval) {
       clearInterval(this.saveInterval);
@@ -104,7 +94,6 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
   }
 
   resumeVideo() {
-    // this.player.currentTime(this.savedTime);
     this.player.currentTime = this.savedTime;
     this.showResumeButton = false;
     this.player.play();

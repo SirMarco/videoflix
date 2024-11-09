@@ -1,0 +1,9 @@
+@import "../../../mixins.scss";
+section {
+  margin: 0 auto;
+  @include dFlex(center, center, column, 48px);
+  overflow: hidden;
+  max-width: 100%;
+  max-width: 1440px;
+  height: 80vh;
+}

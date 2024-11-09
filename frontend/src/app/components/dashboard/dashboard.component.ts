@@ -43,23 +43,9 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  // ngAfterViewInit() {
-  //   setTimeout(() => {
-  //     if (this.backgroundVideo) {
-  //       const videoElement = this.backgroundVideo.nativeElement;
-  //       videoElement.muted = true;
-  //       videoElement.play().catch((error: any) => {
-  //         console.log('Autoplay prevented:', error);
-  //       });
-  //     }
-  //   }, 0);
-  // }
-
   getAllVideos() {
     this.spinner.show();
     const token = localStorage.getItem('token');
-    console.log(token);
-
     fetch(this.url, {
       method: 'GET',
       headers: {
@@ -78,7 +64,6 @@ export class DashboardComponent implements OnInit {
         this.uploadStatus.next(initialStatus);
         // this.initializeWebSocket();
         this.spinner.hide();
-        console.log(this.videos);
       })
       .catch((error) => {
         console.error('Error fetching videos:', error);
@@ -92,15 +77,9 @@ export class DashboardComponent implements OnInit {
     );
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log(data);
-
-      if (data.type === "video.status_update") {
-        console.log("Status Update:", data.status);
-      }
       const videoIndex = this.videos.findIndex(
         (video) => video.slug === data.slug
       );
-      console.log('Video Index:', videoIndex);
       if (videoIndex !== -1) {
         const currentStatus = this.uploadStatus.value;
         currentStatus[videoIndex] = data.status;

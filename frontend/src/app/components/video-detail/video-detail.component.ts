@@ -35,7 +35,6 @@ export class VideoDetailComponent implements OnInit {
     this.http.get<Video>(this.url + this.videoId).subscribe(
       (data: Video) => {
         this.videoData = data;
-        console.log(data);
         this.spinner.hide();
       },
       (error) => {

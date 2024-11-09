@@ -3,6 +3,7 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 from debug_toolbar.toolbar import debug_toolbar_urls
+from django.shortcuts import render
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,3 +15,8 @@ urlpatterns = [
     settings.MEDIA_URL,
     document_root=settings.MEDIA_ROOT
 ) + debug_toolbar_urls()
+
+def custom_404_view(request, exception):
+    return render(request, '404.html', status=404)
+
+handler404 = custom_404_view

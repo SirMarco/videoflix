@@ -10,6 +10,7 @@ import { authGuard } from './auth.guard';
 import { ActivateComponent } from './components/activate/activate.component';
 import { PasswordResetComponent } from './components/password-reset/password-reset.component';
 import { VideoDetailComponent } from './components/video-detail/video-detail.component';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 
 export const routes: Routes = [
   { path: '', component: MainComponent },
@@ -31,4 +32,5 @@ export const routes: Routes = [
   { path: 'privacy', component: PrivacyComponent },
   { path: 'activate/:id/:token', component: ActivateComponent },
   { path: 'password-reset/:id/:token', component: PasswordResetComponent },
+  { path: '**', component: ErrorPageComponent },
 ];
