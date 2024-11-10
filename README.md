@@ -62,18 +62,21 @@ Videoflix wurde mit Django als Backend-Framework und Angular 17 für das Fronten
 
     LETSENCRYPT_EMAIL: E-Mail-Adresse, die für Let's Encrypt zur Registrierung und für Benachrichtigungen verwendet wird. Ändere diese Adresse auf eine gültige E-Mail, um Zertifikatswarnungen und Updates zu erhalten.
 ```
-
-5. Erstelle Proxy Network
+5. Benne die vhost.d Dateien für Frontend und Backend um
+   ```bash
+   /vhost.d/api.example.de.ch_location
+   /vhost.d/example.de.ch_location
+6. Erstelle Proxy Network
    ```bash
    docker network create webproxy
-6. Starte Videoflix
+7. Starte Videoflix
    ```bash
    docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build
-7. erstelle einen Superuser um Filme hochzuladen
+8. erstelle einen Superuser um Filme hochzuladen
    ```bash
    docker exec -it backend bash
    python manage.py createsuperuser
-8. Login Admin Dashboard 
+9. Login Admin Dashboard und für dein erstes Video hinzu 
    ```bash
    https://example.de/admin/streaming/video/add/
 ## Installation / Einrichtung Lokal
@@ -92,7 +95,7 @@ Videoflix wurde mit Django als Backend-Framework und Angular 17 für das Fronten
    DEFAULT_FROM_EMAIL = 'noreply@example.de'
    # SMTP EMAIL
 ````
-4. Benenne die Datei `.env_server` in `.env` um und passe sie an deine Umgebung an.
+1. Benenne die Datei `.env_server` in `.env` um und passe sie an deine Umgebung an.
 
 #### Datenbankkonfiguration
  ```properties

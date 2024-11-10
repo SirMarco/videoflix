@@ -62,40 +62,12 @@ export class DashboardComponent implements OnInit {
           (video) => video.status || 'Uploading'
         );
         this.uploadStatus.next(initialStatus);
-        // this.initializeWebSocket();
         this.spinner.hide();
       })
       .catch((error) => {
         console.error('Error fetching videos:', error);
         this.spinner.hide();
       });
-  }
-
-  initializeWebSocket() {
-    const socket = new WebSocket(
-      'wss://api.videoflix.marco-engelhardt.ch/ws/conversion-status/'
-    );
-    socket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      const videoIndex = this.videos.findIndex(
-        (video) => video.slug === data.slug
-      );
-      if (videoIndex !== -1) {
-        const currentStatus = this.uploadStatus.value;
-        currentStatus[videoIndex] = data.status;
-        this.uploadStatus.next(currentStatus);
-      } else {
-        console.log('no, video not found');
-      }
-    };
-
-    socket.onerror = (error) => {
-      console.error('WebSocket Fehler:', error);
-    };
-
-    socket.onclose = (event) => {
-      console.log('WebSocket Verbindung geschlossen:', event);
-    };
   }
 
   groupVideosByCategory() {
@@ -118,32 +90,17 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  // Umwandlung von `groupedVideos` in eine Liste von Schlüssel-Wert-Paaren
   getCategories(): string[] {
-    return Object.keys(this.groupedVideos); // Rückgabe der Kategorienamen
+    return Object.keys(this.groupedVideos);
   }
 
   getFullVideoUrl(video_file: string): string {
-    // return environment.pictureUrl + thumbnail; // Füge die Base URL zur Thumbnail-URL hinzu
-    return video_file; // Füge die Base URL zur Thumbnail-URL hinzu
+    return video_file;
   }
 
   getVideosByCategory(category: string): Video[] {
-    // Rückgabe eines leeren Arrays, wenn `groupedVideos` oder die Kategorie selbst nicht existieren
     return this.groupedVideos && this.groupedVideos[category]
       ? this.groupedVideos[category]
       : [];
   }
-
-  // playVideo() {
-  //   this.showPlayer = true; // Schalte den Zustand um, um den Player anzuzeigen
-
-  //   // Falls der Player schon vorhanden ist, initialisiere und spiele das Video ab
-  //   setTimeout(() => {
-  //     if (this.videoPlayer) {
-  //       this.videoPlayer.initializePlayer(); // Initialisiere den Player in der VideoPlayerComponent
-  //       this.videoPlayer.player.play(); // Spiele das Video sofort ab
-  //     }
-  //   }, 0); // Stelle sicher, dass der Player sichtbar ist, bevor Video.js initialisiert wird
-  // }
 }

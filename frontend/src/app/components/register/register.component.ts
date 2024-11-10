@@ -47,8 +47,6 @@ export class RegisterComponent {
         validator: this.confirmPasswordValidator,
       }
     );
-
-    // Email aus Query-Parameter holen
     this.route.queryParams.subscribe((params) => {
       const email = params['email'];
       if (email) {

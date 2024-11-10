@@ -10,20 +10,8 @@ services:
     depends_on:
       - redis
       - postgres
-    # command: /app/compose/run-backend.sh
     networks:
       - app-network
-
-  # frontend:
-  #   restart: unless-stopped
-  #   image: nginx:latest
-  #   container_name: frontend
-  #   volumes:
-  #     - ./frontend:/usr/share/nginx/html
-  #     - ./backend/media:/usr/share/nginx/html/media
-  #     - ./nginx-config:/etc/nginx/conf.d
-  #   networks:
-  #     - app-network
 
   postgres:
     restart: unless-stopped

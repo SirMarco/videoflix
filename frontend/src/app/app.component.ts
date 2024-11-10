@@ -49,7 +49,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        // Aktualisiere die `layoutClass` abhängig von der aktuellen URL
         if (this.router.url.startsWith('/video')) {
           this.layoutClass = 'start';
         } else {

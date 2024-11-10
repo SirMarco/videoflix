@@ -18,13 +18,13 @@
 .wrapper {
   width: 980px;
   width: 100%;
-  margin: 0 auto; /* Zentriert den Player auf der Seite */
+  margin: 0 auto;
   position: relative;
 }
 
 .video-js {
-  width: 100% !important; /* Stellt sicher, dass das Video 100% des Wrappers einnimmt */
-  height: auto !important; /* Stellt sicher, dass die Höhe proportional zur Breite bleibt */
+  width: 100% !important;
+  height: auto !important;
 }
 
 .quality-selector {

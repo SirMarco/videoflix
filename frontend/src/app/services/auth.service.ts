@@ -22,7 +22,7 @@ export class AuthService {
     const body = {
       username: username,
       password: password,
-      remember_me: rememberMe, // Dies sendet die Info an das Backend
+      remember_me: rememberMe,
     };
     return lastValueFrom(this.http.post(url, body)).then((response: any) => {
       this.userId = response.user_id;
