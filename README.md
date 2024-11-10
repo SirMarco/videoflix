@@ -29,7 +29,7 @@ Videoflix wurde mit Django als Backend-Framework und Angular 17 für das Fronten
 
 1. Klone das Repository
    ```bash
-   git clone https://github.com/SirMarco/videoflix.git
+   git clone https://github.com/SirMarco/videoflix.git .
 2. Benenne die Datei `backend/.env_email` in `.env` um.
 3. Passe die E-Mail-Einstellungen in der `.env` Datei an, um den Versand von E-Mails zu ermöglichen. Hier ist ein Beispiel für die E-Mail-Konfiguration:
  ```properties
