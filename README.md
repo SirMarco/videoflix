@@ -68,6 +68,8 @@ Videoflix wurde mit Django als Backend-Framework und Angular 17 für das Fronten
 6. Starte Videoflix
    ```bash
    docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build
+copy certs
+
 7. Erstelle Admin User für Django Administrator
 ## Installation / Einrichtung Lokal
 1. Klone das Repository
