@@ -3,32 +3,32 @@ name: Angular Build and Deploy
 on:
   push:
     branches:
-      - main
+    - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
 
-      - name: Build Angular app to prod
-        working-directory: frontend
-        run: npm install && npm run build
-      - name: Deploy to Server
-        env:
-          SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          SERVER_USER="root"
-          SERVER_IP="188.245.97.4"
-          SERVER_PATH="/test/gitactions"
-          scp -o StrictHostKeyChecking=no -r ./frontend/dist/frontend_videoflix/browser* $SERVER_USER@$SERVER_IP:$SERVER_PATH
-          rm -f ~/.ssh/id_rsa
+    - name: Build Angular app to prod
+      working-directory: frontend
+      run: npm install && npm run build
+    - name: Deploy to Server
+      env:
+        SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        SERVER_USER="root"
+        SERVER_IP="188.245.97.4"
+        SERVER_PATH="/app/frontend_html"
+        scp -o StrictHostKeyChecking=no -r ./frontend/dist/frontend_videoflix/browser* $SERVER_USER@$SERVER_IP:$SERVER_PATH
+        rm -f ~/.ssh/id_rsa
