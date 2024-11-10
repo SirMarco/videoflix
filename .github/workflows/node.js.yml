@@ -1,37 +1,41 @@
-name: Angular Build
+name: Angular Build and Deploy
 
-# {1}
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  angular:
-    name: Angular Build
+  build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [v23.1.0]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
-      # {2}
-      - name: Checkout the source code
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      # {3}
-      - name: Setup Node.js $
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: $
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
-      # {4}
-      - name: Install dependencies
-        working-directory: ./frontend 
-        run: npm install
-      # {5}
-      - name: Build Angular App
-        working-directory: ./frontend
-        run: ng build
+          node-version: 20
+
+      - name: Build Angular app to prod
+        working-directory: frontend
+        run: npm install && npm run build
+      - name: Deploy to Server
+        env:
+          SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
+        run: |
+          # SSH-Schlüssel für die Sitzung konfigurieren
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          # IP oder Domain deines Servers, und Pfad anpassen
+          SERVER_USER="root"  # Hier deinen SSH-Benutzernamen einfügen
+          SERVER_IP="188.245.97.4"  # Hier deine Server-IP einfügen
+          SERVER_PATH="/test/gitactions"  # Zielverzeichnis auf deinem Server
+
+          # Kopiere die gebauten Dateien auf den Server
+          scp -r ./frontend/dist/frontend_videoflix/* $SERVER_USER@$SERVER_IP:$SERVER_PATH
+
+          # Optionale Bereinigung des SSH-Keys
+          rm -f ~/.ssh/id_rsa
