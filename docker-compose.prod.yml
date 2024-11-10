@@ -47,8 +47,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     volumes:
-      - ./frontend_html:/usr/share/nginx/html
-      - ./backend/media:/usr/share/nginx/html/media
+      # - ./frontend_html:/usr/share/nginx/html
+      # - ./backend/media:/usr/share/nginx/html/media
       - ./nginx-config:/etc/nginx/conf.d
     environment:
       - VIRTUAL_HOST=videoflix.marco-engelhardt.ch
