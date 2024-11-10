@@ -39,7 +39,7 @@ services:
       - LETSENCRYPT_HOST=${LETSENCRYPT_HOST_BACKEND}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - ENVIRONMENT=production
-    command: /app/compose/run-backend.sh
+    command: /app/compose/run_backend.sh
 
   frontend:
     build:

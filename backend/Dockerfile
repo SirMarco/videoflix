@@ -10,8 +10,8 @@ COPY . .
 
 RUN apt-get update && apt-get install -y ffmpeg && apt-get clean
 
-RUN chmod +x /app/compose/run-backend.sh
+RUN chmod +x /app/compose/run_backend.sh
 
 EXPOSE 8000
 
-CMD ["/app/compose/run-backend.sh"]
+CMD ["/app/compose/run_backend.sh"]
