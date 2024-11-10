@@ -24,18 +24,11 @@ jobs:
         env:
           SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
         run: |
-          # SSH-Schlüssel für die Sitzung konfigurieren
           mkdir -p ~/.ssh
           echo "$SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-
-          # IP oder Domain deines Servers, und Pfad anpassen
-          SERVER_USER="root"  # Hier deinen SSH-Benutzernamen einfügen
-          SERVER_IP="188.245.97.4"  # Hier deine Server-IP einfügen
-          SERVER_PATH="/test/gitactions"  # Zielverzeichnis auf deinem Server
-
-          # Kopiere die gebauten Dateien auf den Server
-          scp -r ./frontend/dist/frontend_videoflix/* $SERVER_USER@$SERVER_IP:$SERVER_PATH
-
-          # Optionale Bereinigung des SSH-Keys
+          SERVER_USER="root"
+          SERVER_IP="188.245.97.4"
+          SERVER_PATH="/test/gitactions"
+          scp -o StrictHostKeyChecking=no -r ./frontend/dist/frontend_videoflix/* $SERVER_USER@$SERVER_IP:$SERVER_PATH
           rm -f ~/.ssh/id_rsa
