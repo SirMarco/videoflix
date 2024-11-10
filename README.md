@@ -65,6 +65,9 @@ Videoflix wurde mit Django als Backend-Framework und Angular 17 für das Fronten
 5. Erstelle Proxy Network
    ```bash
    docker network create webproxy
+6. Starte Videoflix
+   ```bash
+   docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build
 ## Installation / Einrichtung Lokal
 1. Klone das Repository
    ```bash
@@ -81,7 +84,7 @@ Videoflix wurde mit Django als Backend-Framework und Angular 17 für das Fronten
    DEFAULT_FROM_EMAIL = 'noreply@example.de'
    # SMTP EMAIL
    ````
-4. Benenne die Datei `.env_server` in `.env` um und passe sie an deine Umgebung an.
+1. Benenne die Datei `.env_server` in `.env` um und passe sie an deine Umgebung an.
 
 #### Datenbankkonfiguration
  ```properties
