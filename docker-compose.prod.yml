@@ -36,9 +36,9 @@ services:
   backend:
     environment:
       - DJANGO_SETTINGS_MODULE=videoflix.settings
-      - VIRTUAL_HOST=api.videoflix.marco-engelhardt.ch
-      - LETSENCRYPT_HOST=api.videoflix.marco-engelhardt.ch
-      - LETSENCRYPT_EMAIL=marco.engelhardt@reussnet.ch
+      - VIRTUAL_HOST=${VIRTUAL_HOST_BACKEND}
+      - LETSENCRYPT_HOST=${LETSENCRYPT_HOST_BACKEND}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - ENVIRONMENT=production
     command: /app/compose/run-backend.sh
 
@@ -52,9 +52,9 @@ services:
       - ./backend/staticfiles:/usr/share/nginx/html/static
       - ./nginx-config:/etc/nginx/conf.d
     environment:
-      - VIRTUAL_HOST=videoflix.marco-engelhardt.ch
-      - LETSENCRYPT_HOST=videoflix.marco-engelhardt.ch
-      - LETSENCRYPT_EMAIL=marco.engelhardt@reussnet.ch
+      - VIRTUAL_HOST=${VIRTUAL_HOST_FRONTEND}
+      - LETSENCRYPT_HOST=${LETSENCRYPT_HOST_FRONTEND}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     networks:
       - app-network
 
