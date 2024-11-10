@@ -19,6 +19,7 @@ Videoflix wurde mit Django als Backend-Framework und Angular 17 für das Fronten
 - **Caching**: Redis Layer Caching, Django RQ für asynchrone Aufgaben
 - **Videoverarbeitung**: FFmpeg für das Encoding und die Verarbeitung von Videos
 - **Containerisierung**: Docker Compose zur einfachen Bereitstellung und Verwaltung aller Dienste
+- **ACME-Companion**: Erstelle automatisch dein SSL Zertifikat
 
 ## Vorraussetzung
 - Ubuntu mit Docker / Docker Compose Installation
@@ -68,9 +69,13 @@ Videoflix wurde mit Django als Backend-Framework und Angular 17 für das Fronten
 6. Starte Videoflix
    ```bash
    docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build
-copy certs
-
-7. Erstelle Admin User für Django Administrator
+7. erstelle einen Superuser um Filme hochzuladen
+   ```bash
+   docker exec -it backend bash
+   python manage.py createsuperuser
+8. Login Admin Dashboard 
+   ```bash
+   https://example.de/admin/streaming/video/add/
 ## Installation / Einrichtung Lokal
 1. Klone das Repository
    ```bash
@@ -86,8 +91,8 @@ copy certs
    EMAIL_HOST_PASSWORD = 'password'
    DEFAULT_FROM_EMAIL = 'noreply@example.de'
    # SMTP EMAIL
-   ````
-1. Benenne die Datei `.env_server` in `.env` um und passe sie an deine Umgebung an.
+````
+4. Benenne die Datei `.env_server` in `.env` um und passe sie an deine Umgebung an.
 
 #### Datenbankkonfiguration
  ```properties
@@ -95,3 +100,9 @@ copy certs
     POSTGRES_USER: Benutzername für den Datenbankzugriff. Ändere ihn zu einem sichereren Wert.
     POSTGRES_PASSWORD: Passwort für den Datenbankzugang.
 ```
+5. Starte Videoflix
+   ```bash
+   docker-compose up --build
+6. Login Admin Dashboard und für dein erstes Video hinzu 
+   ```bash
+   http://localhost:8000/admin/streaming/video/add/
