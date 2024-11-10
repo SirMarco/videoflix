@@ -23,12 +23,13 @@ jobs:
     - name: Deploy to Server
       env:
         SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
+        SERVER_USER: ${{ secrets.SERVER_USER }}
+        SERVER_IP: ${{ secrets.SERVER_IP }}
       run: |
         mkdir -p ~/.ssh
         echo "$SSH_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        SERVER_USER="root"
-        SERVER_IP="188.245.97.4"
         SERVER_PATH="/app/frontend_html"
         scp -o StrictHostKeyChecking=no -r ./frontend/dist/frontend_videoflix/browser/* $SERVER_USER@$SERVER_IP:$SERVER_PATH
         rm -f ~/.ssh/id_rsa
+
