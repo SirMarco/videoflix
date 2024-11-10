@@ -20,7 +20,8 @@ Videoflix wurde mit Django als Backend-Framework und Angular 17 für das Fronten
 - **Videoverarbeitung**: FFmpeg für das Encoding und die Verarbeitung von Videos
 - **Containerisierung**: Docker Compose zur einfachen Bereitstellung und Verwaltung aller Dienste
 
-
+## Vorraussetzung
+- Ubuntu mit Docker / Docker Compose Installation
 
 
 ## Installation / Einrichtung auf vServer
@@ -61,11 +62,13 @@ Videoflix wurde mit Django als Backend-Framework und Angular 17 für das Fronten
     LETSENCRYPT_EMAIL: E-Mail-Adresse, die für Let's Encrypt zur Registrierung und für Benachrichtigungen verwendet wird. Ändere diese Adresse auf eine gültige E-Mail, um Zertifikatswarnungen und Updates zu erhalten.
 ```
 
-
+5. Erstelle Proxy Network
+   ```bash
+   docker network create webproxy
 ## Installation / Einrichtung Lokal
 1. Klone das Repository
    ```bash
-   git clone https://github.com/SirMarco/videoflix.git
+   git clone https://github.com/SirMarco/videoflix.git .
 2. Benenne die Datei `backend/.env_email` in `.env` um.
 3. Passe die E-Mail-Einstellungen in der `.env` Datei an, um den Versand von E-Mails zu ermöglichen. Hier ist ein Beispiel für die E-Mail-Konfiguration:
  ```properties
