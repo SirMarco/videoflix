@@ -14,7 +14,7 @@ class Video(models.Model):
     title = models.CharField(max_length=80)
     slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
     description = models.TextField(max_length=500,)
-    video_file = models.FileField(upload_to='videos')
+    video_file = models.FileField(upload_to='videos', blank=True, null=True)
     teaser_file = models.FileField(upload_to='teasers', blank=True, null=True)
     hls_playlist = models.FileField(blank=True, null=True)
     thumbnail = models.FileField(upload_to = 'thumbnails', blank=True, null=True)
