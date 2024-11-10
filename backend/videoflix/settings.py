@@ -106,7 +106,6 @@ CHANNEL_LAYERS = {
     },
 }
 
-
 RQ_QUEUES = {
     'low': {
         'HOST': 'redis',
@@ -123,6 +122,35 @@ RQ_QUEUES = {
         'DEFAULT_TIMEOUT': 300,
     }
 }
+
+# Prüfen, ob Tests ausgeführt werden
+# Testumgebungskonfiguration
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / "test_db.sqlite3",
+        }
+    }
+
+    # Dummy-Konfiguration für die Testumgebung, damit alle Queues definiert sind
+    RQ_QUEUES = {
+        'default': {
+            'USE_IN_MEMORY_BACKEND': True,
+            'HOST': 'localhost',  # Dummy-Wert
+            'PORT': 6379,  # Dummy-Wert
+        },
+        'low': {
+            'USE_IN_MEMORY_BACKEND': True,
+            'HOST': 'localhost',  # Dummy-Wert
+            'PORT': 6379,  # Dummy-Wert
+        },
+        'high': {
+            'USE_IN_MEMORY_BACKEND': True,
+            'HOST': 'localhost',  # Dummy-Wert
+            'PORT': 6379,  # Dummy-Wert
+        },
+    }
 
 ROOT_URLCONF = 'videoflix.urls'
 
