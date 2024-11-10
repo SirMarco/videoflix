@@ -156,7 +156,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
 
 WSGI_APPLICATION = 'videoflix.wsgi.application'
-ASGI_APPLICATION = 'videoflix.asgi.application'
+# ASGI_APPLICATION = 'videoflix.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
