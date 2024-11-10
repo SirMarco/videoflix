@@ -30,5 +30,5 @@ jobs:
           SERVER_USER="root"
           SERVER_IP="188.245.97.4"
           SERVER_PATH="/test/gitactions"
-          scp -o StrictHostKeyChecking=no -r ./frontend/dist/frontend_videoflix/* $SERVER_USER@$SERVER_IP:$SERVER_PATH
+          scp -o StrictHostKeyChecking=no -r ./frontend/dist/frontend_videoflix/browser* $SERVER_USER@$SERVER_IP:$SERVER_PATH
           rm -f ~/.ssh/id_rsa
