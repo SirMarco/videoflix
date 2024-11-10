@@ -1,18 +1,18 @@
 services:
-  # acme-companion:
-  #   image: nginxproxy/acme-companion
-  #   container_name: acme-companion
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock:ro
-  #     - ./certs:/etc/nginx/certs
-  #     - ./html:/usr/share/nginx/html
-  #   environment:
-  #     - DEFAULT_EMAIL=marco.engelhardt@reussnet.ch
-  #     - NGINX_PROXY_CONTAINER=nginx-proxy
-  #   depends_on:
-  #     - nginx-proxy
-  #   networks:
-  #     - webproxy
+  acme-companion:
+    image: nginxproxy/acme-companion
+    container_name: acme-companion
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./certs:/etc/nginx/certs
+      - ./html:/usr/share/nginx/html
+    environment:
+      - DEFAULT_EMAIL=marco.engelhardt@reussnet.ch
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    depends_on:
+      - nginx-proxy
+    networks:
+      - webproxy
 
   nginx-proxy:
     restart: always
