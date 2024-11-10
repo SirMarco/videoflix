@@ -4,17 +4,12 @@ FROM node:20.12.2
 # Arbeitsverzeichnis im Container
 WORKDIR /usr/src/app
 
-EXPOSE 4200
-
 COPY . .
 
 RUN npm install -g @angular/cli@17.0.6
 
 RUN npm install
 
-# Kopiere den gesamten Code in das Arbeitsverzeichnis im Container
+EXPOSE 4200
 
-# Exponiere den Port, auf dem ng serve läuft (Standard: 4200)
-
-# Starte den Angular Entwicklungsserver
 CMD ["ng", "serve", "--host", "0.0.0.0", "--poll", "2000"]

@@ -43,6 +43,9 @@ services:
     command: /app/compose/run-backend.sh
 
   frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     volumes:
       - ./frontend_html:/usr/share/nginx/html
       - ./backend/media:/usr/share/nginx/html/media
