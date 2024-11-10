@@ -7,8 +7,8 @@
             web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
         </p>
     </video> -->
-    <media-player #targetVideo [title]="title" [src]="videoSrc" [poster]="poster" (play)="eventFired('play')"
-        (pause)="eventFired('pause')" [class.hide-overlay-play]="savedTime > 0">
+    <media-player #targetVideo playsinline [title]="title" [src]="videoSrc" [poster]="poster"
+        (play)="eventFired('play')" (pause)="eventFired('pause')" [class.hide-overlay-play]="savedTime > 0">
         <media-provider></media-provider>
         <media-plyr-layout>
         </media-plyr-layout>
