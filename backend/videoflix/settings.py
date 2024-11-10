@@ -17,7 +17,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
@@ -28,7 +27,6 @@ ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 SECRET_KEY = 'django-insecure-l3#!b$kqxc9ocdia0)vko7q5*sz&06vn)&)tcuih&a)nc=@dxp'
 # SECRET_KEY = os.getenv('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 if ENVIRONMENT == "production":
     DEBUG = False
 else:
@@ -59,7 +57,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'debug_toolbar',
     'django_rq',
-    'channels',
 ]
 
 MIDDLEWARE = [
@@ -232,35 +229,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# VIDEO_ENCODINGS = [
-#     {
-#         'name': '1080p',
-#         'params': ['-vf', 'scale=w=1920:h=1080:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
-#         'ext': 'mp4'
-#     },
-#     {
-#         'name': '720p',
-#         'params': ['-vf', 'scale=w=1280:h=720:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
-#         'ext': 'mp4'
-#     },
-#     {
-#         'name': '480p',
-#         'params': ['-vf', 'scale=w=854:h=480:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
-#         'ext': 'mp4'
-#     },
-#     {
-#         'name': '360p',
-#         'params': ['-vf', 'scale=w=640:h=360:force_original_aspect_ratio=decrease', '-c:v', 'libx264'],
-#         'ext': 'mp4'
-#     },
-#     {
-#         'name': 'HLS',
-#         'params': ['-hls_time', '4', '-hls_playlist_type', 'vod'],
-#         'ext': 'm3u8'
-#     },
-# ]
-
 
 # Email Activation
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

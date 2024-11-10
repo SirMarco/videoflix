@@ -1,8 +1,6 @@
 import os
 import subprocess
 from django.conf import settings
-from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
 from .models import Video
 
 FFMPEG_PATH = '/usr/bin/ffmpeg'
@@ -42,39 +40,25 @@ def update_video_status(video_id):
     video = Video.objects.get(id=video_id)
     video.status = 'Done'
     video.save(update_fields=['status'])
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)(
-        "broadcast",
-        {
-            "type": "video.status_update",
-            "slug": video.slug,
-            "status": video.status,
-        }
-    )
 
 def generate_video_thumbnail(source, video_id):
     thumbnail_dir = os.path.join(settings.MEDIA_ROOT, 'thumbnails')
     os.makedirs(thumbnail_dir, exist_ok=True)
     
     thumbnail_path = os.path.join(thumbnail_dir, f'{video_id}.jpg')
-
-    # ffmpeg command to generate thumbnail
     cmd = [
         FFMPEG_PATH, '-i', source, 
         '-ss', '00:00:01.000', 
         '-vframes', '1', 
         thumbnail_path
     ]
-    
-    # Execute the command
     result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-    # Error handling if ffmpeg fails
     if result.returncode != 0:
         print(f"Error generating thumbnail: {result.stderr.decode('utf-8')}")
         raise Exception(f"FFmpeg failed: {result.stderr.decode('utf-8')}")
 
-    return os.path.join('thumbnails', f'{video_id}.jpg')  # Return relative path
+    return os.path.join('thumbnails', f'{video_id}.jpg')
 
 def convert_to_hls(source, output_dir, video_id):
     output_dir = os.path.join(settings.MEDIA_ROOT, output_dir)
@@ -93,8 +77,6 @@ def convert_to_hls(source, output_dir, video_id):
             continue
 
     master_playlist_path = write_master_playlist(output_dir, RESOLUTIONS)
-    # update_video_status(video_id)
-
     return master_playlist_path
 
 
@@ -103,23 +85,19 @@ def generate_video_teaser(source, video_id):
     os.makedirs(teaser_dir, exist_ok=True)
 
     teaser_path = os.path.join(teaser_dir, f'{video_id}_teaser.mp4')
-
-    # ffmpeg command to generate 10-second teaser without audio
     cmd = [
         FFMPEG_PATH, '-i', source,
-        '-t', '10',  # Duration of 10 seconds
-        '-an',  # Remove audio
-        '-c:v', 'libx264', '-crf', '28', '-preset', 'veryfast',  # Increase CRF to reduce file size
-        '-b:v', '500k',  # Limit bitrate to reduce file size
+        '-t', '10',
+        '-an',
+        '-c:v', 'libx264', '-crf', '28', '-preset', 'veryfast',
+        '-b:v', '500k',
         teaser_path
     ]
 
-    # Execute the command
     result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-    # Error handling if ffmpeg fails
     if result.returncode != 0:
         print(f"Error generating teaser: {result.stderr.decode('utf-8')}")
         raise Exception(f"FFmpeg failed: {result.stderr.decode('utf-8')}")
 
-    return os.path.join('teasers', f'{video_id}_teaser.mp4')  # Return relative path
+    return os.path.join('teasers', f'{video_id}_teaser.mp4')

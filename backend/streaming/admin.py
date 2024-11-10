@@ -1,13 +1,27 @@
 from django.contrib import admin
-
 from .models import PlaybackProgress, Video, Category
 
-# Register your models here.
-
-
+@admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
-    exclude = ('slug', 'hls_playlist', )  # Blendet das 'slug'-Feld komplett aus
+    list_display = ('title', 'get_categories')
+    fields = ('title', 'description', 'video_file', 'categories', 'created_at')
+    list_filter = ('categories',)
+    search_fields = ('title', 'description')
 
-admin.site.register(Video, VideoAdmin)
-admin.site.register(Category)
-admin.site.register(PlaybackProgress)
+    def get_categories(self, obj):
+        return ", ".join([category.name for category in obj.categories.all()])
+    get_categories.short_description = 'Categories'
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    pass 
+
+@admin.register(PlaybackProgress)
+class PlaybackProgressAdmin(admin.ModelAdmin):
+    list_display = ('video_title', 'user', 'progress', 'updated_at')
+    list_filter = ('updated_at',)
+
+    def video_title(self, obj):
+        return obj.video.title
+    video_title.short_description = 'Video Title'
