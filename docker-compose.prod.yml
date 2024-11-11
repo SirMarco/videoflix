@@ -7,7 +7,7 @@ services:
   #     - ./certs:/etc/nginx/certs
   #     - ./html:/usr/share/nginx/html
   #   environment:
-  #     - DEFAULT_EMAIL=marco.engelhardt@reussnet.ch
+  #     - DEFAULT_EMAIL=hello@example.de
   #     - NGINX_PROXY_CONTAINER=nginx-proxy
   #   depends_on:
   #     - nginx-proxy
@@ -39,6 +39,7 @@ services:
       - LETSENCRYPT_HOST=${LETSENCRYPT_HOST_BACKEND}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - ENVIRONMENT=production
+      - RUN_MIGRATIONS=true
     # command: /app/compose/run_backend.sh
 
   frontend:
