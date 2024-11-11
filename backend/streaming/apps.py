@@ -6,4 +6,4 @@ class StreamingConfig(AppConfig):
     name = 'streaming'
 
     def ready(self) -> None:
-        pass
+       from . import signals

@@ -1,4 +1,4 @@
-FROM python:3.12
+FROM python:3.12.3
 
 WORKDIR /app
 
@@ -8,6 +8,26 @@ RUN apt-get update && apt-get install -y ffmpeg
 
 RUN pip install -r requirements.txt
 
-CMD python manage.py runserver 0.0.0.0:8000
+COPY /compose/entrypoint.sh /entrypoint.sh
 
-EXPOSE 8000 
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+EXPOSE 8000
+
+# FROM python:3.12
+
+# WORKDIR /app
+
+# COPY . .
+
+# RUN apt-get update && apt-get install -y ffmpeg
+
+# RUN pip install -r requirements.txt
+
+# CMD python manage.py runserver 0.0.0.0:8000
+
+# EXPOSE 8000 

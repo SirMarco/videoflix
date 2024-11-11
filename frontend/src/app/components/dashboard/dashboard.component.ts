@@ -84,11 +84,15 @@ export class DashboardComponent implements OnInit {
   }
 
   selectRandomVideo() {
-    if (this.videos.length > 0) {
-      const randomIndex = Math.floor(Math.random() * this.videos.length);
-      this.randomVideo = this.videos[randomIndex];
+    let doneVideos = this.videos.filter((video) => video.status === "Done");
+    if (doneVideos.length > 0) {
+      const randomIndex = Math.floor(Math.random() * doneVideos.length);
+      this.randomVideo = doneVideos[randomIndex];
+    } else {
+      this.randomVideo = null;
     }
   }
+  
 
   getCategories(): string[] {
     return Object.keys(this.groupedVideos);

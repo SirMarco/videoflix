@@ -1,18 +1,18 @@
 services:
-  acme-companion:
-    image: nginxproxy/acme-companion
-    container_name: acme-companion
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./certs:/etc/nginx/certs
-      - ./html:/usr/share/nginx/html
-    environment:
-      - DEFAULT_EMAIL=marco.engelhardt@reussnet.ch
-      - NGINX_PROXY_CONTAINER=nginx-proxy
-    depends_on:
-      - nginx-proxy
-    networks:
-      - webproxy
+  # acme-companion:
+  #   image: nginxproxy/acme-companion
+  #   container_name: acme-companion
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - ./certs:/etc/nginx/certs
+  #     - ./html:/usr/share/nginx/html
+  #   environment:
+  #     - DEFAULT_EMAIL=marco.engelhardt@reussnet.ch
+  #     - NGINX_PROXY_CONTAINER=nginx-proxy
+  #   depends_on:
+  #     - nginx-proxy
+  #   networks:
+  #     - webproxy
 
   nginx-proxy:
     restart: always
@@ -39,7 +39,7 @@ services:
       - LETSENCRYPT_HOST=${LETSENCRYPT_HOST_BACKEND}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
       - ENVIRONMENT=production
-    command: /app/compose/run_backend.sh
+    # command: /app/compose/run_backend.sh
 
   frontend:
     build:
