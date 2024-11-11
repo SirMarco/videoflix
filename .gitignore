@@ -14,6 +14,7 @@
 
 /backend/media
 /backend/htmlcov
+/backend/streaming/migrations
 
 /certs
 /frontend_html

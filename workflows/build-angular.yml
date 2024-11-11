@@ -3,7 +3,7 @@ name: Build and Deploy Angular App
 on:
   push:
     branches:
-    - main # oder den Branch anpassen, den du verwenden möchtest
+    - main
 
 jobs:
   build:
@@ -16,17 +16,17 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '17' # Passe die Node.js-Version nach Bedarf an
+        node-version: '17'
 
     - name: Install Angular CLI
       run: npm install -g @angular/cli
 
     - name: Install dependencies
-      working-directory: ./frontend # Ordnername anpassen
+      working-directory: ./frontend
       run: npm install
 
     - name: Build Angular App
-      working-directory: ./frontend # Ordnername anpassen
+      working-directory: ./frontend
       run: ng build --configuration production
 
     - name: Deploy to Server
