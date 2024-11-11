@@ -59,14 +59,15 @@ export class VideoPlayerComponent implements AfterViewInit, OnDestroy {
 
   saveProgress(currentTime: number) {
     const url = `${environment.baseUrl}/progress/${this.videoId}/`;
-    this.http.post(url, {
-      progress: currentTime,
-    }).subscribe(
-      error => {
+    this.http.post(url, { progress: currentTime }).subscribe({
+      next: () => {
+      },
+      error: (error) => {
         console.error('Fehler beim Speichern des Fortschritts:', error);
       }
-    );
+    });
   }
+
 
   markAsSeen() {
     this.http.post(environment.baseUrl + '/progress/', {
