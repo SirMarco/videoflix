@@ -10,4 +10,3 @@ https://docs.djangoproject.com/en/5.1/howto/deployment/asgi/
 import os
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'videoflix.settings')
-

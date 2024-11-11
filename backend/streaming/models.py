@@ -3,13 +3,14 @@ from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 
-# Create your models here.
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
     
+
 class Video(models.Model):
     title = models.CharField(max_length=80)
     slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
@@ -36,6 +37,7 @@ class Video(models.Model):
     def __str__(self):
         return self.title
 
+
 class PlaybackProgress(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
@@ -46,4 +48,3 @@ class PlaybackProgress(models.Model):
     def __str__(self):
         return f"{self.video.title} - {self.user.username} ({self.progress}%)"
 
-    

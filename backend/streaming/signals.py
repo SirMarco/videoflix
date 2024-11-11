@@ -7,6 +7,7 @@ import os
 import django_rq
 import shutil
 
+
 @receiver(post_save, sender=Video)
 def video_post_save(sender, instance, created, **kwargs):
     if created and instance.video_file:

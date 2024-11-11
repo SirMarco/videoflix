@@ -10,14 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from pathlib import Path
 import os
-import sys
+from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
 # Quick-start development settings - unsuitable for production
@@ -39,7 +39,6 @@ CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'http://localhost:8000', 'https
 
 CACHE_TTL = 60 * 15
 
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -48,8 +47,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Import Singnals from ContentConfig
-    # 'streaming.apps.StreamingConfig',
     'rest_framework',
     'rest_framework.authtoken',
     'authapp',
@@ -101,7 +98,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('redis', 6379)],
+            "hosts": [('localhost', 6379)],
         },
     },
 }
@@ -122,35 +119,6 @@ RQ_QUEUES = {
         'DEFAULT_TIMEOUT': 300,
     }
 }
-
-# Prüfen, ob Tests ausgeführt werden
-# Testumgebungskonfiguration
-if 'test' in sys.argv:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / "test_db.sqlite3",
-        }
-    }
-
-    # Dummy-Konfiguration für die Testumgebung, damit alle Queues definiert sind
-    RQ_QUEUES = {
-        'default': {
-            'USE_IN_MEMORY_BACKEND': True,
-            'HOST': 'localhost',  # Dummy-Wert
-            'PORT': 6379,  # Dummy-Wert
-        },
-        'low': {
-            'USE_IN_MEMORY_BACKEND': True,
-            'HOST': 'localhost',  # Dummy-Wert
-            'PORT': 6379,  # Dummy-Wert
-        },
-        'high': {
-            'USE_IN_MEMORY_BACKEND': True,
-            'HOST': 'localhost',  # Dummy-Wert
-            'PORT': 6379,  # Dummy-Wert
-        },
-    }
 
 ROOT_URLCONF = 'videoflix.urls'
 
@@ -189,21 +157,13 @@ WSGI_APPLICATION = 'videoflix.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if 'test' in sys.argv or 'test_coverage' in sys.argv:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': ':memory:',
-        }
-    }
-else:
-    DATABASES = {
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'postgres', 
             'USER': 'postgres',
             'PASSWORD': 'CFfRdzBewPEGG',
-            'HOST': 'postgres',
+            'HOST': 'localhost',
             'PORT': '5432',
         }
     }
@@ -249,10 +209,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-
-
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -260,7 +216,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email Activation
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')

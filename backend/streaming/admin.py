@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import PlaybackProgress, Video, Category
 
+
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
     list_display = ('title', 'get_categories')
@@ -16,6 +17,7 @@ class VideoAdmin(admin.ModelAdmin):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     pass 
+
 
 @admin.register(PlaybackProgress)
 class PlaybackProgressAdmin(admin.ModelAdmin):

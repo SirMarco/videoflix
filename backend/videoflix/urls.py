@@ -16,7 +16,9 @@ urlpatterns = [
     document_root=settings.MEDIA_ROOT
 ) + debug_toolbar_urls()
 
-def custom_404_view(request, exception):
+
+def custom_404_view(request):
     return render(request, '404.html', status=404)
+
 
 handler404 = custom_404_view

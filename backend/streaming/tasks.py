@@ -3,6 +3,7 @@ import subprocess
 from django.conf import settings
 from .models import Video
 
+
 FFMPEG_PATH = '/usr/bin/ffmpeg'
 AUDIO_PARAMS = ['-c:a', 'aac', '-ar', '48000']
 VIDEO_CODEC = ['-c:v', 'h264', '-profile:v', 'main', '-crf', '20', '-g', '48', '-keyint_min', '48']
@@ -13,6 +14,7 @@ RESOLUTIONS = [
     ("1280x720", "720p", "2000000"),
     ("854x480", "480p", "1000000"),
 ]
+
 
 def build_ffmpeg_command(source, res, name, bitrate, segment_path, output_path):
     scale_filter = f'scale=trunc(oh*a/2)*2:480' if name == "480p" else f'scale={res}:force_original_aspect_ratio=decrease'
@@ -27,6 +29,7 @@ def build_ffmpeg_command(source, res, name, bitrate, segment_path, output_path):
         output_path
     ]
 
+
 def write_master_playlist(output_dir, resolutions):
     master_playlist_path = os.path.join(output_dir, 'master.m3u8')
     with open(master_playlist_path, 'w') as f:
@@ -36,10 +39,12 @@ def write_master_playlist(output_dir, resolutions):
             f.write(f"{name}.m3u8\n")
     return master_playlist_path
 
+
 def update_video_status(video_id):
     video = Video.objects.get(id=video_id)
     video.status = 'Done'
     video.save(update_fields=['status'])
+
 
 def generate_video_thumbnail(source, video_id):
     thumbnail_dir = os.path.join(settings.MEDIA_ROOT, 'thumbnails')
@@ -59,6 +64,7 @@ def generate_video_thumbnail(source, video_id):
         raise Exception(f"FFmpeg failed: {result.stderr.decode('utf-8')}")
 
     return os.path.join('thumbnails', f'{video_id}.jpg')
+
 
 def convert_to_hls(source, output_dir, video_id):
     output_dir = os.path.join(settings.MEDIA_ROOT, output_dir)

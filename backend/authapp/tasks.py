@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .tokens import account_activation_token
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
+
 def send_activation_email(user_id):
     user = User.objects.get(pk=user_id)
     activation_link = f"https://videoflix.marco-engelhardt.ch/activate/{user.pk}/{account_activation_token.make_token(user)}"
@@ -17,6 +18,7 @@ def send_activation_email(user_id):
     msg = EmailMessage(mail_subject, html_content, settings.DEFAULT_FROM_EMAIL, [user.email])
     msg.content_subtype = "html"
     msg.send()
+
 
 def send_password_reset_email(user_id):
     user = User.objects.get(pk=user_id)

@@ -12,17 +12,20 @@ from .models import PlaybackProgress, Video
 from streaming.models import Video
 from .serializers import VideoSerializer
 
+
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 class VideosView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
 
+
 class VideoDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
     lookup_field = 'slug'
+
 
 class PlaybackProgressView(APIView):
     permission_classes = [IsAuthenticated]

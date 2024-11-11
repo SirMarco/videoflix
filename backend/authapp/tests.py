@@ -4,6 +4,7 @@ from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 from .tokens import account_activation_token
 
+
 class UserAuthTests(APITestCase):
     def setUp(self):
         self.email = "testuser@example.de"
@@ -29,6 +30,7 @@ class UserAuthTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
         self.assertNotIn('token', response.data)
+
 
 class ActivateViewTests(APITestCase):
     def setUp(self):
@@ -56,6 +58,7 @@ class ActivateViewTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn('Ungültig', response.data['error'])
+    
         
 class PasswordResetRequestTests(APITestCase):    
     def setUp(self):

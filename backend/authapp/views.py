@@ -12,6 +12,7 @@ from .tokens import account_activation_token
 from .tasks import send_activation_email, send_password_reset_email  
 import django_rq
 
+
 class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,
@@ -25,6 +26,7 @@ class LoginView(ObtainAuthToken):
             'email': user.email
         })
     
+
 class RegisterView(APIView):
     permission_classes = [AllowAny]
 
@@ -43,9 +45,11 @@ class RegisterView(APIView):
         high_queue.enqueue(send_activation_email, user.pk)
 
         return Response({'message': 'Überprüfe deine E-Mail, um deinen Account zu aktivieren.'}, status=status.HTTP_201_CREATED)
-    
+
+
 class ActivateView(APIView):
     permission_classes = [AllowAny]
+    
     def get(self, request, id, token):
         try:
             user = User.objects.get(pk=id)
@@ -57,7 +61,8 @@ class ActivateView(APIView):
             return Response({'message': 'Account erfolgreich aktiviert'}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Ungültiger oder abgelaufener Link'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
+
 class PasswordResetRequestView(APIView):
     permission_classes = []
 
@@ -72,9 +77,11 @@ class PasswordResetRequestView(APIView):
         high_queue.enqueue(send_password_reset_email, user.pk)
 
         return Response({'message': 'Überprüfe deine E-Mail, um dein Passwort zurückzusetzen.'}, status=status.HTTP_200_OK)
-    
+
+
 class PasswordResetConfirmView(APIView):
     permission_classes = []
+
     def post(self, request, *args, **kwargs):
         id = request.data.get('id')
         token = request.data.get('token')
