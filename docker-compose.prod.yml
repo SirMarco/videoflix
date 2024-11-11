@@ -7,7 +7,7 @@ services:
   #     - ./certs:/etc/nginx/certs
   #     - ./html:/usr/share/nginx/html
   #   environment:
-  #     - DEFAULT_EMAIL=hello@example.de
+  #     - DEFAULT_EMAIL=${DEFAULT_EMAIL_ACME}
   #     - NGINX_PROXY_CONTAINER=nginx-proxy
   #   depends_on:
   #     - nginx-proxy

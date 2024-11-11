@@ -49,7 +49,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        if (this.router.url.startsWith('/video')) {
+        if (this.router.url.startsWith('/video') || this.router.url.startsWith('/dashboard')) {
           this.layoutClass = 'start';
         } else {
           this.layoutClass = 'center';
@@ -58,6 +58,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
 
   getPageClass(): string {
     if (this.router.url.startsWith('/dashboard')) {

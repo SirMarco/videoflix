@@ -17,8 +17,6 @@ section {
   background: linear-gradient(180deg, #000000 -19.89%, rgba(0, 0, 0, 0.95) 22.46%, #000000 100%);
 }
 
-
-
 .main {
   flex-grow: 1;
   @include dFlex(start, stretch, column, 0px);
