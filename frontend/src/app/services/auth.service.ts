@@ -38,11 +38,18 @@ export class AuthService {
     });
   }
 
-  public registerNewUser(email: string, password: string) {
+  // public registerNewUser(email: string, password: string) {
+  //   const url = environment.baseUrl + '/register/';
+  //   const body = { email: email, password: password };
+  //   return lastValueFrom(this.http.post(url, body));
+  // }
+
+  public registerNewUser(email: string, password: string): Observable<any> {
     const url = environment.baseUrl + '/register/';
-    const body = { email: email, password: password };
-    return lastValueFrom(this.http.post(url, body));
+    const body = { email, password };
+    return this.http.post(url, body);
   }
+  
 
   public logout(): void {
     localStorage.removeItem('token');

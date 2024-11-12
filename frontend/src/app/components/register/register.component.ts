@@ -88,22 +88,43 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.spinner.show();
       const { email, password } = this.registerForm.value;
-      this.authService
-        .registerNewUser(email, password)
-        .then(() => {
-          this.spinner.hide();
+      this.authService.registerNewUser(email, password).subscribe(
+        () => {
           this.showToast('Du bist registriert. Prüfe deine EMails', 'success');
           this.router.navigate(['/login']);
-        })
-        .catch(() => {
-          this.spinner.hide();
+        },
+        (error) => {
           this.showToast('Du bist bereits registriert', 'error');
-        });
+        },
+        () => this.spinner.hide() // Im complete-Block den Spinner ausblenden
+      );
     } else {
-      this.spinner.hide();
       console.log('Form is invalid');
     }
   }
+
+
+
+  // register(): void {
+  //   if (this.registerForm.valid) {
+  //     this.spinner.show();
+  //     const { email, password } = this.registerForm.value;
+  //     this.authService
+  //       .registerNewUser(email, password)
+  //       .then(() => {
+  //         this.spinner.hide();
+  //         this.showToast('Du bist registriert. Prüfe deine EMails', 'success');
+  //         this.router.navigate(['/login']);
+  //       })
+  //       .catch(() => {
+  //         this.spinner.hide();
+  //         this.showToast('Du bist bereits registriert', 'error');
+  //       });
+  //   } else {
+  //     this.spinner.hide();
+  //     console.log('Form is invalid');
+  //   }
+  // }
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
