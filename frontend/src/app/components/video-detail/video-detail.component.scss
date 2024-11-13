@@ -9,9 +9,13 @@
 
 .backButtonWrapper {
   @include dFlex(flex-end, flex-end, row, 0px);
+  padding: 0 96px;
   width: 100%;
   position: relative;
   z-index: 2;
+  @media (max-width: 768px) {
+    padding: 0 16px;
+  }
 }
 .backButton {
   height: 48px;
