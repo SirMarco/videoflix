@@ -1,9 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Video } from '../../interfaces/video.interface';
 import { CommonModule } from '@angular/common';
@@ -12,6 +7,7 @@ import { RouterLink } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,18 +25,17 @@ export class DashboardComponent implements OnInit {
   groupedVideos: { [category: string]: Video[] } = {};
 
   showPlayer: boolean = false;
-  autoplay: boolean = true
+  autoplay: boolean = true;
   uploadStatus = new BehaviorSubject<string[]>([]);
 
   @ViewChild(VideoPlayerComponent) videoPlayer!: VideoPlayerComponent;
   @ViewChild('backgroundVideo') backgroundVideo!: ElementRef;
   player: any;
 
-  constructor(private spinner: NgxSpinnerService) { }
+  constructor(private spinner: NgxSpinnerService, private location: Location) {}
 
   ngOnInit(): void {
     this.getAllVideos();
-
   }
 
   getAllVideos() {
@@ -72,7 +67,7 @@ export class DashboardComponent implements OnInit {
 
   groupVideosByCategory() {
     this.videos.forEach((video) => {
-      if (video.status === "Done") {
+      if (video.status === 'Done') {
         video.categories.forEach((category) => {
           if (!this.groupedVideos[category]) {
             this.groupedVideos[category] = [];
@@ -84,7 +79,7 @@ export class DashboardComponent implements OnInit {
   }
 
   selectRandomVideo() {
-    let doneVideos = this.videos.filter((video) => video.status === "Done");
+    let doneVideos = this.videos.filter((video) => video.status === 'Done');
     if (doneVideos.length > 0) {
       const randomIndex = Math.floor(Math.random() * doneVideos.length);
       this.randomVideo = doneVideos[randomIndex];
@@ -92,7 +87,6 @@ export class DashboardComponent implements OnInit {
       this.randomVideo = null;
     }
   }
-  
 
   getCategories(): string[] {
     return Object.keys(this.groupedVideos);
@@ -106,5 +100,9 @@ export class DashboardComponent implements OnInit {
     return this.groupedVideos && this.groupedVideos[category]
       ? this.groupedVideos[category]
       : [];
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

@@ -6,6 +6,18 @@
   width: 100%;
   margin: 0 auto;
 }
+
+.backButtonWrapper {
+  @include dFlex(start, flex-end, row, 0px);
+  position: relative;
+  z-index: 2;
+}
+.backButton {
+  height: 48px;
+  width: 48px;
+  position: relative;
+  z-index: 2;
+}
 .title {
   text-align: left;
   padding: 0 16px;

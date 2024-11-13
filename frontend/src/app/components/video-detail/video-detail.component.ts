@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Video } from '../../interfaces/video.interface';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NgxSpinnerModule } from "ngx-spinner";
-import { VideoPlayerComponent } from "../video-player/video-player.component";
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { VideoPlayerComponent } from '../video-player/video-player.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-video-detail',
   standalone: true,
-  imports: [CommonModule, NgxSpinnerModule, VideoPlayerComponent],
+  imports: [CommonModule, NgxSpinnerModule, VideoPlayerComponent, RouterLink],
   templateUrl: './video-detail.component.html',
   styleUrls: ['./video-detail.component.scss'],
 })
@@ -23,7 +24,12 @@ export class VideoDetailComponent implements OnInit {
   pictureUrl = environment.pictureUrl;
   mediaUrl = environment.mediaUrl;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private spinner: NgxSpinnerService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private spinner: NgxSpinnerService,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
     this.videoId = this.route.snapshot.paramMap.get('id');
@@ -41,5 +47,9 @@ export class VideoDetailComponent implements OnInit {
         console.error('Fehler beim Laden des Videos:', error);
       }
     );
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
